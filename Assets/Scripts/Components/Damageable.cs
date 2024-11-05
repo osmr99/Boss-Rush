@@ -36,7 +36,6 @@ public class Damageable : MonoBehaviour
 
     public bool Hit(Damage damage)
     {
-        Debug.Log("Hit! maybe");
         if (timeSinceHit < iTime)
             return false;
 
@@ -75,9 +74,15 @@ public class Damageable : MonoBehaviour
         OnDeath?.Invoke();
     }
 
+    public void ResetIFrames()
+    {
+        timeSinceHit = 0;
+    }
+
     public void StartHitFlash()
     {
-        //SkinnedMeshRenderer[] renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+        if (timeSinceHit < iTime)
+            return;
 
         foreach (var renderer in renderers)
         {

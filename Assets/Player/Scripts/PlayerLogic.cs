@@ -11,28 +11,34 @@ public static class StaticInputManager
 
 public class PlayerLogic : MonoBehaviour
 {
+    // values set in inspector
     [SerializeField] float moveSpeed;
     [SerializeField] float jumpSpeed;
     [SerializeField] float gravity;
+
+    // references set in inspector
     [SerializeField] GameObject sword;
     [SerializeField] GameObject projectile;
     [SerializeField] Animator animator;
-
-    CharacterController controller;
-    Vector3 moveVelocity;
-    bool grounded = false;
-
-    bool canControl = true;
-    bool aiming = false;
-
-    float timeSinceLastMelee = 0;
-
     [SerializeField] LayerMask ground;
 
-    bool usingMouse = false;
-
+    // events
     public UnityEvent OnStartDash;
     public UnityEvent OnEndDash;
+
+    // private references
+    CharacterController controller;
+
+    // movement variables
+    Vector3 moveVelocity;
+    bool grounded = false;
+    bool canControl = true;
+
+    // combat variables
+    bool aiming = false;
+    float timeSinceLastMelee = 0;
+    bool usingMouse = false;
+    bool dead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -52,9 +58,23 @@ public class PlayerLogic : MonoBehaviour
         StaticInputManager.input.Player.Enable();
     }
 
+    private void OnDisable()
+    {
+        StaticInputManager.input.Player.Jump.performed -= Jump;
+        StaticInputManager.input.Player.Melee.performed -= Melee;
+        StaticInputManager.input.Player.Dodge.performed -= Dodge;
+        StaticInputManager.input.Player.Shoot.performed -= Shoot;
+        //StaticInputManager.input.Player.Aim.Dispose(); // ??
+
+        StaticInputManager.input.Player.Disable();
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (dead)
+            canControl = false;
+
         timeSinceLastMelee += Time.deltaTime;
 
         bool prevGrounded = grounded;
@@ -65,26 +85,31 @@ public class PlayerLogic : MonoBehaviour
             // landed
         }
 
-        if(grounded && moveVelocity.y < 0)
+        if(grounded && moveVelocity.y < 0) // stop falling when on ground
         {
             moveVelocity.y = 0;
         }
 
         if(canControl)
         {
+            // get movement input and make it camera-relative
             Vector2 moveInput = StaticInputManager.input.Player.Move.ReadValue<Vector2>();
-
             Vector3 adjustedInput = GetCameraRelativeInput(moveInput);
 
+            // face movement direction
             if (adjustedInput != Vector3.zero && !aiming)
                 transform.forward = adjustedInput.normalized;
 
+            // controls change if we're aiming
             if (aiming)
             {
                 moveVelocity = new Vector3(0, moveVelocity.y, 0);
 
+                // controls change further if we're using mouse/keyboard or controller
                 if(usingMouse)
                 {
+                    // if using mouse, rotate to face mouse position
+
                     Vector2 mousePos = Mouse.current.position.value;
 
                     Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
@@ -99,6 +124,8 @@ public class PlayerLogic : MonoBehaviour
 
                 else
                 {
+                    // if using controller, face stick direction
+
                     if (adjustedInput != Vector3.zero)
                         transform.forward = adjustedInput.normalized;
                 }
@@ -107,19 +134,27 @@ public class PlayerLogic : MonoBehaviour
 
             else
             {
+                // if not aiming, set our target movement velocity based on input
                 moveVelocity = new Vector3(adjustedInput.x * moveSpeed, moveVelocity.y, adjustedInput.z * moveSpeed);
             }
         }
 
+        // add gravity because character controller doesn't do it automatically
         moveVelocity.y += gravity * Time.deltaTime;
 
         controller.Move((moveVelocity) * Time.deltaTime);
 
-        animator.SetFloat("speed", controller.velocity.magnitude);
+        // get ground velocity to use it in Animator
+        Vector3 walkVelocity = moveVelocity;
+        walkVelocity.y = 0;
+        animator.SetFloat("speed", Mathf.Abs(walkVelocity.magnitude));
     }
 
     void Jump(InputAction.CallbackContext ctx)
     {
+        if (!canControl)
+            return;
+
         if (!grounded)
             return;
 
@@ -199,21 +234,26 @@ public class PlayerLogic : MonoBehaviour
 
     public void ApplyKnockback(Damage damage)
     {
-        HandleKnockback(damage.direction * damage.knockbackForce);
+        //Debug.Log("apply knockback");
+        StartCoroutine( HandleKnockback(damage.direction * damage.knockbackForce));
     }
 
     IEnumerator HandleKnockback(Vector3 knockback)
     {
+        //Debug.Log("handling knockback " + knockback.magnitude) ;
         moveVelocity = knockback;
         canControl = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         canControl = true;
         moveVelocity = Vector3.zero;
+        //Debug.Log("stop knockback");
     }
 
     public void Death()
     {
+        dead = true;
         canControl = false;
+        moveVelocity = Vector3.zero;
         GameManager.instance.RestartLevel();
     }
 }

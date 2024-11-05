@@ -52,7 +52,7 @@ public class PlayerHealthDisplay : MonoBehaviour
         {
             var currentHeart = hearts[i].GetComponent<Image>();
             currentHeart.sprite = heart;
-            currentHeart.color = Color.red;
+            currentHeart.color = Color.white;
         }
     }
 }

@@ -67,7 +67,7 @@ namespace brolive
 
         void UpdateIdle()
         {
-            Debug.Log("in idle");
+            //Debug.Log("in idle");
 
             if (currentStateElapsed > 2.0f)
             {
@@ -80,7 +80,7 @@ namespace brolive
 
         bool AttemptBeginPursue()
         {
-            Debug.Log("attempting to pursue");
+            //Debug.Log("attempting to pursue");
 
             if (AttemptMakePathToPlayer())
             {
@@ -98,7 +98,7 @@ namespace brolive
 
         void UpdatePursue()
         {
-            Debug.Log("in pursue");
+            //Debug.Log("in pursue");
 
             currentTargetNodePosition = navigator.PathNodes[pathNodeIndex];
 
@@ -147,7 +147,7 @@ namespace brolive
 
         void EnterMelee()
         {
-            Debug.Log("Enter melee");
+            //Debug.Log("Enter melee");
             // animator.setTrigger("melee");
             targetVelocity = Vector3.zero;
             state = EnemyStates.melee;
@@ -175,7 +175,7 @@ namespace brolive
 
         void UpdateMelee()
         {
-            Debug.Log("in melee");
+            //Debug.Log("in melee");
             if (currentStateElapsed >= 2.0f)
             {
                 state = EnemyStates.idle;
@@ -184,7 +184,7 @@ namespace brolive
 
         void UpdateDead()
         {
-            Debug.Log("in dead");
+            //Debug.Log("in dead");
         }
 
         bool AttemptMakePathToPlayer()
