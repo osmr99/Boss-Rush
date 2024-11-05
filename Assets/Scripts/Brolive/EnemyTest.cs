@@ -13,6 +13,7 @@ namespace brolive
     public class EnemyTest : MonoBehaviour
     {
         [SerializeField] float speed;
+        [SerializeField] GameObject meleeWeapon;
 
         Navigator navigator;
         Transform _transform;
@@ -151,6 +152,17 @@ namespace brolive
             targetVelocity = Vector3.zero;
             state = EnemyStates.melee;
             currentStateElapsed = 0;
+
+            StartCoroutine(HandleMelee());
+        }
+
+        IEnumerator HandleMelee()
+        {
+            //timeSinceLastMelee = 0;
+            meleeWeapon.SetActive(true);
+            meleeWeapon.GetComponent<Animator>().SetTrigger("swing");
+            yield return new WaitForSeconds(0.25f);
+            meleeWeapon.SetActive(false);
         }
 
         public void Death()

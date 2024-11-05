@@ -9,7 +9,8 @@ public class Damageable : MonoBehaviour
     [SerializeField] int maxHealth;
     [SerializeField] float iTime = 0.5f;
     [SerializeField] Material flashMaterial;
-    [SerializeField] MeshRenderer[] renderers;
+    [SerializeField] Renderer[] renderers;
+    [SerializeField] GameObject damageEffectPrefab;
 
     public UnityEvent<int> OnInitialize;
     public UnityEvent<Damage> OnHit;
@@ -55,6 +56,11 @@ public class Damageable : MonoBehaviour
 
         OnHealthChanged?.Invoke(damage.amount, currentHealth);
 
+        if (damageEffectPrefab != null)
+        {
+            Instantiate(damageEffectPrefab, transform.position, Quaternion.identity);
+        }
+
         if (currentHealth <= 0)
         {
             currentHealth = 0;
@@ -79,7 +85,7 @@ public class Damageable : MonoBehaviour
         }
     }
 
-    IEnumerator HandleFlashMaterialSwap(MeshRenderer renderer)
+    IEnumerator HandleFlashMaterialSwap(Renderer renderer)
     {
         Material[] originalMats = new Material[renderer.materials.Length];
 

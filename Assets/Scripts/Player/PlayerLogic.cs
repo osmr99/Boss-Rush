@@ -16,6 +16,7 @@ public class PlayerLogic : MonoBehaviour
     [SerializeField] float gravity;
     [SerializeField] GameObject sword;
     [SerializeField] GameObject projectile;
+    [SerializeField] Animator animator;
 
     CharacterController controller;
     Vector3 moveVelocity;
@@ -29,6 +30,9 @@ public class PlayerLogic : MonoBehaviour
     [SerializeField] LayerMask ground;
 
     bool usingMouse = false;
+
+    public UnityEvent OnStartDash;
+    public UnityEvent OnEndDash;
 
     // Start is called before the first frame update
     void Start()
@@ -110,6 +114,8 @@ public class PlayerLogic : MonoBehaviour
         moveVelocity.y += gravity * Time.deltaTime;
 
         controller.Move((moveVelocity) * Time.deltaTime);
+
+        animator.SetFloat("speed", controller.velocity.magnitude);
     }
 
     void Jump(InputAction.CallbackContext ctx)
@@ -122,6 +128,9 @@ public class PlayerLogic : MonoBehaviour
 
     void Melee(InputAction.CallbackContext ctx)
     {
+        if (!canControl)
+            return;
+
         if (!grounded)
             return;
 
@@ -145,20 +154,28 @@ public class PlayerLogic : MonoBehaviour
 
     void Dodge(InputAction.CallbackContext ctx)
     {
+        if (!canControl)
+            return;
+
         StartCoroutine(HandleDash());
     }
 
     IEnumerator HandleDash()
     {
+        OnStartDash?.Invoke();
         canControl = false;
         moveVelocity = transform.forward * 20;
         yield return new WaitForSeconds(0.25f);
         moveVelocity = Vector3.zero;
         canControl = true;
+        OnEndDash?.Invoke();
     }
 
     public void Shoot(InputAction.CallbackContext ctx)
     {
+        if (!canControl)
+            return;
+
         if (!aiming)
             return;
 
