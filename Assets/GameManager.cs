@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     IEnumerator HandleRestart()
     {
         screenFade.SetTrigger("fade to black");
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 
@@ -36,7 +36,19 @@ public class GameManager : MonoBehaviour
     IEnumerator HandleNextLevel()
     {
         screenFade.SetTrigger("fade to black");
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Single);
+    }
+
+    public void ActivateHitStop(float time)
+    {
+        StartCoroutine(HandleHitStop(time));
+    }
+
+    IEnumerator HandleHitStop(float time)
+    {
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(time);
+        Time.timeScale = 1;
     }
 }

@@ -8,6 +8,8 @@ public class Damageable : MonoBehaviour
 {
     [SerializeField] int maxHealth;
     [SerializeField] float iTime = 0.5f;
+    [SerializeField] Material flashMaterial;
+    [SerializeField] MeshRenderer[] renderers;
 
     public UnityEvent<int> OnInitialize;
     public UnityEvent<Damage> OnHit;
@@ -31,14 +33,19 @@ public class Damageable : MonoBehaviour
         timeSinceHit += Time.deltaTime;
     }
 
-    public void Hit(Damage damage)
+    public bool Hit(Damage damage)
     {
         Debug.Log("Hit! maybe");
         if (timeSinceHit < iTime)
-            return;
+            return false;
 
         if (currentHealth == 0)
-            return;
+            return false;
+
+        if(flashMaterial != null)
+        {
+            StartHitFlash();
+        }
 
         timeSinceHit = 0;
 
@@ -53,11 +60,46 @@ public class Damageable : MonoBehaviour
             currentHealth = 0;
             Death();
         }
+
+        return true;
     }
 
     void Death()
     {
         OnDeath?.Invoke();
+    }
+
+    public void StartHitFlash()
+    {
+        //SkinnedMeshRenderer[] renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+
+        foreach (var renderer in renderers)
+        {
+            StartCoroutine(HandleFlashMaterialSwap(renderer));
+        }
+    }
+
+    IEnumerator HandleFlashMaterialSwap(MeshRenderer renderer)
+    {
+        Material[] originalMats = new Material[renderer.materials.Length];
+
+        for (int i = 0; i < originalMats.Length; i++)
+        {
+            originalMats[i] = renderer.materials[i];
+        }
+
+        Material[] newMats = new Material[renderer.materials.Length];
+
+        for (int i = 0; i < newMats.Length; i++)
+        {
+            newMats[i] = flashMaterial;
+        }
+
+        renderer.materials = newMats;
+
+        yield return new WaitForSeconds(iTime * 0.9f);
+
+        renderer.materials = originalMats;
     }
 
     [ContextMenu("Test Hit")]

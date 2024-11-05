@@ -28,6 +28,8 @@ public class PlayerLogic : MonoBehaviour
 
     [SerializeField] LayerMask ground;
 
+    bool usingMouse = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,8 +41,8 @@ public class PlayerLogic : MonoBehaviour
         StaticInputManager.input.Player.Jump.performed += Jump;
         StaticInputManager.input.Player.Melee.performed += Melee;
         StaticInputManager.input.Player.Dodge.performed += Dodge;
-        StaticInputManager.input.Player.Aim.started += ctx => { aiming = true; };
-        StaticInputManager.input.Player.Aim.canceled += ctx => { aiming = false; };
+        StaticInputManager.input.Player.Aim.started += ctx => { aiming = true; usingMouse = ctx.control.parent.name == "Mouse" ? true : false; };
+        StaticInputManager.input.Player.Aim.canceled += ctx => { aiming = false; usingMouse = ctx.control.parent.name == "Mouse" ? true : false; };
         StaticInputManager.input.Player.Shoot.performed += Shoot;
 
         StaticInputManager.input.Player.Enable();
@@ -77,15 +79,24 @@ public class PlayerLogic : MonoBehaviour
             {
                 moveVelocity = new Vector3(0, moveVelocity.y, 0);
 
-                Vector2 mousePos = Mouse.current.position.value;
-
-                Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
-
-                if (Physics.Raycast(mouseRay, out RaycastHit hit, 1000, ground))
+                if(usingMouse)
                 {
-                    var aimDirection = (hit.point - transform.position).normalized;
-                    aimDirection.y = 0;
-                    transform.forward = aimDirection;
+                    Vector2 mousePos = Mouse.current.position.value;
+
+                    Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
+
+                    if (Physics.Raycast(mouseRay, out RaycastHit hit, 1000, ground))
+                    {
+                        var aimDirection = (hit.point - transform.position).normalized;
+                        aimDirection.y = 0;
+                        transform.forward = aimDirection;
+                    }
+                }
+
+                else
+                {
+                    if (adjustedInput != Vector3.zero)
+                        transform.forward = adjustedInput.normalized;
                 }
 
             }

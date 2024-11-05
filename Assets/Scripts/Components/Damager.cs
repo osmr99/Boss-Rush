@@ -8,7 +8,8 @@ public class Damager : MonoBehaviour
     [SerializeField] int damageAmount;
     [SerializeField] float knockbackForce = 1;
 
-    public UnityEvent OnHit;
+    public UnityEvent OnContact;
+    public UnityEvent OnSuccessfulHit;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,7 @@ public class Damager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        OnHit?.Invoke();
+        OnContact?.Invoke();
 
         if(other.GetComponent<Damageable>())
         {
@@ -35,7 +36,10 @@ public class Damager : MonoBehaviour
             damage.direction = dir;
             damage.knockbackForce = knockbackForce;
 
-            other.GetComponent<Damageable>().Hit(damage);
+            if(other.GetComponent<Damageable>().Hit(damage))
+            {
+                OnSuccessfulHit?.Invoke();
+            }
         }
     }
 }
