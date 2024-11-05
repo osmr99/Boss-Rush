@@ -7,6 +7,7 @@ public class Damager : MonoBehaviour
 {
     [SerializeField] int damageAmount;
     [SerializeField] float knockbackForce = 1;
+    [SerializeField] GameObject hitEffectPrefab;
 
     public UnityEvent OnContact;
     public UnityEvent OnSuccessfulHit;
@@ -26,7 +27,7 @@ public class Damager : MonoBehaviour
     {
         OnContact?.Invoke();
 
-        if(other.GetComponent<Damageable>())
+        if (other.GetComponent<Damageable>())
         {
             Vector3 dir = other.transform.position - transform.position;
             dir.Normalize();
@@ -36,9 +37,14 @@ public class Damager : MonoBehaviour
             damage.direction = dir;
             damage.knockbackForce = knockbackForce;
 
-            if(other.GetComponent<Damageable>().Hit(damage))
+            if (other.GetComponent<Damageable>().Hit(damage))
             {
                 OnSuccessfulHit?.Invoke();
+
+                if (hitEffectPrefab != null)
+                {
+                    Instantiate(hitEffectPrefab, other.transform.position, Quaternion.identity);
+                }
             }
         }
     }
