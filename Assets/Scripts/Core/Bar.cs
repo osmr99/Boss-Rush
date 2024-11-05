@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossHealthDisplay : MonoBehaviour
+public class Bar : MonoBehaviour
 {
     [SerializeField] Image barFill;
 
-    int maxHealth;
+    int maximumValue;
 
     public void SetMax(int max)
     {
-        maxHealth = max;
+        maximumValue = max;
     }
 
     public void UpdateBar(int change, int newCurrent)
     {
-        barFill.fillAmount = (float)newCurrent/(float)maxHealth;
+        barFill.fillAmount = (float)newCurrent/(float)maximumValue;
     }
 }

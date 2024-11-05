@@ -15,6 +15,8 @@ public class PlayerLogic : MonoBehaviour
     [SerializeField] float moveSpeed;
     [SerializeField] float jumpSpeed;
     [SerializeField] float gravity;
+    [SerializeField] int maxEnergy;
+    [SerializeField] int shootCost;
 
     // references set in inspector
     [SerializeField] GameObject sword;
@@ -25,6 +27,8 @@ public class PlayerLogic : MonoBehaviour
     // events
     public UnityEvent OnStartDash;
     public UnityEvent OnEndDash;
+    public UnityEvent<int> OnInitializeEnergy;
+    public UnityEvent<int, int> OnEnergyChanged; // change amount, new total amount
 
     // private references
     CharacterController controller;
@@ -40,10 +44,14 @@ public class PlayerLogic : MonoBehaviour
     bool usingMouse = false;
     bool dead = false;
 
+    int currentEnergy;
+
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        OnInitializeEnergy?.Invoke(maxEnergy);
+        ChangeEnergy(maxEnergy);
     }
 
     private void OnEnable()
@@ -214,8 +222,26 @@ public class PlayerLogic : MonoBehaviour
         if (!aiming)
             return;
 
+        if (currentEnergy < 20)
+            return;
+
         GameObject p = Instantiate(projectile, transform.position, Quaternion.identity);
         p.transform.forward = transform.forward;
+
+        ChangeEnergy(-1 * shootCost);
+    }
+
+    public void ChangeEnergy(int amount)
+    {
+        currentEnergy += amount;
+
+        if (currentEnergy > maxEnergy)
+            currentEnergy = maxEnergy;
+
+        if (currentEnergy <= 0)
+            currentEnergy = 0;
+
+        OnEnergyChanged?.Invoke(amount, currentEnergy);
     }
 
     Vector3 GetCameraRelativeInput(Vector2 input)
