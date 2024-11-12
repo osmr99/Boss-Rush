@@ -47,7 +47,8 @@ public class Damager : MonoBehaviour
                     Instantiate(hitEffectPrefab, other.transform.position, Quaternion.identity);
                 }
 
-                SoundEffectsManager.instance.PlayRandomClip(hitSounds.clips, true);
+                if(hitSounds != null)
+                    SoundEffectsManager.instance.PlayRandomClip(hitSounds.clips, true);
             }
         }
     }

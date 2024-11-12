@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public void RestartLevel()
     {
         StartCoroutine(HandleRestart());
+        FindObjectOfType<BackgroundMusic>().AbruptlyStop();
     }
 
     IEnumerator HandleRestart()
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
     public void GoToNextLevel()
     {
         StartCoroutine(HandleNextLevel());
+        FindObjectOfType<BackgroundMusic>().FadeOut();
     }
 
     IEnumerator HandleNextLevel()

@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5e47bd44c6ea0d48b96988b8859db78, type: 3}
   m_Name: Boss Hurt
   m_EditorClassIdentifier: 
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: a168ae1c2f03a114db43a32609e32436, type: 3}

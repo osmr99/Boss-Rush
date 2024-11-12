@@ -58,6 +58,9 @@ public class Damageable : MonoBehaviour
 
         OnHealthChanged?.Invoke(damage.amount, currentHealth);
 
+        if(hurtSounds != null)
+            SoundEffectsManager.instance.PlayRandomClip(hurtSounds.clips, true);
+
         if (damageEffectPrefab != null)
         {
             Instantiate(damageEffectPrefab, transform.position, Quaternion.identity);
@@ -75,6 +78,9 @@ public class Damageable : MonoBehaviour
     void Death()
     {
         OnDeath?.Invoke();
+
+        if(deathSounds != null)
+            SoundEffectsManager.instance.PlayRandomClip(deathSounds.clips, true);
     }
 
     public void ResetIFrames()
