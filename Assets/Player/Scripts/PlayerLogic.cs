@@ -24,6 +24,11 @@ public class PlayerLogic : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] LayerMask ground;
 
+    [SerializeField] AudioClip jumpSound;
+    [SerializeField] AudioClip swordSwingSound;
+    [SerializeField] AudioClip dashSound;
+    [SerializeField] AudioClip shootSound;
+
     // events
     public UnityEvent OnStartDash;
     public UnityEvent OnEndDash;
@@ -167,6 +172,8 @@ public class PlayerLogic : MonoBehaviour
             return;
 
         moveVelocity.y = jumpSpeed;
+
+        SoundEffectsManager.instance.PlayAudioClip(jumpSound, true);
     }
 
     void Melee(InputAction.CallbackContext ctx)
@@ -191,6 +198,7 @@ public class PlayerLogic : MonoBehaviour
         timeSinceLastMelee = 0;
         sword.SetActive(true);
         sword.GetComponent<Animator>().SetTrigger("swing");
+        SoundEffectsManager.instance.PlayAudioClip(swordSwingSound, true);
         yield return new WaitForSeconds(0.25f);
         sword.SetActive(false);
     }
@@ -206,6 +214,7 @@ public class PlayerLogic : MonoBehaviour
     IEnumerator HandleDash()
     {
         OnStartDash?.Invoke();
+        SoundEffectsManager.instance.PlayAudioClip(dashSound, true);
         canControl = false;
         moveVelocity = transform.forward * 20;
         yield return new WaitForSeconds(0.25f);
@@ -229,6 +238,8 @@ public class PlayerLogic : MonoBehaviour
         p.transform.forward = transform.forward;
 
         ChangeEnergy(-1 * shootCost);
+
+        SoundEffectsManager.instance.PlayAudioClip(shootSound, true);
     }
 
     public void ChangeEnergy(int amount)

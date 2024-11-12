@@ -164,6 +164,7 @@ MonoBehaviour:
   damageAmount: 1
   knockbackForce: 0.5
   hitEffectPrefab: {fileID: 2717892095994439559, guid: 7f6dafc4f0f90564395b340bbe141b85, type: 3}
+  hitSounds: {fileID: 11400000, guid: 49537a2ae8ff13640878c39d6843f2b1, type: 2}
   OnContact:
     m_PersistentCalls:
       m_Calls:

@@ -149,6 +149,9 @@ namespace brolive
         {
             //Debug.Log("Enter melee");
             // animator.setTrigger("melee");
+            var dirToPlayer = (player.transform.position - transform.position).normalized;
+            dirToPlayer.y = 0;
+            transform.forward = dirToPlayer;
             targetVelocity = Vector3.zero;
             state = EnemyStates.melee;
             currentStateElapsed = 0;
@@ -165,14 +168,6 @@ namespace brolive
             meleeWeapon.SetActive(false);
         }
 
-        public void Death()
-        {
-            navigator.enabled = false;
-            targetVelocity = Vector3.zero;
-            GameManager.instance.GoToNextLevel();
-            state = EnemyStates.dead;
-        }
-
         void UpdateMelee()
         {
             //Debug.Log("in melee");
@@ -180,6 +175,14 @@ namespace brolive
             {
                 state = EnemyStates.idle;
             }
+        }
+
+        public void Death()
+        {
+            navigator.enabled = false;
+            targetVelocity = Vector3.zero;
+            GameManager.instance.GoToNextLevel();
+            state = EnemyStates.dead;
         }
 
         void UpdateDead()

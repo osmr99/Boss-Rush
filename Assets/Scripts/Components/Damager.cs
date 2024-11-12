@@ -8,6 +8,7 @@ public class Damager : MonoBehaviour
     [SerializeField] int damageAmount;
     [SerializeField] float knockbackForce = 1;
     [SerializeField] GameObject hitEffectPrefab;
+    [SerializeField] AudioClipCollection hitSounds;
 
     public UnityEvent OnContact;
     public UnityEvent OnSuccessfulHit;
@@ -45,6 +46,8 @@ public class Damager : MonoBehaviour
                 {
                     Instantiate(hitEffectPrefab, other.transform.position, Quaternion.identity);
                 }
+
+                SoundEffectsManager.instance.PlayRandomClip(hitSounds.clips, true);
             }
         }
     }

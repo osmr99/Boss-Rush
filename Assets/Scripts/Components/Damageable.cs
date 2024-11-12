@@ -12,6 +12,9 @@ public class Damageable : MonoBehaviour
     [SerializeField] Renderer[] renderers;
     [SerializeField] GameObject damageEffectPrefab;
 
+    [SerializeField] AudioClipCollection hurtSounds;
+    [SerializeField] AudioClipCollection deathSounds;
+
     public UnityEvent<int> OnInitialize;
     public UnityEvent<Damage> OnHit;
     public UnityEvent OnDeath;

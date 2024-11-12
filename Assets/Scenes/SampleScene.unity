@@ -653,6 +653,7 @@ MonoBehaviour:
   damageAmount: 1
   knockbackForce: 25
   hitEffectPrefab: {fileID: 2717892095994439559, guid: 7f6dafc4f0f90564395b340bbe141b85, type: 3}
+  hitSounds: {fileID: 11400000, guid: 63732e03242e01946b95049a50555f86, type: 2}
   OnContact:
     m_PersistentCalls:
       m_Calls: []
@@ -6524,6 +6525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1378800225}
   - component: {fileID: 1378800224}
+  - component: {fileID: 1378800226}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -6559,6 +6561,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1378800226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378800223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 064214a1e60f3f54c85ecfa5156d59c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxMixer: {fileID: 24300002, guid: 53639ddb5998b344095692e2c4619ab0, type: 2}
 --- !u!1 &1514649218
 GameObject:
   m_ObjectHideFlags: 0
@@ -6706,6 +6721,10 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 8
+  jumpSound: {fileID: 8300000, guid: c985a13229e03d246add1014de936a29, type: 3}
+  swordSwingSound: {fileID: 8300000, guid: 0c51bfc90cc4f2b48a4a62f422a4615d, type: 3}
+  dashSound: {fileID: 8300000, guid: 5093c92170ab2514cacdd729db00c193, type: 3}
+  shootSound: {fileID: 8300000, guid: 9c0b5b5d95e43744d8a0a338c3f1557c, type: 3}
   OnStartDash:
     m_PersistentCalls:
       m_Calls:
@@ -6896,6 +6915,8 @@ MonoBehaviour:
   renderers:
   - {fileID: 533824324}
   damageEffectPrefab: {fileID: 6066822027452868663, guid: 23b574f9c07fefb48a1fe18fe736683a, type: 3}
+  hurtSounds: {fileID: 0}
+  deathSounds: {fileID: 0}
   OnInitialize:
     m_PersistentCalls:
       m_Calls:
@@ -7391,6 +7412,8 @@ MonoBehaviour:
   - {fileID: 1647387217}
   - {fileID: 1627730215}
   damageEffectPrefab: {fileID: 6066822027452868663, guid: 23b574f9c07fefb48a1fe18fe736683a, type: 3}
+  hurtSounds: {fileID: 0}
+  deathSounds: {fileID: 0}
   OnInitialize:
     m_PersistentCalls:
       m_Calls:
@@ -8348,6 +8371,7 @@ MonoBehaviour:
   damageAmount: 2
   knockbackForce: 1
   hitEffectPrefab: {fileID: 2717892095994439559, guid: 7f6dafc4f0f90564395b340bbe141b85, type: 3}
+  hitSounds: {fileID: 11400000, guid: b098b77403c117748926aad79cd8fd49, type: 2}
   OnContact:
     m_PersistentCalls:
       m_Calls: []
