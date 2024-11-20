@@ -22,6 +22,8 @@ namespace Omar
         NavMeshAgent agent;
         Animator bossAnim;
 
+        BossStateMachine myStateMachine;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -35,6 +37,10 @@ namespace Omar
             bossAnim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody>();
             bossTransform = GetComponent<Transform>();
+
+            myStateMachine = new BossStateMachine();
+
+            myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
 
         // Update is called once per frame
@@ -51,7 +57,11 @@ namespace Omar
                 {
                     bossAnim.SetFloat("speed", 0);
                 }
+
+                myStateMachine.Update();
             }
+
+            
         }
     }
 }

@@ -1783,7 +1783,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1590502504
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2800,7 +2800,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2830415404540172339, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
       propertyPath: m_Speed
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2830415404540172339, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
       propertyPath: m_BaseOffset
@@ -2813,6 +2813,10 @@ PrefabInstance:
     - target: {fileID: 2830415404540172339, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
       propertyPath: m_StoppingDistance
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797988114198379086, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7193001071868944897, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
       propertyPath: m_Name
