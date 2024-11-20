@@ -24,14 +24,16 @@ namespace Omar
         bool startTheTicks = false;
         //int index = 0;
         [SerializeField] NumsArray numsArray;
+        float tempNum;
 
         // Start is called before the first frame update
         void OnEnable()
         {
             StopAllCoroutines();
             startTheTicks = false;
+            numsArray.currentBeat = 12;
             numsArray.tick = 0;
-            numsArray.index = -1;
+            numsArray.lastPlayedIndex = -1;
             source = GetComponent<AudioSource>();
             StartCoroutine(StartBGM());
         }
@@ -39,18 +41,36 @@ namespace Omar
         // Update is called once per frame
         void Update()
         {
-            
 
-            if(Input.GetKeyDown(KeyCode.C))
+
+            if (Input.GetKeyDown(KeyCode.V))
             {
-                foreach(Image image in allUI)
+                foreach (Image image in allUI)
                 {
                     image.transform.localScale = scaleChange;
                     image.transform.DOScale(1, 0.2f).ForceInit();
                 }
             }
 
-            if(source.isPlaying)
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                if (Time.timeScale != 0)
+                {
+                    tempNum = numsArray.timeScale;
+                    numsArray.timeScale = 0;
+                }
+                else
+                {
+                    numsArray.timeScale = tempNum;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                numsArray.nums[numsArray.lastPlayedIndex + 1] = numsArray.tick;
+            }
+
+                if (source.isPlaying)
             {
                 AnimUI();
                 //bgmTimeElapsed = Mathf.Round(source.time * 10.0f) * 0.1f;
@@ -106,19 +126,34 @@ namespace Omar
                     break;
 
             }*/
-            if(numsArray.tick == numsArray.nums[numsArray.index + 1])
+            if(numsArray.tick <= 640)
             {
-                PerformUIAnim();
-                Debug.Log(numsArray.index + 1);
-                numsArray.index++;
+                UIBeatHere();
             }
-            if (numsArray.tick > 500)
+            else if(numsArray.tick > 640 && numsArray.tick <= 2823)
             {
-                if (numsArray.tick % beat == 0)
-                {
-                    PerformUIAnim();
-                }
+                UIOnBeat();
+                if (numsArray.tick == 641)
+                    numsArray.currentBeat = 12;
+                else if (numsArray.tick == 840)
+                    numsArray.currentBeat = 6;
+                else if (numsArray.tick == 840)
+                    numsArray.currentBeat = 6;
             }
+            else if(numsArray.tick > 2823 && numsArray.tick <= 3219) // Chill
+            {
+
+            }
+            else if (numsArray.tick > 3219 && numsArray.tick <= 4011) // 2nd Drop
+            {
+
+            }
+            else if (numsArray.tick > 4011) // Ending
+            {
+
+            }
+
+
         }
 
         void PerformUIAnim()
@@ -128,6 +163,21 @@ namespace Omar
                 image.transform.localScale = scaleChange;
                 image.transform.DOScale(1, 0.2f).ForceInit();
             }
+        }
+
+        void UIBeatHere()
+        {
+            if (numsArray.tick == numsArray.nums[numsArray.lastPlayedIndex + 1])
+            {
+                PerformUIAnim();
+                numsArray.lastPlayedIndex++;
+            }
+        }
+
+        void UIOnBeat()
+        {
+            if (numsArray.tick % numsArray.currentBeat == 0)
+                PerformUIAnim();
         }
     }
 }

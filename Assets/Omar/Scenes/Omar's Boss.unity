@@ -285,9 +285,7 @@ MonoBehaviour:
   - {fileID: 1590502505}
   - {fileID: 1747053147}
   zawarudo: 1
-  tick: 0
-  beat: 4
-  markers: 3700000069000000800000009a000000c8000000e4000000eb000000f2000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  beat: 8
   numsArray: {fileID: 11400000, guid: 2dd0914df19be204f8b6ba8dc9c794e0, type: 2}
 --- !u!1 &248304444
 GameObject:
