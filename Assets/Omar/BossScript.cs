@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using DG.Tweening;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Rendering;
+using UnityEngine.AI;
 
 
 namespace Omar
@@ -18,6 +19,7 @@ namespace Omar
         Transform bossTransform;
         Transform player;
         Rigidbody rb;
+        NavMeshAgent agent;
 
         // Start is called before the first frame update
         void Start()
@@ -26,6 +28,7 @@ namespace Omar
             bossBar.SetMax(100);
             bossBar.UpdateBar(0,100);
 
+            agent = GetComponent<NavMeshAgent>();
             navigator = GetComponent<Navigator>();
             player = FindObjectOfType<PlayerLogic>().transform;
             rb = GetComponent<Rigidbody>();
@@ -35,7 +38,10 @@ namespace Omar
         // Update is called once per frame
         void Update()
         {
-
+            if(agent.enabled == true)
+            {
+                agent.SetDestination(player.position);
+            }
         }
     }
 }

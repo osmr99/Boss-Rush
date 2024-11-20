@@ -2798,9 +2798,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 544976852}
     m_Modifications:
+    - target: {fileID: 2830415404540172339, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_Speed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2830415404540172339, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_BaseOffset
+      value: 0.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 2830415404540172339, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797988114198379086, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_Radius
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797988114198379086, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5663041791228869401, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
-      propertyPath: m_Constraints
-      value: 112
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7193001071868944897, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
       propertyPath: m_Name

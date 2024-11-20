@@ -85,9 +85,10 @@ namespace Omar
         {
             bossAgent.enabled = true;
             bossNav.enabled = true;
-            bossNav.CalculatePathToPosition(playerLogic.GetComponent<Transform>().position);
-            image.enabled = false;
             playerLogic.enabled = true;
+            
+            //bossNav.CalculatePathToPosition(playerLogic.GetComponent<Transform>().position);
+            image.enabled = false;
             screenFade.SetActive(true);
             omarBGM.enabled = true;
             bossUICanvas.sortingOrder = 0;
