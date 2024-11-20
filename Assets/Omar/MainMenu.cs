@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 using DG.Tweening;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Rendering;
+using UnityEngine.Audio;
+using System.IO;
 
 
 namespace Omar
@@ -18,6 +20,34 @@ namespace Omar
         [SerializeField] Canvas playerUICanvas;
         [SerializeField] Canvas bossUICanvas;
         [SerializeField] BGM omarBGM;
+        [SerializeField] PlayerLogic playerLogic;
+        string path;
+        [SerializeField] float music;
+        [SerializeField] float sfx;
+        
+
+        void Awake()
+        {
+            path = Application.persistentDataPath + "/playerData.json";
+            if(File.Exists(path))
+            {
+                Debug.Log("yes");
+                string saveText = File.ReadAllText(path);
+                SaveData playerData = JsonUtility.FromJson<SaveData>(saveText);
+                music = playerData.musicVolume;
+                sfx = playerData.SFXVolume;
+            }
+            else
+            {
+                Debug.Log("no");
+                SaveAudio(6,9);
+                string saveText = File.ReadAllText(path);
+                SaveData playerData = JsonUtility.FromJson<SaveData>(saveText);
+                music = playerData.musicVolume;
+                sfx = playerData.SFXVolume;
+            }
+        }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -25,6 +55,7 @@ namespace Omar
             playerUICanvas.sortingOrder = -1;
             omarBGM.enabled = false;
             screenFade.SetActive(false);
+            playerLogic.enabled = false;
         }
 
         // Update is called once per frame
@@ -37,10 +68,29 @@ namespace Omar
         public void LoadGame()
         {
             image.enabled = false;
+            playerLogic.enabled = true;
             screenFade.SetActive(true);
             omarBGM.enabled = true;
             bossUICanvas.sortingOrder = 0;
             playerUICanvas.sortingOrder = 0;
+        }
+
+        public void SaveAudio(float mus, float sfx)
+        {
+            SaveData sd = new SaveData();
+
+            sd.musicVolume = mus;
+            sd.SFXVolume = sfx;
+
+            string jsonText = JsonUtility.ToJson(sd);
+            File.WriteAllText(path, jsonText);
+        }
+
+        [System.Serializable]
+        public class SaveData
+        {
+            public float musicVolume;
+            public float SFXVolume;
         }
     }
 }
