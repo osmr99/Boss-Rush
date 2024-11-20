@@ -20,6 +20,7 @@ namespace Omar
         Transform player;
         Rigidbody rb;
         NavMeshAgent agent;
+        Animator bossAnim;
 
         // Start is called before the first frame update
         void Start()
@@ -31,6 +32,7 @@ namespace Omar
             agent = GetComponent<NavMeshAgent>();
             navigator = GetComponent<Navigator>();
             player = FindObjectOfType<PlayerLogic>().transform;
+            bossAnim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody>();
             bossTransform = GetComponent<Transform>();
         }
@@ -41,6 +43,14 @@ namespace Omar
             if(agent.enabled == true)
             {
                 agent.SetDestination(player.position);
+                if(agent.velocity != Vector3.zero)
+                {
+                    bossAnim.SetFloat("speed", 1);
+                }
+                else
+                {
+                    bossAnim.SetFloat("speed", 0);
+                }
             }
         }
     }
