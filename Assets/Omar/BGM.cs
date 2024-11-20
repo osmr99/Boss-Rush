@@ -23,10 +23,15 @@ namespace Omar
         [SerializeField] int[] markers = new int[20]; //56, 105, 128, 154
         bool startTheTicks = false;
         int index = 0;
+        [SerializeField] NumsArray numsArray;
 
         // Start is called before the first frame update
-        void Start()
+        void OnEnable()
         {
+            StopAllCoroutines();
+            startTheTicks = false;
+            tick = 0;
+            index = 0;
             source = GetComponent<AudioSource>();
             StartCoroutine(StartBGM());
         }
@@ -36,7 +41,7 @@ namespace Omar
         {
             
 
-            if(Input.GetKeyDown(KeyCode.X))
+            if(Input.GetKeyDown(KeyCode.C))
             {
                 foreach(Image image in allUI)
                 {
@@ -70,6 +75,7 @@ namespace Omar
         IEnumerator StartBGM()
         {
             yield return new WaitForSeconds(bgmSecondsDelay);
+            Debug.Log("playing music now");
             source.Play();
             startTheTicks = true;
             
@@ -101,11 +107,11 @@ namespace Omar
                     break;
 
             }*/
-            if(tick == markers[index])
+            if(tick == numsArray.nums[index])
             {
                 PerformUIAnim();
-                index++;
                 Debug.Log(index);
+                index++;
             }
             if (tick > 500)
             {

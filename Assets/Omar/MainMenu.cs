@@ -9,6 +9,8 @@ using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Rendering;
 using UnityEngine.Audio;
 using System.IO;
+using static Unity.VisualScripting.Member;
+using System;
 
 
 namespace Omar
@@ -21,30 +23,31 @@ namespace Omar
         [SerializeField] Canvas bossUICanvas;
         [SerializeField] BGM omarBGM;
         [SerializeField] PlayerLogic playerLogic;
+        [SerializeField] PlayerData playerPrefs;
         string path;
-        [SerializeField] float music;
-        [SerializeField] float sfx;
-        
+        AudioSource source;
+
 
         void Awake()
         {
-            path = Application.persistentDataPath + "/playerData.json";
+            path = Application.persistentDataPath + "/omarBossPlayerData.json";
             if(File.Exists(path))
             {
                 Debug.Log("yes");
                 string saveText = File.ReadAllText(path);
                 SaveData playerData = JsonUtility.FromJson<SaveData>(saveText);
-                music = playerData.musicVolume;
-                sfx = playerData.SFXVolume;
+                playerPrefs.musicVol = playerData.musicVol;
+                playerPrefs.sfxVol = playerData.sfxVol;
             }
             else
             {
                 Debug.Log("no");
-                SaveAudio(6,9);
+                SaveAudio(0.5f,0.5f, true);
                 string saveText = File.ReadAllText(path);
                 SaveData playerData = JsonUtility.FromJson<SaveData>(saveText);
-                music = playerData.musicVolume;
-                sfx = playerData.SFXVolume;
+                playerPrefs.musicVol = playerData.musicVol;
+                playerPrefs.sfxVol = playerData.sfxVol;
+                playerPrefs.UIAnim = playerData.UIAnim;
             }
         }
 
@@ -56,13 +59,17 @@ namespace Omar
             omarBGM.enabled = false;
             screenFade.SetActive(false);
             playerLogic.enabled = false;
+            source = FindAnyObjectByType<AudioSource>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.Z))
                 LoadGame();
+
+            if (Input.GetKeyDown(KeyCode.X))
+                RestartScene();
         }
 
         public void LoadGame()
@@ -75,12 +82,24 @@ namespace Omar
             playerUICanvas.sortingOrder = 0;
         }
 
-        public void SaveAudio(float mus, float sfx)
+        public void RestartScene()
+        {
+            source.Stop();
+            image.enabled = true;
+            bossUICanvas.sortingOrder = -1;
+            playerUICanvas.sortingOrder = -1;
+            omarBGM.enabled = false;
+            screenFade.SetActive(false);
+            playerLogic.enabled = false;
+        }
+
+        public void SaveAudio(float mus, float sfx, bool ui)
         {
             SaveData sd = new SaveData();
 
-            sd.musicVolume = mus;
-            sd.SFXVolume = sfx;
+            sd.musicVol = mus;
+            sd.sfxVol = sfx;
+            sd.UIAnim = ui;
 
             string jsonText = JsonUtility.ToJson(sd);
             File.WriteAllText(path, jsonText);
@@ -89,8 +108,11 @@ namespace Omar
         [System.Serializable]
         public class SaveData
         {
-            public float musicVolume;
-            public float SFXVolume;
+            public float musicVol;
+            public float sfxVol;
+            public bool hasWon;
+            public int deaths;
+            public bool UIAnim;
         }
     }
 }

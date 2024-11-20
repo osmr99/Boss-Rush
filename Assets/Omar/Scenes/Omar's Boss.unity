@@ -274,7 +274,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52084033}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15e47c54d3ea28347a3e4a86d0302a25, type: 3}
   m_Name: 
@@ -287,7 +287,8 @@ MonoBehaviour:
   zawarudo: 1
   tick: 0
   beat: 4
-  markers: 3800000069000000800000009a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  markers: 3700000069000000800000009a000000c8000000e4000000eb000000f2000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  numsArray: {fileID: 11400000, guid: 2dd0914df19be204f8b6ba8dc9c794e0, type: 2}
 --- !u!1 &248304444
 GameObject:
   m_ObjectHideFlags: 0
@@ -1679,8 +1680,7 @@ MonoBehaviour:
   bossUICanvas: {fileID: 248304447}
   omarBGM: {fileID: 52084037}
   playerLogic: {fileID: 2015477555}
-  music: 999
-  sfx: 999
+  playerPrefs: {fileID: 11400000, guid: cf944d4275158d5458be9e2e81e245a9, type: 2}
 --- !u!1 &1514649218
 GameObject:
   m_ObjectHideFlags: 0
@@ -2799,10 +2799,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 544976852}
     m_Modifications:
-    - target: {fileID: 4501717423485690561, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: ed3752f62732a524f8fab01fb185f4d3, type: 2}
+    - target: {fileID: 2650700697304995887, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650700697304995887, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650700697304995887, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601555901651394412, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601555901651394412, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601555901651394412, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.75
+      objectReference: {fileID: 0}
     - target: {fileID: 7193001071868944897, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
       propertyPath: m_Name
       value: Awakened Questioner
@@ -2847,10 +2867,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8072308159385246892, guid: 61de3eb2ba18bbb4b8bcce09279d0b6e, type: 3}
-      propertyPath: bossBar
-      value: 
-      objectReference: {fileID: 1747053146}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
