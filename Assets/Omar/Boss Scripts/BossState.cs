@@ -7,6 +7,7 @@ namespace Omar
     public class BossState
     {
         public BossStateMachine machine;
+        public float elapsedTime = 0;
         public BossState(BossStateMachine m)
         {
             this.machine = m;
@@ -18,7 +19,7 @@ namespace Omar
 
         public virtual void OnUpdate()
         {
-
+            elapsedTime += Time.deltaTime;
         }
 
         public virtual void OnExit()

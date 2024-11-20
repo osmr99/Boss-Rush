@@ -7,6 +7,7 @@ namespace Omar
     public class BossStateMachine
     {
         public BossState currentState;
+        public BossScript theBoss;
 
         public BossStateMachine()
         {
