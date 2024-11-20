@@ -23,7 +23,7 @@ namespace Omar
         [SerializeField] Canvas bossUICanvas;
         [SerializeField] BGM omarBGM;
         [SerializeField] PlayerLogic playerLogic;
-        [SerializeField] PlayerData playerPrefs;
+        [SerializeField] OmarPlayerData playerPrefs;
         string path;
         AudioSource source;
 
@@ -49,6 +49,8 @@ namespace Omar
                 playerPrefs.sfxVol = playerData.sfxVol;
                 playerPrefs.UIAnim = playerData.UIAnim;
             }
+
+            
         }
 
         // Start is called before the first frame update
@@ -60,6 +62,7 @@ namespace Omar
             screenFade.SetActive(false);
             playerLogic.enabled = false;
             source = FindAnyObjectByType<AudioSource>();
+            //StaticInputManager.input.Disable();
         }
 
         // Update is called once per frame

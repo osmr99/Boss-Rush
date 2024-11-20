@@ -18,7 +18,7 @@ namespace Omar
         [SerializeField] List<Image> allUI;
         [SerializeField] float beat;
         bool startTheTicks = false;
-        [SerializeField] NumsArray numsArray;
+        [SerializeField] OmarNumsArray numsArray;
         float tempNum;
 
         // Start is called before the first frame update
