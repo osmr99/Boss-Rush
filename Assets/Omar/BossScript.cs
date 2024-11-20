@@ -14,11 +14,12 @@ namespace Omar
     public class BossScript : MonoBehaviour
     {
 
-        [SerializeField] Bar bossBar;
+        Bar bossBar;
 
         // Start is called before the first frame update
         void Start()
         {
+            bossBar = FindAnyObjectByType<Bar>();
             bossBar.SetMax(100);
             bossBar.UpdateBar(0,100);
         }

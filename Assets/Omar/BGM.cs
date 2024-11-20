@@ -36,7 +36,7 @@ namespace Omar
         {
             
 
-            if(Input.GetKeyDown(KeyCode.C))
+            if(Input.GetKeyDown(KeyCode.X))
             {
                 foreach(Image image in allUI)
                 {
