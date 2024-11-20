@@ -13,8 +13,11 @@ namespace Omar
 {
     public class BossScript : MonoBehaviour
     {
-
         Bar bossBar;
+        Navigator navigator;
+        Transform bossTransform;
+        Transform player;
+        Rigidbody rb;
 
         // Start is called before the first frame update
         void Start()
@@ -22,6 +25,11 @@ namespace Omar
             bossBar = FindAnyObjectByType<Bar>();
             bossBar.SetMax(100);
             bossBar.UpdateBar(0,100);
+
+            navigator = GetComponent<Navigator>();
+            player = FindObjectOfType<PlayerLogic>().transform;
+            rb = GetComponent<Rigidbody>();
+            bossTransform = GetComponent<Transform>();
         }
 
         // Update is called once per frame

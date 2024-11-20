@@ -11,6 +11,7 @@ using UnityEngine.Audio;
 using System.IO;
 using static Unity.VisualScripting.Member;
 using System;
+using UnityEngine.AI;
 
 
 namespace Omar
@@ -24,6 +25,8 @@ namespace Omar
         [SerializeField] BGM omarBGM;
         [SerializeField] PlayerLogic playerLogic;
         [SerializeField] OmarPlayerData playerPrefs;
+        [SerializeField] Navigator bossNav;
+        [SerializeField] NavMeshAgent bossAgent;
         string path;
         AudioSource source;
 
@@ -33,7 +36,7 @@ namespace Omar
             path = Application.persistentDataPath + "/omarBossPlayerData.json";
             if(File.Exists(path))
             {
-                Debug.Log("yes");
+                //Debug.Log("yes");
                 string saveText = File.ReadAllText(path);
                 SaveData playerData = JsonUtility.FromJson<SaveData>(saveText);
                 playerPrefs.musicVol = playerData.musicVol;
@@ -41,7 +44,7 @@ namespace Omar
             }
             else
             {
-                Debug.Log("no");
+                //Debug.Log("no");
                 SaveAudio(0.5f,0.5f, true);
                 string saveText = File.ReadAllText(path);
                 SaveData playerData = JsonUtility.FromJson<SaveData>(saveText);
@@ -56,12 +59,15 @@ namespace Omar
         // Start is called before the first frame update
         void Start()
         {
+            bossAgent.enabled = false;
+            bossNav.enabled = false;
             bossUICanvas.sortingOrder = -1;
             playerUICanvas.sortingOrder = -1;
             omarBGM.enabled = false;
             screenFade.SetActive(false);
             playerLogic.enabled = false;
             source = FindAnyObjectByType<AudioSource>();
+
             //StaticInputManager.input.Disable();
         }
 
@@ -77,16 +83,22 @@ namespace Omar
 
         public void LoadGame()
         {
+            bossAgent.enabled = true;
+            bossNav.enabled = true;
+            bossNav.CalculatePathToPosition(playerLogic.GetComponent<Transform>().position);
             image.enabled = false;
             playerLogic.enabled = true;
             screenFade.SetActive(true);
             omarBGM.enabled = true;
             bossUICanvas.sortingOrder = 0;
             playerUICanvas.sortingOrder = 0;
+            
         }
 
         public void RestartScene()
         {
+            bossAgent.enabled = false;
+            bossNav.enabled = false;
             source.Stop();
             image.enabled = true;
             bossUICanvas.sortingOrder = -1;
