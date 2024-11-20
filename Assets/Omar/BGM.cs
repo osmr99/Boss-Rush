@@ -18,11 +18,11 @@ namespace Omar
         [SerializeField] List<Image> allUI;
         [SerializeField] float zawarudo;
         float bgmTimeElapsed;
-        [SerializeField] int tick; // 20 ticks = 1 second
+        //[SerializeField] int tick; // 20 ticks = 1 second
         [SerializeField] float beat;
-        [SerializeField] int[] markers = new int[20]; //56, 105, 128, 154
+        //[SerializeField] int[] markers = new int[20]; //56, 105, 128, 154
         bool startTheTicks = false;
-        int index = 0;
+        //int index = 0;
         [SerializeField] NumsArray numsArray;
 
         // Start is called before the first frame update
@@ -30,8 +30,8 @@ namespace Omar
         {
             StopAllCoroutines();
             startTheTicks = false;
-            tick = 0;
-            index = 0;
+            numsArray.tick = 0;
+            numsArray.index = -1;
             source = GetComponent<AudioSource>();
             StartCoroutine(StartBGM());
         }
@@ -68,14 +68,13 @@ namespace Omar
                 
             }
 
-            Time.timeScale = zawarudo;
-            source.pitch = zawarudo;
+            Time.timeScale = numsArray.timeScale;
+            source.pitch = numsArray.timeScale;
         }
 
         IEnumerator StartBGM()
         {
             yield return new WaitForSeconds(bgmSecondsDelay);
-            Debug.Log("playing music now");
             source.Play();
             startTheTicks = true;
             
@@ -84,7 +83,7 @@ namespace Omar
         //yield return new WaitForSeconds(0.04703f);
         IEnumerator StartTick()
         {
-            tick++;
+            numsArray.tick++;
             yield return new WaitForSeconds(0.05f);
             StartCoroutine(StartTick());
         }
@@ -107,15 +106,15 @@ namespace Omar
                     break;
 
             }*/
-            if(tick == numsArray.nums[index])
+            if(numsArray.tick == numsArray.nums[numsArray.index + 1])
             {
                 PerformUIAnim();
-                Debug.Log(index);
-                index++;
+                Debug.Log(numsArray.index + 1);
+                numsArray.index++;
             }
-            if (tick > 500)
+            if (numsArray.tick > 500)
             {
-                if (tick % beat == 0)
+                if (numsArray.tick % beat == 0)
                 {
                     PerformUIAnim();
                 }
