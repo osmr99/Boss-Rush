@@ -20,7 +20,7 @@ namespace Omar
         float bgmTimeElapsed;
         [SerializeField] int tick; // 20 ticks = 1 second
         [SerializeField] float beat;
-        [SerializeField] int[] markers = new int[20];
+        [SerializeField] int[] markers = new int[20]; //56, 105, 128, 154
         bool startTheTicks = false;
         int index = 0;
 

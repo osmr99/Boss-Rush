@@ -31,7 +31,7 @@ namespace Omar
 
         IEnumerator UpdateHealthBar()
         {
-            yield return new WaitForSeconds(3.0f);
+            yield return new WaitForSeconds(1.5f);
             healthDisplay.SetMaxHearts(15);
             healthDisplay.UpdateHearts(0, 15);
             foreach (Image heart in healthDisplay.GetComponentsInChildren<Image>())
