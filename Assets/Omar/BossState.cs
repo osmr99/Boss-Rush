@@ -1,17 +1,20 @@
-public class BossState
+namespace Omar
 {
-    public void OnEnter()
+    public class BossState
     {
+        public void OnEnter()
+        {
 
-    }
+        }
 
-    public void OnUpdate()
-    {
+        public void OnUpdate()
+        {
 
-    }
+        }
 
-    public void OnExit()
-    {
+        public void OnExit()
+        {
 
+        }
     }
 }

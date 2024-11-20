@@ -1,4 +1,7 @@
-public class BossStateMachine
+namespace Omar
 {
+    public class BossStateMachine
+    {
 
+    }
 }
