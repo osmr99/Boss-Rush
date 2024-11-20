@@ -108,7 +108,7 @@ namespace Omar
             File.WriteAllText(path, jsonText);
         }
 
-        [System.Serializable]
+        //[System.Serializable] I don't think it's required apparently
         public class SaveData
         {
             public float musicVol;

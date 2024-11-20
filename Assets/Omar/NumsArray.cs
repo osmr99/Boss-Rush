@@ -4,14 +4,15 @@ using UnityEngine;
 
 namespace Omar
 {
-    [CreateAssetMenu(menuName = "Nums Array")]
+    [CreateAssetMenu(menuName = "Omar Nums Array")]
     public class OmarNumsArray : ScriptableObject
     {
         public float timeScale;
         public int startPos;
         public int currentBeat;
-        public int tick;
+        public float time;
         public int lastPlayedIndex;
-        public int[] nums;
+        public bool resetMarkers = false;
+        public float[] nums;
     }
 }

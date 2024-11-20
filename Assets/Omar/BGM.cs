@@ -27,21 +27,36 @@ namespace Omar
             StopAllCoroutines();
             startTheTicks = false;
             numsArray.currentBeat = -1;
-            numsArray.tick = 0;
+            numsArray.time = 0;
             if(numsArray.startPos == 0)
                 numsArray.lastPlayedIndex = -1;
+            if(numsArray.resetMarkers)
+            {
+                numsArray.resetMarkers = false;
+                numsArray.nums = new float[1000];
+            }
             source = GetComponent<AudioSource>();
             StartCoroutine(StartBGM());
+            //Time.maximumDeltaTime = 0.05f;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.V)) // Manual Beat set
+            numsArray.time = source.time;
+            //if (source.isPlaying)
+            //{
+                
+                //numsArray.time = Mathf.Round((numsArray.time * 100)) / 100.0f;
+            //}
+
+
+            if (Gamepad.current.bButton.wasPressedThisFrame) // Manual Beat set
             {
-                numsArray.nums[numsArray.lastPlayedIndex + 1] = numsArray.tick;
-                if (numsArray.tick > 634)
-                    numsArray.lastPlayedIndex++;
+                numsArray.nums[numsArray.lastPlayedIndex + 1] = numsArray.time;
+                numsArray.lastPlayedIndex++;
+                //if (numsArray.time > 31.7f) // 634
+                //numsArray.lastPlayedIndex++;
                 foreach (Image image in allUI)
                 {
                     image.transform.localScale = scaleChange;
@@ -62,16 +77,16 @@ namespace Omar
                 }
             }
 
-            AnimUI();
+            UIBeatHere();
 
-            if (source.isPlaying)
-            {
-                if (startTheTicks && source.time > 0)
-                {
-                    StartCoroutine(StartTick());
-                    startTheTicks = false;
-                }
-            }
+            //if (source.isPlaying)
+            //{
+                //if (startTheTicks && source.time > 0)
+                //{
+                    //StartCoroutine(StartTick());
+                    //startTheTicks = false;
+                //}
+            //}
 
             Time.timeScale = numsArray.timeScale;
             source.pitch = numsArray.timeScale;
@@ -84,22 +99,23 @@ namespace Omar
             if(numsArray.startPos != 0)
             {
                 source.time = numsArray.startPos;
-                numsArray.tick = numsArray.startPos * 20;
+                numsArray.time = numsArray.startPos;
             }
-            startTheTicks = true;
+            //startTheTicks = true;
             
         }
 
         //yield return new WaitForSeconds(0.04703f);
         IEnumerator StartTick()
         {
-            numsArray.tick++;
+            //numsArray.tick++;
             yield return new WaitForSeconds(0.05f);
             StartCoroutine(StartTick());
         }
 
         void AnimUI()
         {
+            //UIBeatHere();
             /*switch(tick)
             {
                 case 55:
@@ -116,7 +132,7 @@ namespace Omar
                     break;
 
             }*/
-            if (numsArray.tick <= 643)
+            /*if (numsArray.tick <= 643)
             {
                 UIBeatHere();
             }
@@ -144,7 +160,7 @@ namespace Omar
             else if (numsArray.tick > 4011) // Ending
             {
 
-            }
+            }*/
 
 
         }
@@ -160,7 +176,7 @@ namespace Omar
 
         void UIBeatHere()
         {
-            if (numsArray.tick == numsArray.nums[numsArray.lastPlayedIndex + 1])
+            if (numsArray.time >= numsArray.nums[numsArray.lastPlayedIndex + 1] && numsArray.time < numsArray.nums[numsArray.lastPlayedIndex + 2])
             {
                 PerformUIAnim();
                 numsArray.lastPlayedIndex++;
@@ -170,7 +186,7 @@ namespace Omar
         void UIOnBeat()
         {
             if(numsArray.currentBeat > 0)
-                if (numsArray.tick % numsArray.currentBeat == 0)
+                if (numsArray.time % numsArray.currentBeat == 0)
                     PerformUIAnim();
         }
     }

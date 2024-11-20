@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Omar
 {
-    [CreateAssetMenu(menuName = "Player Data")]
+    [CreateAssetMenu(menuName = "Omar Player Data")]
     public class OmarPlayerData : ScriptableObject
     {
         public float musicVol;
