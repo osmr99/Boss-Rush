@@ -16,13 +16,8 @@ namespace Omar
         Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
         [SerializeField] float bgmSecondsDelay;
         [SerializeField] List<Image> allUI;
-        [SerializeField] float zawarudo;
-        float bgmTimeElapsed;
-        //[SerializeField] int tick; // 20 ticks = 1 second
         [SerializeField] float beat;
-        //[SerializeField] int[] markers = new int[20]; //56, 105, 128, 154
         bool startTheTicks = false;
-        //int index = 0;
         [SerializeField] NumsArray numsArray;
         float tempNum;
 
@@ -31,9 +26,10 @@ namespace Omar
         {
             StopAllCoroutines();
             startTheTicks = false;
-            numsArray.currentBeat = 12;
+            numsArray.currentBeat = -1;
             numsArray.tick = 0;
-            numsArray.lastPlayedIndex = -1;
+            if(numsArray.startPos == 0)
+                numsArray.lastPlayedIndex = -1;
             source = GetComponent<AudioSource>();
             StartCoroutine(StartBGM());
         }
@@ -41,10 +37,11 @@ namespace Omar
         // Update is called once per frame
         void Update()
         {
-
-
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKeyDown(KeyCode.V)) // Manual Beat set
             {
+                numsArray.nums[numsArray.lastPlayedIndex + 1] = numsArray.tick;
+                if (numsArray.tick > 634)
+                    numsArray.lastPlayedIndex++;
                 foreach (Image image in allUI)
                 {
                     image.transform.localScale = scaleChange;
@@ -52,7 +49,7 @@ namespace Omar
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C)) // Freeze
             {
                 if (Time.timeScale != 0)
                 {
@@ -65,27 +62,15 @@ namespace Omar
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                numsArray.nums[numsArray.lastPlayedIndex + 1] = numsArray.tick;
-            }
+            AnimUI();
 
-                if (source.isPlaying)
+            if (source.isPlaying)
             {
-                AnimUI();
-                //bgmTimeElapsed = Mathf.Round(source.time * 10.0f) * 0.1f;
-                //if (bgmTimeElapsed > source.time - 0.05f)
-                    //tick++;
-                bgmTimeElapsed = source.time;
-                //Debug.Log(bgmTimeElapsed);
-
-                if (bgmTimeElapsed > 0 && startTheTicks)
+                if (startTheTicks && source.time > 0)
                 {
                     StartCoroutine(StartTick());
                     startTheTicks = false;
                 }
-                //Debug.Log(source.time.ToString("F1"));
-                
             }
 
             Time.timeScale = numsArray.timeScale;
@@ -96,6 +81,11 @@ namespace Omar
         {
             yield return new WaitForSeconds(bgmSecondsDelay);
             source.Play();
+            if(numsArray.startPos != 0)
+            {
+                source.time = numsArray.startPos;
+                numsArray.tick = numsArray.startPos * 20;
+            }
             startTheTicks = true;
             
         }
@@ -126,21 +116,24 @@ namespace Omar
                     break;
 
             }*/
-            if(numsArray.tick <= 640)
+            if (numsArray.tick <= 643)
             {
                 UIBeatHere();
             }
-            else if(numsArray.tick > 640 && numsArray.tick <= 2823)
+            else if (numsArray.tick > 643 && numsArray.tick <= 1240)
             {
                 UIOnBeat();
-                if (numsArray.tick == 641)
+                if (numsArray.tick == 635)
                     numsArray.currentBeat = 12;
-                else if (numsArray.tick == 840)
-                    numsArray.currentBeat = 6;
-                else if (numsArray.tick == 840)
+                else if (numsArray.tick == 837)
                     numsArray.currentBeat = 6;
             }
-            else if(numsArray.tick > 2823 && numsArray.tick <= 3219) // Chill
+            else if (numsArray.tick > 1240) // My favorite part 1
+            {
+                UIBeatHere();
+                UIOnBeat();
+            }
+            else if (numsArray.tick > 2823 && numsArray.tick <= 3219) // Chill
             {
 
             }
@@ -176,8 +169,9 @@ namespace Omar
 
         void UIOnBeat()
         {
-            if (numsArray.tick % numsArray.currentBeat == 0)
-                PerformUIAnim();
+            if(numsArray.currentBeat > 0)
+                if (numsArray.tick % numsArray.currentBeat == 0)
+                    PerformUIAnim();
         }
     }
 }

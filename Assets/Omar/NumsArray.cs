@@ -6,6 +6,7 @@ using UnityEngine;
 public class NumsArray : ScriptableObject
 {
     public float timeScale;
+    public int startPos;
     public int currentBeat;
     public int tick;
     public int lastPlayedIndex;
