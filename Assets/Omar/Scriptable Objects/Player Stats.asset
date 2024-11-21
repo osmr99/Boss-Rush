@@ -16,4 +16,6 @@ MonoBehaviour:
   sfxVol: 0.5
   hasWon: 0
   deaths: 0
-  UIAnim: 0
+  UIAnim: 1
+  meleeDmg: 6
+  projDmg: 3

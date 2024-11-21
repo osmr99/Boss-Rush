@@ -53,15 +53,15 @@ namespace Omar
                 if(numsArray.lastPlayedIndex != 533) // End of the song
                     UIBeatHere();
 
-                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) // Manual Beat set
+                if (/*Input.GetKeyDown(KeyCode.D) ||Input.GetKeyDown(KeyCode.F)  || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K) ||*/ Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) // Manual Beat set
                 {
                     numsArray.nums[numsArray.lastPlayedIndex + 1] = numsArray.time;
                     numsArray.lastPlayedIndex++;
                     PerformUIAnim();
                 }
 
-                if (Keyboard.current.nKey.wasPressedThisFrame)
-                    numsArray.lastPlayedIndex++;
+                //if (Keyboard.current.nKey.wasPressedThisFrame)
+                    //numsArray.lastPlayedIndex++;
             }
 
 

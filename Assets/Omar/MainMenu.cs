@@ -27,33 +27,41 @@ namespace Omar
         [SerializeField] OmarPlayerData playerPrefs;
         [SerializeField] Navigator bossNav;
         [SerializeField] NavMeshAgent bossAgent;
+        [SerializeField] Damager sword;
+        [SerializeField] Damager projectile;
         string path;
         AudioSource source;
 
 
         void Awake()
         {
-            path = Application.persistentDataPath + "/omarBossPlayerData.json";
+            path = Application.persistentDataPath + "/OmarBossPlayerData.json";
             if(File.Exists(path))
-            {
-                //Debug.Log("yes");
-                string saveText = File.ReadAllText(path);
-                SaveData playerData = JsonUtility.FromJson<SaveData>(saveText);
-                playerPrefs.musicVol = playerData.musicVol;
-                playerPrefs.sfxVol = playerData.sfxVol;
-            }
+                SavePrefs(
+                    playerPrefs.musicVol,
+                    playerPrefs.sfxVol,
+                    playerPrefs.hasWon,
+                    playerPrefs.deaths,
+                    playerPrefs.UIAnim,
+                    playerPrefs.meleeDmg,
+                    playerPrefs.projDmg
+                    );
             else
-            {
-                //Debug.Log("no");
-                SaveAudio(0.5f,0.5f, true);
-                string saveText = File.ReadAllText(path);
-                SaveData playerData = JsonUtility.FromJson<SaveData>(saveText);
-                playerPrefs.musicVol = playerData.musicVol;
-                playerPrefs.sfxVol = playerData.sfxVol;
-                playerPrefs.UIAnim = playerData.UIAnim;
-            }
+                SavePrefs(0.5f, 0.5f, false, 0, true, 6, 3);
+            sword.SetDamageAmount(playerPrefs.meleeDmg);
+            projectile.SetDamageAmount(playerPrefs.projDmg);
 
-            
+            /*string saveText = File.ReadAllText(path);
+            SaveData playerData = JsonUtility.FromJson<SaveData>(saveText);
+            playerPrefs.musicVol = playerData.musicVol;
+            playerPrefs.sfxVol = playerData.sfxVol;
+            playerPrefs.hasWon = playerData.hasWon;
+            playerPrefs.deaths = playerData.deaths;
+            playerPrefs.UIAnim = playerData.UIAnim;
+            playerPrefs.meleeDmg = playerData.meleeDmg;
+            sword.SetDamageAmount(playerData.meleeDmg);
+            playerPrefs.projDmg = playerData.projDmg;
+            projectile.SetDamageAmount(playerData.projDmg);*/
         }
 
         // Start is called before the first frame update
@@ -67,8 +75,6 @@ namespace Omar
             screenFade.SetActive(false);
             playerLogic.enabled = false;
             source = FindAnyObjectByType<AudioSource>();
-
-            
         }
 
         // Update is called once per frame
@@ -81,7 +87,20 @@ namespace Omar
                 RestartScene();
 
             if(Input.GetKeyDown(KeyCode.B))
-                StaticInputManager.input.Disable();
+            {
+                if(StaticInputManager.input.asset.enabled)
+                {
+                    StaticInputManager.input.Disable();
+                    Debug.Log("Player controls disabled");
+                }
+                else
+                {
+                    StaticInputManager.input.Enable();
+                    Debug.Log("Player controls enabled");
+                }
+
+            }
+                
         }
 
         public void LoadGame()
@@ -112,13 +131,17 @@ namespace Omar
             playerLogic.enabled = false;
         }
 
-        public void SaveAudio(float mus, float sfx, bool ui)
+        public void SavePrefs(float mus, float sfx, bool won, int losses, bool ui, int sword, int proj)
         {
             SaveData sd = new SaveData();
 
             sd.musicVol = mus;
             sd.sfxVol = sfx;
+            sd.hasWon = won;
+            sd.deaths = losses;
             sd.UIAnim = ui;
+            sd.meleeDmg = sword;
+            sd.projDmg = proj;
 
             string jsonText = JsonUtility.ToJson(sd);
             File.WriteAllText(path, jsonText);
@@ -132,6 +155,8 @@ namespace Omar
             public bool hasWon;
             public int deaths;
             public bool UIAnim;
+            public int meleeDmg;
+            public int projDmg;
         }
     }
 }

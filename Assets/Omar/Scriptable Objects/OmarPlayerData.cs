@@ -12,5 +12,7 @@ namespace Omar
         public bool hasWon = false;
         public int deaths = 0;
         public bool UIAnim = true;
+        public int meleeDmg = 6;
+        public int projDmg = 3;
     }
 }

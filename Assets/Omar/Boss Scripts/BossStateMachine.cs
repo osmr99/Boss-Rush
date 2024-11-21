@@ -9,9 +9,9 @@ namespace Omar
         public BossState currentState;
         public BossScript theBoss;
 
-        public BossStateMachine()
+        public BossStateMachine(BossScript boss)
         {
-
+            theBoss = boss;
         }
 
         public void Update()

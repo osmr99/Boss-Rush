@@ -15,7 +15,8 @@ namespace Omar
         {
             Debug.Log("entered idle");
             base.OnEnter();
-            //machine.theBoss.SetSpeed(0);
+            machine.theBoss.SetSpeed(0);
+            machine.theBoss.SetAgentSpeed(0);
         }
 
         public override void OnUpdate()
@@ -24,14 +25,9 @@ namespace Omar
 
             base.OnUpdate();
 
-            if(elapsedTime > 2.0f)
+            if(elapsedTime > 3.0f)
             {
-                //Vector3 vel = machine.theBoss.GetVelocity();
-                //if(vel != Vector3.zero)
-                //{
-                    //machine.theBoss.SetSpeed(1);
-                    //machine.ChangeState(new BossPursueState(machine));
-                //}
+                machine.ChangeState(new BossPursueState(machine));
             }
             
         }
@@ -39,6 +35,7 @@ namespace Omar
         public override void OnExit()
         {
             base.OnExit();
+            elapsedTime = 0;
         }
     }
 }

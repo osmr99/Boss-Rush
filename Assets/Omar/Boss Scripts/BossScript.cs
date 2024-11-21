@@ -8,6 +8,7 @@ using DG.Tweening;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Rendering;
 using UnityEngine.AI;
+using brolive;
 
 
 namespace Omar
@@ -28,10 +29,6 @@ namespace Omar
         // Start is called before the first frame update
         void Start()
         {
-            bossBar = FindAnyObjectByType<Bar>();
-            bossBar.SetMax(100);
-            bossBar.UpdateBar(0,100);
-
             agent = GetComponent<NavMeshAgent>();
             navigator = GetComponent<Navigator>();
             player = FindObjectOfType<PlayerLogic>().transform;
@@ -39,9 +36,16 @@ namespace Omar
             rb = GetComponent<Rigidbody>();
             bossTransform = GetComponent<Transform>();
 
-            myStateMachine = new BossStateMachine();
+            myStateMachine = new BossStateMachine(this);
 
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
+        }
+
+        void OnEnable()
+        {
+            bossBar = FindAnyObjectByType<Bar>();
+            bossBar.SetMax(100);
+            bossBar.UpdateBar(0, 100);
         }
 
         // Update is called once per frame
@@ -59,8 +63,14 @@ namespace Omar
                     bossAnim.SetFloat("speed", speed);
                 }
 
-                myStateMachine.Update();
+                myStateMachine.Update(); // Elapsed timer
             }
+        }
+
+        public void Death()
+        {
+            navigator.enabled = false;
+            GameManager.instance.GoToNextLevel();
         }
 
         public void SetSpeed(int s)
@@ -71,6 +81,11 @@ namespace Omar
         public int GetSpeed()
         {
             return speed;
+        }
+
+        public void SetAgentSpeed(int s)
+        {
+            agent.speed = s;
         }
 
         public Vector3 GetVelocity()
