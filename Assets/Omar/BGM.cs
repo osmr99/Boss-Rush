@@ -14,7 +14,7 @@ namespace Omar
     {
         AudioSource source;
         Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
-        [SerializeField] float bgmSecondsDelay;
+        //[SerializeField] float bgmSecondsDelay;
         [SerializeField] List<Image> allUI;
         [SerializeField] OmarNumsArray numsArray;
         [SerializeField] OmarPlayerData playerData;
@@ -33,7 +33,8 @@ namespace Omar
                 numsArray.nums = new float[1000];
             }
             source = GetComponent<AudioSource>();
-            StartCoroutine(StartBGM());
+            //StartCoroutine(StartBGM());
+            StartBGM();
             //Time.maximumDeltaTime = 0.05f;
         }
 
@@ -94,16 +95,27 @@ namespace Omar
                 //numsArray.timeScale = 0.1f;
         }
 
-        IEnumerator StartBGM()
+        //IEnumerator StartBGM()
+        //{
+            //yield return new WaitForSeconds(bgmSecondsDelay);
+            //source.Play();
+            //if(numsArray.startPos != 0)
+            //{
+                //source.time = numsArray.startPos;
+                //numsArray.time = numsArray.startPos;
+            //}
+        //}
+
+        void StartBGM()
         {
-            yield return new WaitForSeconds(bgmSecondsDelay);
-            source.Play();
+            source.PlayDelayed(numsArray.playDelay);
             if(numsArray.startPos != 0)
             {
                 source.time = numsArray.startPos;
                 numsArray.time = numsArray.startPos;
             }
         }
+
 
         void PerformUIAnim()
         {

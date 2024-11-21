@@ -13,13 +13,16 @@ using static Unity.VisualScripting.Member;
 using System;
 using UnityEngine.AI;
 using Unity.VisualScripting;
+using TMPro;
+using UnityEngine.EventSystems;
 
 
 namespace Omar
 {
     public class MainMenu : MonoBehaviour
     {
-        [SerializeField] Image image;
+        [SerializeField] AudioSource music;
+        [SerializeField] GameObject omarCanvas;
         [SerializeField] GameObject screenFade;
         [SerializeField] Canvas playerUICanvas;
         [SerializeField] Canvas bossUICanvas;
@@ -31,11 +34,12 @@ namespace Omar
         [SerializeField] NavMeshAgent bossAgent;
         [SerializeField] Damager sword;
         [SerializeField] Damager projectile;
+        [SerializeField] TMP_Text musicText;
+        [SerializeField] Slider musicSlider;
+        Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
         string path;
         string user;
         string domain;
-        AudioSource source;
-
 
         void Awake()
         {
@@ -53,7 +57,9 @@ namespace Omar
                     playerPrefs.projDmg
                     );
             else
-                SavePrefs(0.5f, 0.5f, false, 0, true, 6, 3);
+                SavePrefs(0.25f, 0.25f, false, 0, true, 6, 3);
+            music.volume = playerPrefs.musicVol;
+            musicSlider.value = music.volume;
             sword.SetDamageAmount(playerPrefs.meleeDmg);
             projectile.SetDamageAmount(playerPrefs.projDmg);
 
@@ -83,7 +89,6 @@ namespace Omar
             screenFade.SetActive(false);
             StaticInputManager.input.Disable();
             playerLogic.enabled = false;
-            source = FindAnyObjectByType<AudioSource>();
         }
 
         // Update is called once per frame
@@ -95,9 +100,9 @@ namespace Omar
             if (Input.GetKeyDown(KeyCode.X))
                 RestartScene();
 
-            if(Input.GetKeyDown(KeyCode.B))
+            if (Input.GetKeyDown(KeyCode.B))
             {
-                if(StaticInputManager.input.asset.enabled)
+                if (StaticInputManager.input.asset.enabled)
                 {
                     StaticInputManager.input.Disable();
                     Debug.Log("Player controls disabled");
@@ -107,18 +112,68 @@ namespace Omar
                     StaticInputManager.input.Enable();
                     Debug.Log("Player controls enabled");
                 }
-
             }
-                
+
+            if (Mouse.current.leftButton.wasReleasedThisFrame)
+                if (EventSystem.current.currentSelectedGameObject?.GetComponent<Slider>())
+                {
+                    StopAllCoroutines();
+                    StartCoroutine(MusicVolumeTest());
+                }
+                    
+        }
+
+        public void SetMusicVol()
+        {
+            music.volume = musicSlider.value;
+            playerPrefs.musicVol = musicSlider.value;
+        }
+
+        IEnumerator MusicVolumeTest()
+        {
+            musicSlider.interactable = false;
+            int randomNumber = UnityEngine.Random.Range(8, 200);
+            music.time = randomNumber;
+            music.Play();
+            for(int i = 0; i < 40; i++)
+            {
+                if(i >= 2)
+                {
+                    if (i % playerNumsArray.currentBeat == 0)
+                    {
+                        musicSlider.transform.localScale = scaleChange;
+                        musicSlider.transform.DOScale(1, 0.2f).ForceInit();
+                    }
+                }
+                if(i == 30)
+                    music.DOFade(0, 1);
+                yield return new WaitForSeconds(0.1f);
+            }
+            music.Stop();
+            music.volume = playerPrefs.musicVol;
+            musicSlider.interactable = true;
         }
 
         public void LoadGame()
         {
+            StopAllCoroutines();
+            DOTween.Clear();
+            musicSlider.transform.localScale = new Vector3(1, 1, 1);
+            musicSlider.interactable = true;
+            SavePrefs(
+                    playerPrefs.musicVol,
+                    playerPrefs.sfxVol,
+                    playerPrefs.hasWon,
+                    playerPrefs.deaths,
+                    playerPrefs.UIAnim,
+                    playerPrefs.meleeDmg,
+                    playerPrefs.projDmg
+                    );
             bossAgent.enabled = true;
             bossNav.enabled = true;
             playerLogic.enabled = true;
             StaticInputManager.input.Enable();
-            image.enabled = false;
+            omarCanvas.SetActive(false);
             screenFade.SetActive(true);
             omarBGM.enabled = true;
             bossUICanvas.sortingOrder = 0;
@@ -130,8 +185,8 @@ namespace Omar
         {
             bossAgent.enabled = false;
             bossNav.enabled = false;
-            source.Stop();
-            image.enabled = true;
+            music.Stop();
+            omarCanvas.SetActive(true);
             bossUICanvas.sortingOrder = -1;
             playerUICanvas.sortingOrder = -1;
             omarBGM.enabled = false;
@@ -154,7 +209,6 @@ namespace Omar
             string jsonText = JsonUtility.ToJson(sd);
 
             int randomNumber = UnityEngine.Random.Range(0, 10);
-            Debug.Log(randomNumber);
             switch(randomNumber)
             {
                 case 0:

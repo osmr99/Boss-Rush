@@ -8,6 +8,7 @@ namespace Omar
     public class OmarNumsArray : ScriptableObject
     {
         public float timeScale;
+        public float playDelay;
         public int startPos;
         public int currentBeat;
         public float time;
