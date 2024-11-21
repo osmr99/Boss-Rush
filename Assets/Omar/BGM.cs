@@ -48,7 +48,10 @@ namespace Omar
             if(playerData.UIAnim)
             {
                 numsArray.time = source.time;
-                UIBeatHere();
+                if (source.time >= 235)
+                    numsArray.lastPlayedIndex = -1;
+                if(numsArray.lastPlayedIndex != 533) // End of the song
+                    UIBeatHere();
 
                 if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) // Manual Beat set
                 {
@@ -111,7 +114,7 @@ namespace Omar
             }
         }
 
-        void UIBeatHere()
+        void UIBeatHere() // 168.6f Just before the last drop
         {
             if (numsArray.time >= numsArray.nums[numsArray.lastPlayedIndex + 1] && numsArray.time < numsArray.nums[numsArray.lastPlayedIndex + 2])
             {
