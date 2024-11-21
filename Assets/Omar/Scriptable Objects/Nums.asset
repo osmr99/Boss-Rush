@@ -15,9 +15,9 @@ MonoBehaviour:
   timeScale: 1
   playDelay: 1.5
   startPos: 0
-  currentBeat: -1
-  time: 8.270667
-  lastPlayedIndex: 3
+  currentBeat: 3
+  time: 7.3106575
+  lastPlayedIndex: 2
   resetMarkers: 0
   nums:
   - 2.816

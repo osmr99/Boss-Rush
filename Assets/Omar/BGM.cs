@@ -23,7 +23,6 @@ namespace Omar
         void OnEnable()
         {
             StopAllCoroutines();
-            numsArray.currentBeat = -1;
             numsArray.time = 0;
             if(numsArray.startPos == 0)
                 numsArray.lastPlayedIndex = -1;
