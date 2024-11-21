@@ -36,6 +36,7 @@ namespace Omar
         [SerializeField] Damager projectile;
         [SerializeField] TMP_Text musicText;
         [SerializeField] Slider musicSlider;
+        [SerializeField] GameObject pauseMenu;
         Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
         string path;
         string user;
@@ -175,6 +176,7 @@ namespace Omar
             StaticInputManager.input.Enable();
             omarCanvas.SetActive(false);
             screenFade.SetActive(true);
+            pauseMenu.SetActive(true);
             omarBGM.enabled = true;
             bossUICanvas.sortingOrder = 0;
             playerUICanvas.sortingOrder = 0;
@@ -191,6 +193,7 @@ namespace Omar
             playerUICanvas.sortingOrder = -1;
             omarBGM.enabled = false;
             screenFade.SetActive(false);
+            pauseMenu.SetActive(false);
             playerLogic.enabled = false;
         }
 

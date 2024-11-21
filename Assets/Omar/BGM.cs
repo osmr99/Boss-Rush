@@ -19,6 +19,7 @@ namespace Omar
         [SerializeField] OmarNumsArray numsArray;
         [SerializeField] OmarPlayerData playerData;
         float tempNum;
+        bool paused = false;
 
         void OnEnable()
         {
@@ -87,10 +88,23 @@ namespace Omar
                 }
             }
 
-            Time.timeScale = numsArray.timeScale;
-            source.pitch = numsArray.timeScale;
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+            {
+                paused = !paused;
+                if(paused)
+                {
+                    source.Pause();
+                }
+                else
+                {
+                    source.UnPause();
+                }
+            }
 
-            //if (numsArray.timeScale < 0.1f)
+            //Time.timeScale = numsArray.timeScale;
+            //source.pitch = numsArray.timeScale;
+
+                //if (numsArray.timeScale < 0.1f)
                 //numsArray.timeScale = 0.1f;
         }
 

@@ -10,7 +10,6 @@ using UnityEngine.Rendering;
 
 namespace Omar
 {
-    
     public class PlayerHealthBarManager : MonoBehaviour
     {
         [SerializeField] PlayerHealthDisplay healthDisplay;
@@ -31,9 +30,9 @@ namespace Omar
 
         IEnumerator UpdateHealthBar()
         {
-            yield return new WaitForSeconds(0.5f);
-            healthDisplay.SetMaxHearts(15);
-            healthDisplay.UpdateHearts(0, 15);
+            yield return new WaitForSeconds(0.1f);
+            healthDisplay.SetMaxHearts(8);
+            healthDisplay.UpdateHearts(0, 8);
             foreach (Image heart in healthDisplay.GetComponentsInChildren<Image>())
             {
                 heart.color = heartColor;
