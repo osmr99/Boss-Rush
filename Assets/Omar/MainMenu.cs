@@ -68,7 +68,7 @@ namespace Omar
             playerLogic.enabled = false;
             source = FindAnyObjectByType<AudioSource>();
 
-            //StaticInputManager.input.Disable();
+            
         }
 
         // Update is called once per frame
@@ -79,6 +79,9 @@ namespace Omar
 
             if (Input.GetKeyDown(KeyCode.X))
                 RestartScene();
+
+            if(Input.GetKeyDown(KeyCode.B))
+                StaticInputManager.input.Disable();
         }
 
         public void LoadGame()

@@ -50,12 +50,15 @@ namespace Omar
                 numsArray.time = source.time;
                 UIBeatHere();
 
-                if (Input.GetKeyDown(KeyCode.V)) // Manual Beat set
+                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) // Manual Beat set
                 {
                     numsArray.nums[numsArray.lastPlayedIndex + 1] = numsArray.time;
                     numsArray.lastPlayedIndex++;
                     PerformUIAnim();
                 }
+
+                if (Keyboard.current.nKey.wasPressedThisFrame)
+                    numsArray.lastPlayedIndex++;
             }
 
 
@@ -83,6 +86,9 @@ namespace Omar
 
             Time.timeScale = numsArray.timeScale;
             source.pitch = numsArray.timeScale;
+
+            //if (numsArray.timeScale < 0.1f)
+                //numsArray.timeScale = 0.1f;
         }
 
         IEnumerator StartBGM()
@@ -110,6 +116,11 @@ namespace Omar
             if (numsArray.time >= numsArray.nums[numsArray.lastPlayedIndex + 1] && numsArray.time < numsArray.nums[numsArray.lastPlayedIndex + 2])
             {
                 PerformUIAnim();
+                numsArray.lastPlayedIndex++;
+            }
+            else if(numsArray.nums[numsArray.lastPlayedIndex + 1] == numsArray.nums[numsArray.lastPlayedIndex + 2])
+            {
+                Debug.Log("Found same ocurrences around " + numsArray.lastPlayedIndex.ToString());
                 numsArray.lastPlayedIndex++;
             }
         }
