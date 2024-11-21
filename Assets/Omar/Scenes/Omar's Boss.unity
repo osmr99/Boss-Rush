@@ -1689,6 +1689,7 @@ MonoBehaviour:
   omarBGM: {fileID: 52084037}
   playerLogic: {fileID: 2015477555}
   playerPrefs: {fileID: 11400000, guid: cf944d4275158d5458be9e2e81e245a9, type: 2}
+  playerNumsArray: {fileID: 11400000, guid: 2dd0914df19be204f8b6ba8dc9c794e0, type: 2}
   bossNav: {fileID: 2693167223130680121}
   bossAgent: {fileID: 2693167223130680118}
   sword: {fileID: 1262129039}

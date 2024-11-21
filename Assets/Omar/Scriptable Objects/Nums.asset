@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ecd0c73148b404aad1fa7183b8c4a8, type: 3}
   m_Name: Nums
   m_EditorClassIdentifier: 
-  timeScale: 1
+  timeScale: 0
   startPos: 0
   currentBeat: -1
-  time: 21.973333
-  lastPlayedIndex: 14
+  time: 1.4933333
+  lastPlayedIndex: -1
   resetMarkers: 0
   nums:
   - 2.816
