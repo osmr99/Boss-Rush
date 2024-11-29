@@ -120,8 +120,7 @@ namespace Omar
                 {
                     StopAllCoroutines();
                     StartCoroutine(MusicVolumeTest());
-                }
-                    
+                }     
         }
 
         public void SetMusicVol()
@@ -133,24 +132,29 @@ namespace Omar
         IEnumerator MusicVolumeTest()
         {
             musicSlider.interactable = false;
-            int randomNumber = UnityEngine.Random.Range(8, 200);
-            music.time = randomNumber;
-            music.Play();
-            for(int i = 0; i < 40; i++)
+            if (music.volume > 0)
             {
-                if(i >= 2)
+                int randomNumber = UnityEngine.Random.Range(8, 200);
+                music.time = randomNumber;
+                music.Play();
+                for (int i = 0; i < 40; i++)
                 {
-                    if (i % playerNumsArray.currentBeat == 0)
+                    if (i >= 2)
                     {
-                        musicSlider.transform.localScale = scaleChange;
-                        musicSlider.transform.DOScale(1, 0.2f).ForceInit();
+                        if (i % playerNumsArray.currentBeat == 0)
+                        {
+                            musicSlider.transform.localScale = scaleChange;
+                            musicSlider.transform.DOScale(1, 0.2f).ForceInit();
+                        }
                     }
+                    if (i == 30)
+                        music.DOFade(0, 1);
+                    yield return new WaitForSeconds(0.1f);
                 }
-                if(i == 30)
-                    music.DOFade(0, 1);
-                yield return new WaitForSeconds(0.1f);
+                music.Stop();
             }
-            music.Stop();
+            else
+                yield return new WaitForSeconds(0.5f);
             music.volume = playerPrefs.musicVol;
             musicSlider.interactable = true;
         }

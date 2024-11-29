@@ -13,7 +13,7 @@ namespace Omar
 
         public override void OnEnter()
         {
-            Debug.Log("entered idle");
+            //Debug.Log("entered idle");
             base.OnEnter();
             machine.theBoss.SetSpeed(0);
             machine.theBoss.SetAgentSpeed(0);
@@ -21,7 +21,7 @@ namespace Omar
 
         public override void OnUpdate()
         {
-            Debug.Log("update idle");
+            //Debug.Log("update idle");
 
             base.OnUpdate();
 

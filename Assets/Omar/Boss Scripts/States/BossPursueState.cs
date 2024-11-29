@@ -13,7 +13,7 @@ namespace Omar
 
         public override void OnEnter()
         {
-            Debug.Log("entered pursue");
+            //Debug.Log("entered pursue");
             base.OnEnter();
             machine.theBoss.SetSpeed(1);
             machine.theBoss.SetAgentSpeed(5);
@@ -21,7 +21,7 @@ namespace Omar
 
         public override void OnUpdate()
         {
-            Debug.Log("updating pursue");
+            //Debug.Log("updating pursue");
 
             base.OnUpdate();
 
