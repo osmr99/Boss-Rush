@@ -3101,7 +3101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8267154829788579919, guid: 0ca589b17b2fa29408d099352b8407c0, type: 3}
       propertyPath: knockbackForce
-      value: 50
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 8267154829788579919, guid: 0ca589b17b2fa29408d099352b8407c0, type: 3}
       propertyPath: hitEffectPrefab
@@ -4323,13 +4323,61 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHit.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5618646958238143378}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ApplyKnockback
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: OnInitialize.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1747053146}
     - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1747053146}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 5618646958238143378}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: GetHealthPercentageAndChangePhase
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Omar.BossScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Omar.BossScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -25,6 +25,7 @@ namespace Omar
         Animator bossAnim;
         BossStateMachine myStateMachine;
         Damageable bossDamageable;
+        [SerializeField] OmarPlayerData playerData;
         [SerializeField] OmarBar bossHealthBar;
         [SerializeField] OmarBar energyBar;
         [SerializeField] GameObject bossCollision;
@@ -34,14 +35,13 @@ namespace Omar
         //[SerializeField][Range(0, 1)] float timeScale = 1;
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
             navigator = GetComponent<Navigator>();
             player = FindObjectOfType<PlayerLogic>().transform;
             bossAnim = GetComponent<Animator>();
             bossDamageable = GetComponent<Damageable>();
-
 
             myStateMachine = new BossStateMachine(this);
 
@@ -64,6 +64,18 @@ namespace Omar
                 myStateMachine.Update(); // Elapsed timer
                 //Time.timeScale = timeScale;
             }
+        }
+
+        public void StartDash()
+        {
+            StartCoroutine(Dash(player.position));
+        }
+
+        IEnumerator Dash(Vector3 here)
+        {
+            agent.velocity = here;
+            yield return new WaitForSeconds(1.0f);
+            agent.velocity = Vector3.zero;
         }
 
         public void GetHealthPercentageAndChangePhase()
@@ -171,6 +183,11 @@ namespace Omar
         {
             collisionDamager.SetActive(true);
             bossCollision.SetActive(true);
+        }
+
+        public void SetAgentStoppingDistance(float num)
+        {
+            agent.stoppingDistance = num;
         }
 
         public void SetAnimatorInt(string name, int num)

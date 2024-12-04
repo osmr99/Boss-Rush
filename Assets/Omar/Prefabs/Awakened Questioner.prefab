@@ -1238,11 +1238,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a24b5990c964d740a243261d67daaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: cf944d4275158d5458be9e2e81e245a9, type: 2}
   bossHealthBar: {fileID: 0}
   energyBar: {fileID: 0}
   bossCollision: {fileID: 4467290079841807793}
   collisionDamager: {fileID: 6733632627895029388}
   meleeDamager: {fileID: 5923918936637858060}
+  bossActor: {fileID: 5603999914395995017}
 --- !u!54 &568297390296848946
 Rigidbody:
   m_ObjectHideFlags: 0
