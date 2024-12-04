@@ -1240,6 +1240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossHealthBar: {fileID: 0}
   energyBar: {fileID: 0}
+  bossCollision: {fileID: 4467290079841807793}
   collisionDamager: {fileID: 6733632627895029388}
   meleeDamager: {fileID: 5923918936637858060}
 --- !u!54 &568297390296848946

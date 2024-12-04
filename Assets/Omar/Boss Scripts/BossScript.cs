@@ -27,6 +27,7 @@ namespace Omar
         Damageable bossDamageable;
         [SerializeField] OmarBar bossHealthBar;
         [SerializeField] OmarBar energyBar;
+        [SerializeField] GameObject bossCollision;
         [SerializeField] GameObject collisionDamager;
         [SerializeField] Damager meleeDamager;
         float bossHPPercentage;
@@ -158,6 +159,18 @@ namespace Omar
         {
             bossDamageable.enabled = b;
             collisionDamager.SetActive(b);
+        }
+
+        public void SuccessfulMelee()
+        {
+            collisionDamager.SetActive(false);
+            bossCollision.SetActive(false);
+        }
+
+        public void SuccessfulMeleeEnd()
+        {
+            collisionDamager.SetActive(true);
+            bossCollision.SetActive(true);
         }
 
         public void SetAnimatorInt(string name, int num)

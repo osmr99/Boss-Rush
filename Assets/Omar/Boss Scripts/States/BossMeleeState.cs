@@ -63,6 +63,7 @@ namespace Omar
             base.OnExit();
 
             elapsedTime = 0;
+            machine.theBoss.SuccessfulMeleeEnd();
         }
     }
 }

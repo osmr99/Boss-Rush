@@ -3,30 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OmarProjectile : MonoBehaviour
+namespace Omar
 {
-    [SerializeField] float speed;
-    Rigidbody rigidBody;
-    GameObject gameObj;
-    // Start is called before the first frame update
-    void Start()
+    public class OmarProjectile : MonoBehaviour
     {
-        rigidBody = GetComponent<Rigidbody>();
-        rigidBody.velocity = transform.forward * speed;
-        Destroy(gameObject,2f);
-    }
-
-    public void DestroyProjectile()
-    {
-        if(gameObj.GetComponent<Damageable>())
+        [SerializeField] float speed;
+        Rigidbody rigidBody;
+        GameObject gameObj;
+        // Start is called before the first frame update
+        void Start()
         {
-            Destroy(gameObject);
+            rigidBody = GetComponent<Rigidbody>();
+            rigidBody.velocity = transform.forward * speed;
+            Destroy(gameObject, 2f);
         }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        gameObj = other.gameObject;
-        //Debug.Log(gameObj);
+        public void DestroyProjectile()
+        {
+            if (gameObj.GetComponent<Damageable>())
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            gameObj = other.gameObject;
+            //Debug.Log(gameObj);
+        }
     }
 }
