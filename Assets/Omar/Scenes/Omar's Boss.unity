@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1959,7 +1959,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 824868206}
         m_TargetAssemblyTypeName: Omar.OmarStartButton, Assembly-CSharp
-        m_MethodName: Click
+        m_MethodName: LoadGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4192,6 +4192,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 544976852}
     m_Modifications:
+    - target: {fileID: 987413950707994104, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: knockbackForce
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 3057604825348089876, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: m_Name
       value: Awakened Questioner

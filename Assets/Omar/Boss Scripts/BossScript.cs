@@ -24,6 +24,7 @@ namespace Omar
         Animator bossAnim;
         BossStateMachine myStateMachine;
         [SerializeField] Damager meleeDamager;
+        //[SerializeField][Range(0, 1)] float timeScale = 1;
 
         // Start is called before the first frame update
         void Start()
@@ -32,6 +33,7 @@ namespace Omar
             navigator = GetComponent<Navigator>();
             player = FindObjectOfType<PlayerLogic>().transform;
             bossAnim = GetComponent<Animator>();
+
 
             myStateMachine = new BossStateMachine(this);
 
@@ -50,8 +52,9 @@ namespace Omar
         {
             if(agent.enabled == true)
             {
-                Debug.Log(Vector3.Distance(player.position, transform.position));
+                //Debug.Log(Vector3.Distance(player.position, transform.position));
                 myStateMachine.Update(); // Elapsed timer
+                //Time.timeScale = timeScale;
             }
         }
 
@@ -82,13 +85,21 @@ namespace Omar
 
         IEnumerator MeleeTwoDelay()
         {
-            yield return new WaitForSeconds(3.3f);
+            yield return new WaitForSeconds(0.95f);
+            ToggleDamager(true);
+            yield return new WaitForSeconds(0.11f);
+            ToggleDamager(false);
+            yield return new WaitForSeconds(2.3f);
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
 
         IEnumerator MeleeThreeDelay()
         {
-            yield return new WaitForSeconds(2.6f);
+            yield return new WaitForSeconds(0.93f);
+            ToggleDamager(true);
+            yield return new WaitForSeconds(0.07f);
+            ToggleDamager(false);
+            yield return new WaitForSeconds(1.6f);
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
 
@@ -112,6 +123,12 @@ namespace Omar
         {
             bossAnim.SetFloat(name, num);
         }
+        public int GetAnimatorInt(string name)
+        {
+            Debug.Log(bossAnim.GetInteger(name));
+            return bossAnim.GetInteger(name);
+        }
+
 
         public void SetAnimatorTrigger(string n)
         {
@@ -136,8 +153,7 @@ namespace Omar
 
         public void LookAtPlayer()
         {
-            transform.LookAt(new Vector3(player.position.x, 0, player.position.z));
-            //transform.localEulerAngles = new Vector3(0, 0, 0);
+            transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
         }
 
         public void AgentSetPathToPlayer()

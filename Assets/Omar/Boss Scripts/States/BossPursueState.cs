@@ -15,7 +15,7 @@ namespace Omar
         {
             base.OnEnter();
 
-            Debug.Log(machine.currentState);
+            //Debug.Log(machine.currentState);
             machine.theBoss.SetAnimatorFloat("speed", 1);
             machine.theBoss.SetAgentSpeed(4);
         }

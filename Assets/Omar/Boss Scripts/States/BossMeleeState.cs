@@ -9,6 +9,7 @@ namespace Omar
     {
 
         int randomNum;
+        int lastMelee;
         public BossMeleeState(BossStateMachine m) : base(m)
         {
             machine = m;
@@ -18,23 +19,35 @@ namespace Omar
         {
             base.OnEnter();
 
-            Debug.Log(machine.currentState);
+            //Debug.Log(machine.currentState);
             machine.theBoss.SetAnimatorFloat("speed", 0);
             machine.theBoss.SetAgentSpeed(0);
             machine.theBoss.SetAnimatorTrigger("canMelee");
-            randomNum = UnityEngine.Random.Range(0, 1); //0,3
+            lastMelee = machine.theBoss.GetAnimatorInt("lastMeleeChoice");
+            if(lastMelee == -1)
+                randomNum = Random.Range(0, 3); //0, 3
+            else
+            {
+                while (randomNum == lastMelee)
+                {
+                    randomNum = Random.Range(0, 3); //0, 3
+                }
+            }
             switch(randomNum)
             {
                 case 0:
                     machine.theBoss.SetAnimatorInt("meleeChoice", randomNum);
+                    machine.theBoss.SetAnimatorInt("lastMeleeChoice", randomNum);
                     machine.theBoss.StartCoroutineMeleeOne();
                     break;
                 case 1:
                     machine.theBoss.SetAnimatorInt("meleeChoice", randomNum);
+                    machine.theBoss.SetAnimatorInt("lastMeleeChoice", randomNum);
                     machine.theBoss.StartCoroutineMeleeTwo();
                     break;
                 case 2:
                     machine.theBoss.SetAnimatorInt("meleeChoice", randomNum);
+                    machine.theBoss.SetAnimatorInt("lastMeleeChoice", randomNum);
                     machine.theBoss.StartCoroutineMeleeThree();
                     break;
             }
