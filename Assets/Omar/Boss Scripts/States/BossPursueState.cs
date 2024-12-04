@@ -13,20 +13,17 @@ namespace Omar
 
         public override void OnEnter()
         {
-            //Debug.Log("entered pursue");
             base.OnEnter();
-            machine.theBoss.SetSpeed(1);
-            machine.theBoss.SetAgentSpeed(5);
+            machine.theBoss.SetAnimatorSpeed(1);
+            machine.theBoss.SetAgentSpeed(4);
         }
 
         public override void OnUpdate()
         {
-            //Debug.Log("updating pursue");
-
             base.OnUpdate();
 
-            Vector3 vel = machine.theBoss.GetVelocity();
-            if (vel == Vector3.zero && elapsedTime > 1.0f)
+            machine.theBoss.AgentSetPathToPlayer();
+            if (machine.theBoss.GetDistanceFromPlayer() <= 2.5f)
             {
                 machine.ChangeState(new BossIdleState(machine));
             }
@@ -35,6 +32,7 @@ namespace Omar
         public override void OnExit()
         {
             base.OnExit();
+
             elapsedTime = 0;
         }
     }

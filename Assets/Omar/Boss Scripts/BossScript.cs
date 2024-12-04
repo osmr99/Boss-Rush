@@ -22,7 +22,6 @@ namespace Omar
         Rigidbody rb;
         NavMeshAgent agent;
         Animator bossAnim;
-        int speed = 0;
 
         BossStateMachine myStateMachine;
 
@@ -53,16 +52,7 @@ namespace Omar
         {
             if(agent.enabled == true)
             {
-                agent.SetDestination(player.position);
-                if(agent.velocity != Vector3.zero)
-                {
-                    bossAnim.SetFloat("speed", speed);
-                }
-                else
-                {
-                    bossAnim.SetFloat("speed", speed);
-                }
-
+                Debug.Log(Vector3.Distance(player.position, transform.position));
                 myStateMachine.Update(); // Elapsed timer
             }
         }
@@ -73,24 +63,34 @@ namespace Omar
             GameManager.instance.GoToNextLevel();
         }
 
-        public void SetSpeed(int s)
+        public void SetAnimatorSpeed(int s)
         {
-            speed = s;
+            bossAnim.SetFloat("speed", s);
         }
 
-        public int GetSpeed()
-        {
-            return speed;
-        }
-
-        public void SetAgentSpeed(int s)
+        public void SetAgentSpeed(float s)
         {
             agent.speed = s;
         }
 
-        public Vector3 GetVelocity()
+        public Vector3 BossGetVelocity()
         {
             return agent.velocity;
+        }
+
+        public float GetDistanceFromPlayer()
+        {
+            return Vector3.Distance(player.position, transform.position);
+        }
+
+        public void AgentSetPathToPlayer()
+        {
+            agent.SetDestination(player.position);
+        }
+
+        public void AgentResetPath()
+        {
+            agent.ResetPath();
         }
     }
 }
