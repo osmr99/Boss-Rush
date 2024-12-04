@@ -14,23 +14,34 @@ namespace Omar
         public override void OnEnter()
         {
             base.OnEnter();
-            machine.theBoss.SetAnimatorSpeed(0);
+
+            machine.theBoss.SetAnimatorFloat("speed", 0);
             machine.theBoss.SetAgentSpeed(0);
+            machine.theBoss.SetAnimatorInt("meleeChoice", -1);
         }
 
         public override void OnUpdate()
         {
             base.OnUpdate();
 
-            if(elapsedTime > 3.0f && machine.theBoss.GetDistanceFromPlayer() > 2.5f)
+            if(elapsedTime > 1.5f)
             {
-                machine.ChangeState(new BossPursueState(machine));
+                if (machine.theBoss.GetDistanceFromPlayer() <= 2.7f)
+                {
+                    machine.ChangeState(new BossMeleeState(machine));
+                }
+                else
+                {
+                    machine.ChangeState(new BossPursueState(machine));
+                }
+                
             }
         }
 
         public override void OnExit()
         {
             base.OnExit();
+
             elapsedTime = 0;
         }
     }

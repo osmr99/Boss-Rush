@@ -14,7 +14,8 @@ namespace Omar
         public override void OnEnter()
         {
             base.OnEnter();
-            machine.theBoss.SetAnimatorSpeed(1);
+
+            machine.theBoss.SetAnimatorFloat("speed", 1);
             machine.theBoss.SetAgentSpeed(4);
         }
 
@@ -23,9 +24,9 @@ namespace Omar
             base.OnUpdate();
 
             machine.theBoss.AgentSetPathToPlayer();
-            if (machine.theBoss.GetDistanceFromPlayer() <= 2.5f)
+            if (machine.theBoss.GetDistanceFromPlayer() <= 2.7f)
             {
-                machine.ChangeState(new BossIdleState(machine));
+                machine.ChangeState(new BossMeleeState(machine));
             }
         }
 

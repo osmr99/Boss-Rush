@@ -19,14 +19,14 @@ using UnityEngine.EventSystems;
 
 namespace Omar
 {
-    public class MainMenu : MonoBehaviour
+    public class OmarMainMenu : MonoBehaviour
     {
         [SerializeField] AudioSource music;
         [SerializeField] GameObject omarCanvas;
         [SerializeField] GameObject screenFade;
         [SerializeField] Canvas playerUICanvas;
         [SerializeField] Canvas bossUICanvas;
-        [SerializeField] BGM omarBGM;
+        [SerializeField] OmarBGM omarBGM;
         [SerializeField] PlayerLogic playerLogic;
         [SerializeField] OmarPlayerData playerPrefs;
         [SerializeField] OmarNumsArray playerNumsArray;

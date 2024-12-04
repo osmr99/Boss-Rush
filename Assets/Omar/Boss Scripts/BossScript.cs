@@ -9,6 +9,8 @@ using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Rendering;
 using UnityEngine.AI;
 using brolive;
+using Unity.VisualScripting;
+using Palmmedia.ReportGenerator.Core;
 
 
 namespace Omar
@@ -17,13 +19,12 @@ namespace Omar
     {
         Bar bossBar;
         Navigator navigator;
-        Transform bossTransform;
         Transform player;
-        Rigidbody rb;
         NavMeshAgent agent;
         Animator bossAnim;
-
         BossStateMachine myStateMachine;
+        [SerializeField] Damager bossDamager;
+        Vector3 regularBossDamagerTransform;
 
         // Start is called before the first frame update
         void Start()
@@ -32,8 +33,7 @@ namespace Omar
             navigator = GetComponent<Navigator>();
             player = FindObjectOfType<PlayerLogic>().transform;
             bossAnim = GetComponent<Animator>();
-            rb = GetComponent<Rigidbody>();
-            bossTransform = GetComponent<Transform>();
+            regularBossDamagerTransform = bossDamager.transform.localScale;
 
             myStateMachine = new BossStateMachine(this);
 
@@ -52,9 +52,57 @@ namespace Omar
         {
             if(agent.enabled == true)
             {
-                Debug.Log(Vector3.Distance(player.position, transform.position));
+                //Debug.Log(Vector3.Distance(player.position, transform.position));
+                Debug.Log(myStateMachine.currentState);
                 myStateMachine.Update(); // Elapsed timer
             }
+        }
+
+        public void StartCoroutineMeleeOne()
+        {
+            StartCoroutine(MeleeOneDelay());
+        }
+
+        public void StartCoroutineMeleeTwo()
+        {
+            StartCoroutine(MeleeTwoDelay());
+        }
+
+        public void StartCoroutineMeleeThree()
+        {
+            StartCoroutine(MeleeThreeDelay());
+        }
+
+        IEnumerator MeleeOneDelay()
+        {
+            yield return new WaitForSeconds(0.86f);
+            DamagerExpand();
+            yield return new WaitForSeconds(1.06f);
+            DamagerNormalize();
+            yield return new WaitForSeconds(0.38f);
+            myStateMachine.ChangeState(new BossIdleState(myStateMachine));
+        }
+
+        IEnumerator MeleeTwoDelay()
+        {
+            yield return new WaitForSeconds(3.3f);
+            myStateMachine.ChangeState(new BossIdleState(myStateMachine));
+        }
+
+        IEnumerator MeleeThreeDelay()
+        {
+            yield return new WaitForSeconds(2.6f);
+            myStateMachine.ChangeState(new BossIdleState(myStateMachine));
+        }
+
+        public void DamagerExpand()
+        {
+            bossDamager.transform.localScale += new Vector3(0, 0, 4);
+        }
+
+        public void DamagerNormalize()
+        {
+            bossDamager.transform.localScale = regularBossDamagerTransform;
         }
 
         public void Death()
@@ -63,10 +111,21 @@ namespace Omar
             GameManager.instance.GoToNextLevel();
         }
 
-        public void SetAnimatorSpeed(int s)
+        public void SetAnimatorInt(string name, int num)
         {
-            bossAnim.SetFloat("speed", s);
+            bossAnim.SetInteger(name, num);
         }
+
+        public void SetAnimatorFloat(string name, float num)
+        {
+            bossAnim.SetFloat(name, num);
+        }
+
+        public void SetAnimatorTrigger(string n)
+        {
+            bossAnim.SetTrigger(n);
+        }
+
 
         public void SetAgentSpeed(float s)
         {
@@ -92,5 +151,6 @@ namespace Omar
         {
             agent.ResetPath();
         }
+
     }
 }

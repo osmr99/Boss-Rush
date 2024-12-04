@@ -10,7 +10,7 @@ using UnityEngine.Rendering;
 
 namespace Omar
 {
-    public class BGM : MonoBehaviour
+    public class OmarBGM : MonoBehaviour
     {
         AudioSource source;
         Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
