@@ -15,6 +15,7 @@ namespace Omar
         {
             base.OnEnter();
 
+            Debug.Log(machine.currentState);
             machine.theBoss.SetAnimatorFloat("speed", 1);
             machine.theBoss.SetAgentSpeed(4);
         }
@@ -24,7 +25,9 @@ namespace Omar
             base.OnUpdate();
 
             machine.theBoss.AgentSetPathToPlayer();
-            if (machine.theBoss.GetDistanceFromPlayer() <= 2.7f)
+            //if(elapsedTime > 2.0f)
+                //machine.theBoss.LookAtPlayer();
+            if (machine.theBoss.GetDistanceFromPlayer() <= 2.8f)
             {
                 machine.ChangeState(new BossMeleeState(machine));
             }

@@ -18,6 +18,7 @@ namespace Omar
         {
             base.OnEnter();
 
+            Debug.Log(machine.currentState);
             machine.theBoss.SetAnimatorFloat("speed", 0);
             machine.theBoss.SetAgentSpeed(0);
             machine.theBoss.SetAnimatorTrigger("canMelee");

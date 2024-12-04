@@ -15,6 +15,7 @@ using UnityEngine.AI;
 using Unity.VisualScripting;
 using TMPro;
 using UnityEngine.EventSystems;
+using static Unity.Burst.Intrinsics.X86;
 
 
 namespace Omar
@@ -37,18 +38,25 @@ namespace Omar
         [SerializeField] TMP_Text musicText;
         [SerializeField] Slider musicSlider;
         [SerializeField] GameObject pauseMenu;
+        [SerializeField] Button startButton;
+        [SerializeField] TMP_Text errorText;
         Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
         string path;
         string user;
         string domain;
-
+        string[] errorMessages = { "Um, couldn't save your prefs... that's weird (is the file read-only?)",
+                                   "Ok, apparently your current prefs file is a read-only or something else...",
+                                   "If you see this message, I genuinely don't know what happened or how you accomplished to " +
+                                    "do this. (The default player prefs failed to create its file)"};
         void Awake()
         {
             path = Application.persistentDataPath + "/OmarBossPlayerData.json";
             user = System.Environment.UserName;
             domain = System.Environment.UserDomainName;
             if (File.Exists(path))
-                SavePrefs(
+                try
+                {
+                    SavePrefs(
                     playerPrefs.musicVol,
                     playerPrefs.sfxVol,
                     playerPrefs.hasWon,
@@ -57,8 +65,21 @@ namespace Omar
                     playerPrefs.meleeDmg,
                     playerPrefs.projDmg
                     );
+                }
+                catch
+                {
+                    ShowFileError(1);
+                }
+                
             else
-                SavePrefs(0.25f, 0.25f, false, 0, true, 6, 3);
+                try
+                {
+                    SavePrefs(0.25f, 0.25f, false, 0, true, 6, 3);
+                }
+                catch
+                {
+                    ShowFileError(2);
+                }
             music.volume = playerPrefs.musicVol;
             musicSlider.value = music.volume;
             sword.SetDamageAmount(playerPrefs.meleeDmg);
@@ -87,6 +108,7 @@ namespace Omar
             bossUICanvas.sortingOrder = -1;
             playerUICanvas.sortingOrder = -1;
             omarBGM.enabled = false;
+            startButton.enabled = true;
             screenFade.SetActive(false);
             StaticInputManager.input.Disable();
             playerLogic.enabled = false;
@@ -96,7 +118,7 @@ namespace Omar
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Z))
-                LoadGame();
+                //LoadGame();
 
             if (Input.GetKeyDown(KeyCode.X))
                 RestartScene();
@@ -121,6 +143,13 @@ namespace Omar
                     StopAllCoroutines();
                     StartCoroutine(MusicVolumeTest());
                 }     
+        }
+
+        void ShowFileError(int index)
+        {
+            Debug.LogError("Error " + index + ": " + errorMessages[index]);
+            errorText.text = errorMessages[index];
+            errorText.gameObject.SetActive(true);
         }
 
         public void SetMusicVol()
@@ -161,19 +190,29 @@ namespace Omar
 
         public void LoadGame()
         {
+            try
+            {
+                SavePrefs(
+                           playerPrefs.musicVol,
+                           playerPrefs.sfxVol,
+                           playerPrefs.hasWon,
+                           playerPrefs.deaths,
+                           playerPrefs.UIAnim,
+                           playerPrefs.meleeDmg,
+                           playerPrefs.projDmg
+                         );
+            }
+            catch
+            {
+                ShowFileError(0);
+                return;
+            }
+            errorText.gameObject.SetActive(false);
             StopAllCoroutines();
             DOTween.Clear();
             musicSlider.transform.localScale = new Vector3(1, 1, 1);
             musicSlider.interactable = true;
-            SavePrefs(
-                    playerPrefs.musicVol,
-                    playerPrefs.sfxVol,
-                    playerPrefs.hasWon,
-                    playerPrefs.deaths,
-                    playerPrefs.UIAnim,
-                    playerPrefs.meleeDmg,
-                    playerPrefs.projDmg
-                    );
+            startButton.enabled = false;
             bossAgent.enabled = true;
             bossNav.enabled = true;
             playerLogic.enabled = true;
@@ -254,16 +293,7 @@ namespace Omar
                                 "\n" + "ahahaha, you looked terrified for a sec.";
                     break;
             }
-
-            try
-            {
-                File.WriteAllText(path, jsonText);
-            }
-            catch
-            {
-                Debug.LogError("Nice try "+ user + ", but the game won't work now :v");
-                this.gameObject.SetActive(false);
-            }
+            File.WriteAllText(path, jsonText);
             
         }
 

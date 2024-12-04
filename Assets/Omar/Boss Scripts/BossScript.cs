@@ -23,8 +23,7 @@ namespace Omar
         NavMeshAgent agent;
         Animator bossAnim;
         BossStateMachine myStateMachine;
-        [SerializeField] Damager bossDamager;
-        Vector3 regularBossDamagerTransform;
+        [SerializeField] Damager meleeDamager;
 
         // Start is called before the first frame update
         void Start()
@@ -33,7 +32,6 @@ namespace Omar
             navigator = GetComponent<Navigator>();
             player = FindObjectOfType<PlayerLogic>().transform;
             bossAnim = GetComponent<Animator>();
-            regularBossDamagerTransform = bossDamager.transform.localScale;
 
             myStateMachine = new BossStateMachine(this);
 
@@ -52,8 +50,7 @@ namespace Omar
         {
             if(agent.enabled == true)
             {
-                //Debug.Log(Vector3.Distance(player.position, transform.position));
-                Debug.Log(myStateMachine.currentState);
+                Debug.Log(Vector3.Distance(player.position, transform.position));
                 myStateMachine.Update(); // Elapsed timer
             }
         }
@@ -76,10 +73,10 @@ namespace Omar
         IEnumerator MeleeOneDelay()
         {
             yield return new WaitForSeconds(0.86f);
-            DamagerExpand();
-            yield return new WaitForSeconds(1.06f);
-            DamagerNormalize();
-            yield return new WaitForSeconds(0.38f);
+            ToggleDamager(true);
+            yield return new WaitForSeconds(0.21f);
+            ToggleDamager(false);
+            yield return new WaitForSeconds(1.23f);
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
 
@@ -95,14 +92,9 @@ namespace Omar
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
 
-        public void DamagerExpand()
+        public void ToggleDamager(bool b)
         {
-            bossDamager.transform.localScale += new Vector3(0, 0, 4);
-        }
-
-        public void DamagerNormalize()
-        {
-            bossDamager.transform.localScale = regularBossDamagerTransform;
+            meleeDamager.gameObject.SetActive(b);
         }
 
         public void Death()
@@ -140,6 +132,12 @@ namespace Omar
         public float GetDistanceFromPlayer()
         {
             return Vector3.Distance(player.position, transform.position);
+        }
+
+        public void LookAtPlayer()
+        {
+            transform.LookAt(new Vector3(player.position.x, 0, player.position.z));
+            //transform.localEulerAngles = new Vector3(0, 0, 0);
         }
 
         public void AgentSetPathToPlayer()
