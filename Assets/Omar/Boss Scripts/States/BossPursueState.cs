@@ -19,6 +19,7 @@ namespace Omar
             //Debug.Log(machine.currentState);
             machine.theBoss.SetAnimatorFloat("speed", 1);
             machine.theBoss.SetAgentSpeed(4);
+            machine.theBoss.SetAgentStoppingDistance(2.75f);
         }
 
         public override void OnUpdate()

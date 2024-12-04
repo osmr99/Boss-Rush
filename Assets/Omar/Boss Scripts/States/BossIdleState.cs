@@ -26,11 +26,11 @@ namespace Omar
         {
             base.OnUpdate();
 
-            if(elapsedTime > 1.5f)
+            if(elapsedTime > 1.0f)
             {
                 if (machine.theBoss.GetDistanceFromPlayer() <= 2.7f)
                 {
-                    machine.theBoss.LookAtPlayer();
+                    //machine.theBoss.LookAtPlayer();
                     machine.ChangeState(new BossMeleeState(machine));
                 }
                 else

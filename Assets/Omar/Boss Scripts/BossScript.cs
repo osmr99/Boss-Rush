@@ -31,6 +31,7 @@ namespace Omar
         [SerializeField] GameObject bossCollision;
         [SerializeField] GameObject collisionDamager;
         [SerializeField] Damager meleeDamager;
+        [SerializeField] Damager dashDamager;
         float bossHPPercentage;
         //[SerializeField][Range(0, 1)] float timeScale = 1;
 
@@ -63,19 +64,29 @@ namespace Omar
                 //Debug.Log(Vector3.Distance(player.position, transform.position));
                 myStateMachine.Update(); // Elapsed timer
                 //Time.timeScale = timeScale;
+                //Debug.Log(agent.remainingDistance);
             }
         }
 
         public void StartDash()
         {
-            StartCoroutine(Dash(player.position));
+            StartCoroutine(Dash());
         }
 
-        IEnumerator Dash(Vector3 here)
+        IEnumerator Dash()
         {
-            agent.velocity = here;
-            yield return new WaitForSeconds(1.0f);
-            agent.velocity = Vector3.zero;
+            ToggleCollision(false);
+            ToggleCollisionDamager(false);
+            SetAnimatorBool("canDash", true);
+            while (agent.remainingDistance > 0.5f)
+            {
+                yield return new WaitForSeconds(1.0f);
+            }
+            SetAnimatorBool("canDash", false);
+            ToggleDashDamager(false);
+            ToggleCollision(true);
+            ToggleCollisionDamager(true);
+            myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
 
         public void GetHealthPercentageAndChangePhase()
@@ -88,19 +99,19 @@ namespace Omar
             }
             else if(bossHPPercentage >= 65.5f && bossHPPercentage <= 66 && GetAnimatorInt("currentPhase") == 1)
             {
-                ToggleDamager(false);
+                ToggleMeleeDamager(false);
                 bossAnim.SetInteger("currentPhase", 2);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
             }
             else if(bossHPPercentage >= 32.5f && bossHPPercentage <= 33 && GetAnimatorInt("currentPhase") == 2)
             {
-                ToggleDamager(false);
+                ToggleMeleeDamager(false);
                 bossAnim.SetInteger("currentPhase", 3);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
             }
             else if(bossHPPercentage >= 0.5f && bossHPPercentage <= 1 && bossAnim.GetBool("canUlti") == false)
             {
-                ToggleDamager(false);
+                ToggleMeleeDamager(false);
                 bossAnim.SetBool("canUlti", true);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
             }
@@ -124,9 +135,9 @@ namespace Omar
         IEnumerator MeleeOneDelay()
         {
             yield return new WaitForSeconds(0.86f);
-            ToggleDamager(true);
+            ToggleMeleeDamager(true);
             yield return new WaitForSeconds(0.21f);
-            ToggleDamager(false);
+            ToggleMeleeDamager(false);
             yield return new WaitForSeconds(1.23f);
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
@@ -134,9 +145,9 @@ namespace Omar
         IEnumerator MeleeTwoDelay()
         {
             yield return new WaitForSeconds(0.95f);
-            ToggleDamager(true);
+            ToggleMeleeDamager(true);
             yield return new WaitForSeconds(0.11f);
-            ToggleDamager(false);
+            ToggleMeleeDamager(false);
             yield return new WaitForSeconds(2.3f);
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
@@ -144,16 +155,21 @@ namespace Omar
         IEnumerator MeleeThreeDelay()
         {
             yield return new WaitForSeconds(0.93f);
-            ToggleDamager(true);
+            ToggleMeleeDamager(true);
             yield return new WaitForSeconds(0.07f);
-            ToggleDamager(false);
+            ToggleMeleeDamager(false);
             yield return new WaitForSeconds(1.6f);
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
 
-        public void ToggleDamager(bool b)
+        public void ToggleMeleeDamager(bool b)
         {
             meleeDamager.gameObject.SetActive(b);
+        }
+
+        public void ToggleDashDamager(bool b)
+        {
+            dashDamager.gameObject.SetActive(b);
         }
 
         public void Death()
@@ -184,6 +200,16 @@ namespace Omar
             collisionDamager.SetActive(true);
             bossCollision.SetActive(true);
         }
+
+        public void ToggleCollision(bool b)
+        {
+            bossCollision.SetActive(b);
+        }
+
+        public void ToggleCollisionDamager(bool b)
+        {
+            collisionDamager.SetActive(b);
+        }    
 
         public void SetAgentStoppingDistance(float num)
         {

@@ -6,6 +6,7 @@ namespace Omar
 {
     public class BossDashState : BossState
     {
+        bool dashing = false;
         public BossDashState(BossStateMachine m) : base(m)
         {
             machine = m;
@@ -15,24 +16,26 @@ namespace Omar
         {
             base.OnEnter();
 
-            //machine.theBoss.AgentResetPath();
+            dashing = false;
             machine.theBoss.SetAnimatorFloat("speed", 0);
             machine.theBoss.SetAgentSpeed(0);
-            machine.theBoss.SetAgentStoppingDistance(10.0f);
+            machine.theBoss.SetAgentStoppingDistance(0);
         }
 
         public override void OnUpdate()
         {
             base.OnUpdate();
 
-            machine.theBoss.SetAnimatorBool("canDash", true);
-            if (elapsedTime > 1.0f)
+            if (elapsedTime <= 0.5f)
             {
-                machine.theBoss.SetAnimatorBool("canDash", false);
+                machine.theBoss.AgentSetPathToPlayer();
+            }
+            else if (elapsedTime > 0.5f && dashing == false)
+            {
+                dashing = true;
+                machine.theBoss.ToggleDashDamager(true);
                 machine.theBoss.SetAgentSpeed(12);
                 machine.theBoss.StartDash();
-                machine.ChangeState(new BossIdleState(machine));
-
             }
         }
 
