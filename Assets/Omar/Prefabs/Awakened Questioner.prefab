@@ -1160,7 +1160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 600
   iTime: 0.2
-  flashMaterial: {fileID: 2100000, guid: f9019e987aeeba0478a8b5ec35aafbff, type: 2}
+  flashMaterial: {fileID: 0}
   renderers:
   - {fileID: 6633201784616319613}
   damageEffectPrefab: {fileID: 6066822027452868663, guid: 23b574f9c07fefb48a1fe18fe736683a, type: 3}
@@ -1214,6 +1214,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3566105189301302435}
+        m_TargetAssemblyTypeName: Omar.BossScript, Assembly-CSharp
+        m_MethodName: GetHealthPercentageAndChangePhase
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3566105189301302435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1226,6 +1238,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a24b5990c964d740a243261d67daaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossHealthBar: {fileID: 0}
+  energyBar: {fileID: 0}
+  collisionDamager: {fileID: 6733632627895029388}
   meleeDamager: {fileID: 5923918936637858060}
 --- !u!54 &568297390296848946
 Rigidbody:
@@ -2142,7 +2157,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -3529,7 +3544,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6735079471262481417}
   - component: {fileID: 1315938758879692350}
-  - component: {fileID: 6835691894098783785}
   - component: {fileID: 1023584039388526348}
   - component: {fileID: 987413950707994104}
   - component: {fileID: 4139433769644375454}
@@ -3563,48 +3577,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6733632627895029388}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &6835691894098783785
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6733632627895029388}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 349702c32aa030143947ce588202b868, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &1023584039388526348
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3639,7 +3611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageAmount: 1
-  knockbackForce: 25
+  knockbackForce: 20
   hitEffectPrefab: {fileID: 2717892095994439559, guid: 7f6dafc4f0f90564395b340bbe141b85, type: 3}
   hitSounds: {fileID: 11400000, guid: b098b77403c117748926aad79cd8fd49, type: 2}
   OnContact:

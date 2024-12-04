@@ -2912,6 +2912,10 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 278217275421810622, guid: 0ca589b17b2fa29408d099352b8407c0, type: 3}
+      propertyPath: shootCost
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 278217275421810622, guid: 0ca589b17b2fa29408d099352b8407c0, type: 3}
       propertyPath: projectile
       value: 
       objectReference: {fileID: 9046086528081922757, guid: 6e2e42045cf6aba4088e683ee3b22fd0, type: 3}
@@ -3294,6 +3298,7 @@ GameObject:
   - component: {fileID: 1745016825}
   - component: {fileID: 1745016827}
   - component: {fileID: 1745016826}
+  - component: {fileID: 1745016828}
   m_Layer: 5
   m_Name: Health fill
   m_TagString: Untagged
@@ -3358,6 +3363,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745016824}
   m_CullTransparentMesh: 1
+--- !u!114 &1745016828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745016824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 908edfcb7dca10c4fbd4431ca6cbaf26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1747053144
 GameObject:
   m_ObjectHideFlags: 0
@@ -4115,6 +4132,7 @@ GameObject:
   - component: {fileID: 2122002440}
   - component: {fileID: 2122002442}
   - component: {fileID: 2122002441}
+  - component: {fileID: 2122002443}
   m_Layer: 5
   m_Name: Energy Fill
   m_TagString: Untagged
@@ -4179,6 +4197,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2122002439}
   m_CullTransparentMesh: 1
+--- !u!114 &2122002443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122002439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 908edfcb7dca10c4fbd4431ca6cbaf26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &155280189453300487 stripped
 NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 5685634779959409670, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
@@ -4192,17 +4222,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 544976852}
     m_Modifications:
-    - target: {fileID: 987413950707994104, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: knockbackForce
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 3057604825348089876, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: m_Name
       value: Awakened Questioner
       objectReference: {fileID: 0}
-    - target: {fileID: 5923918936637858060, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: knockbackForce
-      value: 17
+    - target: {fileID: 3566105189301302435, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: energyBar
+      value: 
+      objectReference: {fileID: 2122002443}
+    - target: {fileID: 3566105189301302435, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: bossHealthBar
+      value: 
+      objectReference: {fileID: 1745016828}
+    - target: {fileID: 7826407419271579208, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 9073624555383434060, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4243,6 +4277,10 @@ PrefabInstance:
     - target: {fileID: 9073624555383434060, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: flashMaterial
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: OnInitialize.m_PersistentCalls.m_Calls.Array.data[0].m_Target

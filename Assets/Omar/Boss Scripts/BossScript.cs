@@ -11,6 +11,7 @@ using UnityEngine.AI;
 using brolive;
 using Unity.VisualScripting;
 using Palmmedia.ReportGenerator.Core;
+using System;
 
 
 namespace Omar
@@ -23,7 +24,12 @@ namespace Omar
         NavMeshAgent agent;
         Animator bossAnim;
         BossStateMachine myStateMachine;
+        Damageable bossDamageable;
+        [SerializeField] OmarBar bossHealthBar;
+        [SerializeField] OmarBar energyBar;
+        [SerializeField] GameObject collisionDamager;
         [SerializeField] Damager meleeDamager;
+        float bossHPPercentage;
         //[SerializeField][Range(0, 1)] float timeScale = 1;
 
         // Start is called before the first frame update
@@ -33,6 +39,7 @@ namespace Omar
             navigator = GetComponent<Navigator>();
             player = FindObjectOfType<PlayerLogic>().transform;
             bossAnim = GetComponent<Animator>();
+            bossDamageable = GetComponent<Damageable>();
 
 
             myStateMachine = new BossStateMachine(this);
@@ -55,6 +62,34 @@ namespace Omar
                 //Debug.Log(Vector3.Distance(player.position, transform.position));
                 myStateMachine.Update(); // Elapsed timer
                 //Time.timeScale = timeScale;
+            }
+        }
+
+        public void GetHealthPercentageAndChangePhase()
+        {
+            bossHPPercentage = bossHealthBar.GetBarFill() * 100;
+            //Debug.Log(bossHPPercentage + "%");
+            if(bossHPPercentage == 100)
+            {
+                bossAnim.SetInteger("currentPhase", 1);
+            }
+            else if(bossHPPercentage >= 65.5f && bossHPPercentage <= 66 && GetAnimatorInt("currentPhase") == 1)
+            {
+                ToggleDamager(false);
+                bossAnim.SetInteger("currentPhase", 2);
+                myStateMachine.ChangeState(new BossHurtState(myStateMachine));
+            }
+            else if(bossHPPercentage >= 32.5f && bossHPPercentage <= 33 && GetAnimatorInt("currentPhase") == 2)
+            {
+                ToggleDamager(false);
+                bossAnim.SetInteger("currentPhase", 3);
+                myStateMachine.ChangeState(new BossHurtState(myStateMachine));
+            }
+            else if(bossHPPercentage >= 0.5f && bossHPPercentage <= 1 && bossAnim.GetBool("canUlti") == false)
+            {
+                ToggleDamager(false);
+                bossAnim.SetBool("canUlti", true);
+                myStateMachine.ChangeState(new BossHurtState(myStateMachine));
             }
         }
 
@@ -114,6 +149,17 @@ namespace Omar
             GameManager.instance.GoToNextLevel();
         }
 
+        public void StopCoroutines()
+        {
+            StopAllCoroutines();
+        }
+
+        public void canTakeDamage(bool b)
+        {
+            bossDamageable.enabled = b;
+            collisionDamager.SetActive(b);
+        }
+
         public void SetAnimatorInt(string name, int num)
         {
             bossAnim.SetInteger(name, num);
@@ -123,18 +169,30 @@ namespace Omar
         {
             bossAnim.SetFloat(name, num);
         }
+
+        public void SetAnimatorBool(string name, bool b)
+        {
+            bossAnim.SetBool(name, b);
+        }
         public int GetAnimatorInt(string name)
         {
-            Debug.Log(bossAnim.GetInteger(name));
             return bossAnim.GetInteger(name);
         }
 
+        public float GetAnimatorFloat(string name)
+        {
+            return bossAnim.GetFloat(name);
+        }
+
+        public bool GetAnimatorBool(string name)
+        {
+            return bossAnim.GetBool(name);
+        }
 
         public void SetAnimatorTrigger(string n)
         {
             bossAnim.SetTrigger(n);
         }
-
 
         public void SetAgentSpeed(float s)
         {
