@@ -26,7 +26,7 @@ namespace Omar
         {
             base.OnUpdate();
 
-            if(elapsedTime > 3.0f)
+            if(elapsedTime > 2.5f)
             {
                 machine.theBoss.canTakeDamage(true);
                 machine.ChangeState(new BossIdleState(machine));

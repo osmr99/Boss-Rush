@@ -26,19 +26,26 @@ namespace Omar
         {
             base.OnUpdate();
 
-            if(elapsedTime > 1.0f)
+            if (machine.theBoss.GetMustIdle() == true)
+                return;
+
+            if (elapsedTime > 1.1f)
+                elapsedTime = 0;
+
+            if (elapsedTime > 1.0f)
             {
                 if (machine.theBoss.GetDistanceFromPlayer() <= 2.7f)
                 {
-                    //machine.theBoss.LookAtPlayer();
+                    machine.theBoss.LookAtPlayer();
                     machine.ChangeState(new BossMeleeState(machine));
                 }
                 else
                 {
                     machine.ChangeState(new BossPursueState(machine));
                 }
-                
             }
+
+
         }
 
         public override void OnExit()

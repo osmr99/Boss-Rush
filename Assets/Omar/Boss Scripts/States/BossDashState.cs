@@ -17,6 +17,7 @@ namespace Omar
             base.OnEnter();
 
             dashing = false;
+            machine.theBoss.SetAnimatorTrigger("initDash");
             machine.theBoss.SetAnimatorFloat("speed", 0);
             machine.theBoss.SetAgentSpeed(0);
             machine.theBoss.SetAgentStoppingDistance(0);

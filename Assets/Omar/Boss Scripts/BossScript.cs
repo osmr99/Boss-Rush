@@ -28,11 +28,13 @@ namespace Omar
         [SerializeField] OmarPlayerData playerData;
         [SerializeField] OmarBar bossHealthBar;
         [SerializeField] OmarBar energyBar;
+        [SerializeField] OmarHUDAnim hudAnim;
         [SerializeField] GameObject bossCollision;
         [SerializeField] GameObject collisionDamager;
         [SerializeField] Damager meleeDamager;
         [SerializeField] Damager dashDamager;
         float bossHPPercentage;
+        bool mustIdle = false;
         //[SerializeField][Range(0, 1)] float timeScale = 1;
 
         // Start is called before the first frame update
@@ -102,12 +104,14 @@ namespace Omar
                 ToggleMeleeDamager(false);
                 bossAnim.SetInteger("currentPhase", 2);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
+                StartCoroutine(StartQuiz());
             }
             else if(bossHPPercentage >= 32.5f && bossHPPercentage <= 33 && GetAnimatorInt("currentPhase") == 2)
             {
                 ToggleMeleeDamager(false);
                 bossAnim.SetInteger("currentPhase", 3);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
+                StartCoroutine(StartQuiz());
             }
             else if(bossHPPercentage >= 0.5f && bossHPPercentage <= 1 && bossAnim.GetBool("canUlti") == false)
             {
@@ -115,6 +119,16 @@ namespace Omar
                 bossAnim.SetBool("canUlti", true);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
             }
+        }
+
+        IEnumerator StartQuiz()
+        {
+            yield return new WaitForSeconds(2.0f);
+            hudAnim.HideAnim(true, true, false);
+            StaticInputManager.input.Disable();
+            SetAnimatorBool("mustIdle", true);
+            mustIdle = true;
+            Debug.Log("Quiz Start!");
         }
 
         public void StartCoroutineMeleeOne()
@@ -214,6 +228,11 @@ namespace Omar
         public void SetAgentStoppingDistance(float num)
         {
             agent.stoppingDistance = num;
+        }
+
+        public bool GetMustIdle()
+        {
+            return mustIdle;
         }
 
         public void SetAnimatorInt(string name, int num)
