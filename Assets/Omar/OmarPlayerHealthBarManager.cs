@@ -17,6 +17,7 @@ namespace Omar
         [SerializeField] Color heartColor;
         [SerializeField] int numOfHearts;
         [SerializeField] float flashingSpeed;
+        [SerializeField] OmarPlayerData playerData;
         bool warning = false;
         float healthPercentage;
         int currentNumOfHearts;
@@ -87,13 +88,15 @@ namespace Omar
             }
             currentNumOfHearts = newCurrent;
             healthPercentage = (float)Math.Round(((float)newCurrent / numOfHearts) * 100, 2);
-            //Debug.Log(healthPercentage);
-            //Debug.Log(currentNumOfHearts);
+            Debug.Log(healthPercentage);
+            Debug.Log(currentNumOfHearts);
+            if (currentNumOfHearts <= 0)
+                playerData.deaths++;
         }
 
         public void LowHealthWarning()
         {
-            if (healthPercentage <= 20 && warning == false)
+            if (healthPercentage <= 20 && warning == false && playerData.UIAnim)
             {
                 warning = true;
                 StartCoroutine(HealthFlash());

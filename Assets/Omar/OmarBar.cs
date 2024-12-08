@@ -11,6 +11,7 @@ namespace Omar
     {
         Image theBar;
         Color theColor;
+        [SerializeField] OmarPlayerData playerData;
         // Start is called before the first frame update
 
         void Update()
@@ -32,8 +33,11 @@ namespace Omar
 
         public void Flash()
         {
-            theBar.color = Color.white;
-            theBar.DOColor(theColor, 0.4f).ForceInit();
+            if(playerData.UIAnim)
+            {
+                theBar.color = Color.white;
+                theBar.DOColor(theColor, 0.4f).ForceInit();
+            }
         }
     }
 }

@@ -40,6 +40,7 @@ namespace Omar
         [SerializeField] GameObject pauseMenu;
         [SerializeField] Button startButton;
         [SerializeField] TMP_Text errorText;
+        [SerializeField] Toggle uiAnimToggle;
         Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
         string path;
         string user;
@@ -82,6 +83,7 @@ namespace Omar
                 }
             music.volume = playerPrefs.musicVol;
             musicSlider.value = music.volume;
+            uiAnimToggle.isOn = playerPrefs.UIAnim;
             sword.SetDamageAmount(playerPrefs.meleeDmg);
             projectile.SetDamageAmount(playerPrefs.projDmg);
 
@@ -117,25 +119,25 @@ namespace Omar
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Z))
+            //if (Input.GetKeyDown(KeyCode.Z))
                 //LoadGame();
 
-            if (Input.GetKeyDown(KeyCode.X))
-                RestartScene();
+            //if (Input.GetKeyDown(KeyCode.X))
+                //RestartScene();
 
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                if (StaticInputManager.input.asset.enabled)
-                {
-                    StaticInputManager.input.Disable();
-                    Debug.Log("Player controls disabled");
-                }
-                else
-                {
-                    StaticInputManager.input.Enable();
-                    Debug.Log("Player controls enabled");
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.B))
+            //{
+                //if (StaticInputManager.input.asset.enabled)
+                //{
+                    //StaticInputManager.input.Disable();
+                    //Debug.Log("Player controls disabled");
+                //}
+                //else
+                //{
+                    //StaticInputManager.input.Enable();
+                    //Debug.Log("Player controls enabled");
+                //}
+            //}
 
             if (Mouse.current.leftButton.wasReleasedThisFrame)
                 if (EventSystem.current.currentSelectedGameObject?.GetComponent<Slider>())
@@ -168,7 +170,7 @@ namespace Omar
                 music.Play();
                 for (int i = 0; i < 40; i++)
                 {
-                    if (i >= 2)
+                    if (i >= 2 && playerPrefs.UIAnim)
                     {
                         if (i % playerNumsArray.currentBeat == 0)
                         {
@@ -207,6 +209,7 @@ namespace Omar
                 ShowFileError(0);
                 return;
             }
+            music.volume = playerPrefs.musicVol;
             errorText.gameObject.SetActive(false);
             StopAllCoroutines();
             DOTween.Clear();
@@ -295,6 +298,11 @@ namespace Omar
             }
             File.WriteAllText(path, jsonText);
             
+        }
+
+        public void UIToggle()
+        {
+            playerPrefs.UIAnim = uiAnimToggle.isOn;
         }
 
         //[System.Serializable] I don't think it's required apparently
