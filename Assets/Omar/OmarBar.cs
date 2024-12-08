@@ -15,10 +15,10 @@ namespace Omar
 
         void Update()
         {
-            if(Input.GetKeyDown(KeyCode.J))
-            {
-                Flash();
-            }
+            //if(Input.GetKeyDown(KeyCode.J))
+            //{
+                //Flash();
+            //}
         }
         void Awake()
         {

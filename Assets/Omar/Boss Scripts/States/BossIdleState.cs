@@ -29,10 +29,7 @@ namespace Omar
             if (machine.theBoss.GetMustIdle() == true)
                 return;
 
-            if (elapsedTime > 1.1f)
-                elapsedTime = 0;
-
-            if (elapsedTime > 1.0f)
+            if (elapsedTime > 0.5f)
             {
                 if (machine.theBoss.GetDistanceFromPlayer() <= 2.7f)
                 {

@@ -33,6 +33,7 @@ namespace Omar
         [SerializeField] GameObject collisionDamager;
         [SerializeField] Damager meleeDamager;
         [SerializeField] Damager dashDamager;
+        [SerializeField] OmarDamagerSphere spheresAttack;
         float bossHPPercentage;
         bool mustIdle = false;
         //[SerializeField][Range(0, 1)] float timeScale = 1;
@@ -88,7 +89,17 @@ namespace Omar
             ToggleDashDamager(false);
             ToggleCollision(true);
             ToggleCollisionDamager(true);
+            ChangeStateToIdle();
+        }
+
+        public void ChangeStateToIdle()
+        {
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
+        }
+
+        public void StartProjectiles()
+        {
+            spheresAttack.StartProjAttack();
         }
 
         public void GetHealthPercentageAndChangePhase()
@@ -162,7 +173,7 @@ namespace Omar
             ToggleMeleeDamager(true);
             yield return new WaitForSeconds(0.11f);
             ToggleMeleeDamager(false);
-            yield return new WaitForSeconds(2.3f);
+            yield return new WaitForSeconds(1.4f); //2.3f
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
 
@@ -297,6 +308,11 @@ namespace Omar
         public void AgentResetPath()
         {
             agent.ResetPath();
+        }
+
+        public Transform GetPlayerTransform()
+        {
+            return player.transform;
         }
 
     }
