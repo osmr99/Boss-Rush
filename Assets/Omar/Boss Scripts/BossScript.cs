@@ -110,7 +110,7 @@ namespace Omar
             {
                 bossAnim.SetInteger("currentPhase", 1);
             }
-            else if(bossHPPercentage >= 65.5f && bossHPPercentage <= 66 && GetAnimatorInt("currentPhase") == 1)
+            /*else if(bossHPPercentage >= 65.5f && bossHPPercentage <= 66 && GetAnimatorInt("currentPhase") == 1)
             {
                 ToggleMeleeDamager(false);
                 bossAnim.SetInteger("currentPhase", 2);
@@ -129,7 +129,7 @@ namespace Omar
                 ToggleMeleeDamager(false);
                 bossAnim.SetBool("canUlti", true);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
-            }
+            }*/
         }
 
         IEnumerator StartQuiz()
@@ -200,6 +200,8 @@ namespace Omar
         public void Death()
         {
             navigator.enabled = false;
+            if(playerData.hasWon == false)
+                playerData.hasWon = true;
             GameManager.instance.GoToNextLevel();
         }
 

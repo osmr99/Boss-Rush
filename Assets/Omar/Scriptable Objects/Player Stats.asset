@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicVol: 0.2673601
   sfxVol: 0.5
-  hasWon: 0
-  deaths: 0
-  UIAnim: 1
+  hasWon: 1
+  deathsTook: 2
+  deaths: 2
+  UIAnim: 0
   meleeDmg: 6
-  projDmg: 3
+  projDmg: 99

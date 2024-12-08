@@ -43,6 +43,8 @@ namespace Omar
         [SerializeField] TMP_Text errorText;
         [SerializeField] Toggle uiAnimToggle;
         [SerializeField] TMP_Text deathCounter;
+        [SerializeField] GameObject hasWonGameObject;
+        [SerializeField] TMP_Text hasWonText;
         Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
         string path;
         string user;
@@ -63,6 +65,7 @@ namespace Omar
                     playerPrefs.musicVol,
                     playerPrefs.sfxVol,
                     playerPrefs.hasWon,
+                    playerPrefs.deathsTook,
                     playerPrefs.deaths,
                     playerPrefs.UIAnim,
                     playerPrefs.meleeDmg,
@@ -77,13 +80,14 @@ namespace Omar
             else
                 try
                 {
-                    SavePrefs(0.25f, 0.25f, false, 0, true, 6, 3);
+                    SavePrefs(0.25f, 0.25f, false, 0, 0, true, 6, 3);
                 }
                 catch
                 {
                     ShowFileError(2);
                 }
             DeathCounter();
+            hasWon();
             music.volume = playerPrefs.musicVol;
             musicSlider.value = music.volume;
             uiAnimToggle.isOn = playerPrefs.UIAnim;
@@ -202,6 +206,7 @@ namespace Omar
                            playerPrefs.sfxVol,
                            playerPrefs.hasWon,
                            playerPrefs.deaths,
+                           playerPrefs.deathsTook,
                            playerPrefs.UIAnim,
                            playerPrefs.meleeDmg,
                            playerPrefs.projDmg
@@ -246,7 +251,7 @@ namespace Omar
             playerLogic.enabled = false;
         }
 
-        public void SavePrefs(float mus, float sfx, bool won, int losses, bool ui, int sword, int proj)
+        public void SavePrefs(float mus, float sfx, bool won, int loosesTook, int losses, bool ui, int sword, int proj)
         {
             SaveData sd = new SaveData();
 
@@ -323,12 +328,23 @@ namespace Omar
                 deathCounter.color = deathCounterColors.colors[0];
         }
 
+        public void hasWon()
+        {
+            if(playerPrefs.hasWon)
+            {
+                hasWonGameObject.SetActive(true);
+                hasWonText.text = "Yes! - After " + playerPrefs.deathsTook + " deaths";
+            }
+
+        }
+
         //[System.Serializable] I don't think it's required apparently
         public class SaveData
         {
             public float musicVol;
             public float sfxVol;
             public bool hasWon;
+            public int deathsTook;
             public int deaths;
             public bool UIAnim;
             public int meleeDmg;

@@ -10,6 +10,7 @@ namespace Omar
         public float musicVol;
         public float sfxVol;
         public bool hasWon = false;
+        public int deathsTook = 0;
         public int deaths = 0;
         public bool UIAnim = true;
         public int meleeDmg = 6;

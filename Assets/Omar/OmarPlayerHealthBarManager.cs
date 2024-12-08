@@ -91,7 +91,15 @@ namespace Omar
             Debug.Log(healthPercentage);
             Debug.Log(currentNumOfHearts);
             if (currentNumOfHearts <= 0)
+            {
                 playerData.deaths++;
+                if(playerData.hasWon == false)
+                {
+                    playerData.deathsTook = playerData.deaths;
+                }
+            }
+                
+
         }
 
         public void LowHealthWarning()
