@@ -30,6 +30,7 @@ namespace Omar
         [SerializeField] OmarBGM omarBGM;
         [SerializeField] PlayerLogic playerLogic;
         [SerializeField] OmarPlayerData playerPrefs;
+        [SerializeField] OmarColors deathCounterColors;
         [SerializeField] OmarNumsArray playerNumsArray;
         [SerializeField] Navigator bossNav;
         [SerializeField] NavMeshAgent bossAgent;
@@ -41,6 +42,7 @@ namespace Omar
         [SerializeField] Button startButton;
         [SerializeField] TMP_Text errorText;
         [SerializeField] Toggle uiAnimToggle;
+        [SerializeField] TMP_Text deathCounter;
         Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
         string path;
         string user;
@@ -81,6 +83,7 @@ namespace Omar
                 {
                     ShowFileError(2);
                 }
+            DeathCounter();
             music.volume = playerPrefs.musicVol;
             musicSlider.value = music.volume;
             uiAnimToggle.isOn = playerPrefs.UIAnim;
@@ -303,6 +306,21 @@ namespace Omar
         public void UIToggle()
         {
             playerPrefs.UIAnim = uiAnimToggle.isOn;
+        }
+
+        public void DeathCounter()
+        {
+            deathCounter.text = playerPrefs.deaths.ToString();
+            if(playerPrefs.deaths >= 20)
+                deathCounter.color = deathCounterColors.colors[4];
+            else if(playerPrefs.deaths >= 15)
+                deathCounter.color = deathCounterColors.colors[3];
+            else if (playerPrefs.deaths >= 10)
+                deathCounter.color = deathCounterColors.colors[2];
+            else if (playerPrefs.deaths >= 5)
+                deathCounter.color = deathCounterColors.colors[1];
+            else if (playerPrefs.deaths >= 0)
+                deathCounter.color = deathCounterColors.colors[0];
         }
 
         //[System.Serializable] I don't think it's required apparently
