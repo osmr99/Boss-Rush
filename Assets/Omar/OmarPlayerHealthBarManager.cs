@@ -1,4 +1,5 @@
 #pragma warning disable IDE0051
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,10 @@ namespace Omar
         //[SerializeField] PlayerHealthDisplay healthDisplay;
         [SerializeField] Color heartColor;
         [SerializeField] int numOfHearts;
+        [SerializeField] float flashingSpeed;
+        bool warning = false;
+        float healthPercentage;
+        int currentNumOfHearts;
 
         List<GameObject> hearts;
         [SerializeField] Sprite heart;
@@ -30,6 +35,11 @@ namespace Omar
         void Start()
         {
             StartCoroutine(SetHealthBar());
+        }
+
+        void Update()
+        {
+            
         }
 
         IEnumerator SetHealthBar()
@@ -75,6 +85,36 @@ namespace Omar
                 currentHeart.sprite = heart;
                 currentHeart.color = heartColor;
             }
+            currentNumOfHearts = newCurrent;
+            healthPercentage = (float)Math.Round(((float)newCurrent / numOfHearts) * 100, 2);
+            //Debug.Log(healthPercentage);
+            //Debug.Log(currentNumOfHearts);
+        }
+
+        public void LowHealthWarning()
+        {
+            if (healthPercentage <= 20 && warning == false)
+            {
+                warning = true;
+                StartCoroutine(HealthFlash());
+            }
+        }
+
+        IEnumerator HealthFlash()
+        {
+            for (int i = 0; i < currentNumOfHearts; i++)
+            {
+                var currentHeart = hearts[i].GetComponent<Image>();
+                currentHeart.color = Color.white;
+            }
+            yield return new WaitForSeconds(flashingSpeed);
+            for (int i = 0; i < currentNumOfHearts; i++)
+            {
+                var currentHeart = hearts[i].GetComponent<Image>();
+                currentHeart.color = heartColor;
+            }
+            yield return new WaitForSeconds(flashingSpeed);
+            StartCoroutine(HealthFlash());
         }
     }
 }
