@@ -18,6 +18,7 @@ namespace Omar
         [SerializeField] int numOfHearts;
         [SerializeField] float flashingSpeed;
         [SerializeField] OmarPlayerData playerData;
+        [SerializeField] OmarHUDAnim hudAnim;
         bool warning = false;
         float healthPercentage;
         int currentNumOfHearts;
@@ -92,14 +93,18 @@ namespace Omar
             Debug.Log(currentNumOfHearts);
             if (currentNumOfHearts <= 0)
             {
+                if(playerData.UIAnim)
+                    StartCoroutine(SmallDelay());
                 playerData.deaths++;
                 if(playerData.hasWon == false)
-                {
                     playerData.deathsTook = playerData.deaths;
-                }
             }
-                
+        }
 
+        IEnumerator SmallDelay()
+        {
+            yield return new WaitForSeconds(1.2f);
+            hudAnim.HideAnim(true, true, false);
         }
 
         public void LowHealthWarning()
