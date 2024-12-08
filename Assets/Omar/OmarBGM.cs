@@ -46,24 +46,28 @@ namespace Omar
 
             //numsArray.time = Mathf.Round((numsArray.time * 100)) / 100.0f;
             //}
-            if(playerData.UIAnim)
+            if(playerData.musicVol != 0)
             {
-                numsArray.time = source.time;
-                if (source.time >= 235)
-                    numsArray.lastPlayedIndex = -1;
-                if(numsArray.lastPlayedIndex != 533) // End of the song
-                    UIBeatHere();
-
-                if (/*Input.GetKeyDown(KeyCode.D) ||Input.GetKeyDown(KeyCode.F)  || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K) ||*/ Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) // Manual Beat set
+                if (playerData.UIAnim)
                 {
-                    numsArray.nums[numsArray.lastPlayedIndex + 1] = numsArray.time;
-                    numsArray.lastPlayedIndex++;
-                    PerformUIAnim();
-                }
+                    numsArray.time = source.time;
+                    if (source.time >= 235)
+                        numsArray.lastPlayedIndex = -1;
+                    if (numsArray.lastPlayedIndex != 533) // End of the song
+                        UIBeatHere();
 
-                //if (Keyboard.current.nKey.wasPressedThisFrame)
+                    //if (/*Input.GetKeyDown(KeyCode.D) ||Input.GetKeyDown(KeyCode.F)  || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K) ||*/ Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) // Manual Beat set
+                    //{
+                    //numsArray.nums[numsArray.lastPlayedIndex + 1] = numsArray.time;
                     //numsArray.lastPlayedIndex++;
+                    //PerformUIAnim();
+                    //}
+
+                    //if (Keyboard.current.nKey.wasPressedThisFrame)
+                    //numsArray.lastPlayedIndex++;
+                }
             }
+
 
 
             //if (Gamepad.current.bButton.wasPressedThisFrame) // Manual Beat set
