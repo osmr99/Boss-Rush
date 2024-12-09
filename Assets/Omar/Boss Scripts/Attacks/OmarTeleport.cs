@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.AI;
+using Unity.VisualScripting;
 
 namespace Omar
 {
@@ -33,6 +34,7 @@ namespace Omar
             SoundEffectsManager.instance.PlayAudioClip(sounds.clips[randomNum], true);
             agent.enabled = true;
             yield return new WaitForSeconds(1.5f);
+            bossScript.SetAnimatorBool("canTeleport", false);
             bossScript.ChangeStateToIdle();
         }
 

@@ -93,6 +93,8 @@ namespace Omar
             //Debug.Log(currentNumOfHearts);
             if (currentNumOfHearts <= 0)
             {
+                DOTween.PauseAll();
+                DOTween.KillAll();
                 if(playerData.UIAnim)
                     StartCoroutine(SmallDelay());
                 playerData.deaths++;

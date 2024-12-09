@@ -16,6 +16,7 @@ namespace Omar
         {
             base.OnEnter();
 
+            projectiles = false;
             machine.theBoss.SetAnimatorFloat("speed", 0);
             machine.theBoss.SetAgentSpeed(0);
             machine.theBoss.SetAnimatorBool("canProjectile", true);

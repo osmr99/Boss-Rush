@@ -1700,6 +1700,7 @@ MonoBehaviour:
   winTrigger: {fileID: 0}
   clickSound: {fileID: 11400000, guid: d99435c60c5bc694e9a8ab5e48f2d107, type: 2}
   mashing: {fileID: 0}
+  boom: {fileID: 0}
 --- !u!114 &4606337734828419915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5325,9 +5326,21 @@ MonoBehaviour:
   OnSuccessfulHit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3566105189301302435}
-        m_TargetAssemblyTypeName: Omar.BossScript, Assembly-CSharp
-        m_MethodName: FailedTheUlti
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Omar.OmarBGM, Assembly-CSharp
+        m_MethodName: StopTheMusic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4147810613787839051}
+        m_TargetAssemblyTypeName: Omar.OmarLaserBeam, Assembly-CSharp
+        m_MethodName: ItGoes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

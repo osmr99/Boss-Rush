@@ -39,7 +39,6 @@ namespace Omar
         {
             base.OnExit();
 
-            machine.theBoss.SetAnimatorBool("canTeleport", false);
             elapsedTime = 0;
         }
     }

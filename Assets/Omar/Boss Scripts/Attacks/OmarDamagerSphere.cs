@@ -32,6 +32,8 @@ namespace Omar
 
         IEnumerator DoIt()
         {
+            bossScript.SetAnimatorBool("stillProjectile", true);
+            bossScript.SetAnimatorBool("canProjectile", true);
             StartCoroutine(AttackPhysics(sphereOne));
             yield return new WaitForSeconds(cooldown);
             StartCoroutine(AttackPhysics(sphereTwo));
@@ -43,6 +45,7 @@ namespace Omar
             StartCoroutine(AttackPhysics(sphereFive));
             yield return new WaitForSeconds(2);
             bossScript.SetAnimatorBool("canProjectile", false);
+            bossScript.SetAnimatorBool("stillProjectile", false);
             bossScript.ChangeStateToIdle();
         }
 

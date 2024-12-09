@@ -44,12 +44,26 @@ namespace Omar
         public void Heal()
         {
             healing = true;
-            if(playerData.UIAnim && healing == true)
+            if (playerData.UIAnim && healing == true)
             {
                 healing = false;
                 theBar.color = Color.green;
                 theBar.DOColor(theColor, 0.4f).ForceInit();
             }
         }
+        public void LowHealthBoss()
+        {
+            StartCoroutine(HealthFlash());
+        }
+
+        IEnumerator HealthFlash()
+        {
+            theBar.color = Color.white;
+            yield return new WaitForSeconds(0.25f);
+            theBar.color = theColor;
+            yield return new WaitForSeconds(0.25f);
+            StartCoroutine(HealthFlash());
+        }
+
     }
 }

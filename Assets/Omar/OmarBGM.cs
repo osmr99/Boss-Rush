@@ -79,18 +79,18 @@ namespace Omar
 
 
 
-            if (Input.GetKeyDown(KeyCode.C)) // Freeze
-            {
-                if (Time.timeScale != 0)
-                {
-                    tempNum = numsArray.timeScale;
-                    numsArray.timeScale = 0;
-                }
-                else
-                {
-                    numsArray.timeScale = tempNum;
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.C)) // Freeze
+            //{
+                //if (Time.timeScale != 0)
+                //{
+                    //tempNum = numsArray.timeScale;
+                    //numsArray.timeScale = 0;
+                //}
+                //else
+                //{
+                    //numsArray.timeScale = tempNum;
+                //}
+            //}
 
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
             {
@@ -163,5 +163,11 @@ namespace Omar
         //if (numsArray.time % numsArray.currentBeat == 0)
         //PerformUIAnim();
         //}
+
+        public void StopTheMusic()
+        {
+            source.Stop();
+            source.time = 0;
+        }
     }
 }

@@ -30,6 +30,9 @@ namespace Omar
             }
             else
             {
+                machine.theBoss.ResetAnimatorTrigger("initDash");
+                machine.theBoss.ResetAnimatorTrigger("initCry");
+                machine.theBoss.ResetAnimatorTrigger("initTeleport");
                 machine.theBoss.PerformFinalBeam();
             }
         }

@@ -47,6 +47,7 @@ namespace Omar
         [SerializeField] TMP_Text hasWonText;
         [SerializeField] Image bossHPFillBar;
         [SerializeField] Color bossHPColor;
+        [SerializeField] GameObject musicCredits;
         Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
         string path;
         string user;
@@ -124,6 +125,8 @@ namespace Omar
             StaticInputManager.input.Disable();
             playerLogic.enabled = false;
             bossHPFillBar.color = bossHPColor;
+            if (playerPrefs.deaths > 0 || playerPrefs.hasWon)
+                musicCredits.SetActive(true);
         }
 
         // Update is called once per frame

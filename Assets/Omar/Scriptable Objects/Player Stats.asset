@@ -15,8 +15,8 @@ MonoBehaviour:
   musicVol: 0.5
   sfxVol: 0.5
   hasWon: 0
-  deathsTook: 2
-  deaths: 2
+  deathsTook: 0
+  deaths: 0
   UIAnim: 1
-  meleeDmg: 1188
+  meleeDmg: 6
   projDmg: 6

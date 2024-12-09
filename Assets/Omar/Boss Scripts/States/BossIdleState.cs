@@ -20,6 +20,16 @@ namespace Omar
             machine.theBoss.SetAnimatorFloat("speed", 0);
             machine.theBoss.SetAgentSpeed(0);
             machine.theBoss.SetAnimatorInt("meleeChoice", -1);
+            machine.theBoss.ResetAnimatorTrigger("canMelee");
+            machine.theBoss.ResetAnimatorTrigger("initDash");
+            machine.theBoss.ResetAnimatorTrigger("initLaser");
+            machine.theBoss.ResetAnimatorTrigger("initCry");
+            machine.theBoss.ResetAnimatorTrigger("initTeleport");
+            machine.theBoss.SetAnimatorBool("canProjectile", false);
+            machine.theBoss.SetAnimatorBool("canDash", false);
+            machine.theBoss.SetAnimatorBool("canLaser", false);
+            machine.theBoss.SetAnimatorBool("canCry", false);
+            machine.theBoss.SetAnimatorBool("canTeleport", false);
         }
 
         public override void OnUpdate()

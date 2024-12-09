@@ -190,6 +190,7 @@ namespace Omar
             }
             else if(bossHPPercentage >= 0.5f && bossHPPercentage <= 1 && bossAnim.GetBool("canUlti") == false)
             {
+                bossHealthBar.LowHealthBoss();
                 spheresAttack.StopAllCoroutines();
                 laserAttack.StopLaserAttack();
                 bossAnim.SetBool("canUlti", true);
@@ -247,6 +248,13 @@ namespace Omar
             StartCoroutine(GettingCameraReady());
         }
 
+        public void TeleportBack()
+        {
+            playerCharacterController.enabled = false;
+            player.position = new Vector3(-13, 2.5f, -13);
+            playerCharacterController.enabled = true;
+        }
+
         IEnumerator GettingCameraReady()
         {
             while(cam.m_Lens.FieldOfView != 85)
@@ -263,7 +271,7 @@ namespace Omar
 
         IEnumerator WillPerish()
         {
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(0.01f);
             triggerOfDeath.SetActive(true);
         }
 
@@ -433,6 +441,11 @@ namespace Omar
         public void SetAnimatorTrigger(string n)
         {
             bossAnim.SetTrigger(n);
+        }
+
+        public void ResetAnimatorTrigger(string n)
+        {
+            bossAnim.ResetTrigger(n);
         }
 
         public void SetAgentSpeed(float s)

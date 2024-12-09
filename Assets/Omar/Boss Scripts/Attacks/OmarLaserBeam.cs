@@ -6,6 +6,7 @@ using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.UI;
 
 namespace Omar
 {
@@ -20,6 +21,7 @@ namespace Omar
         [SerializeField] GameObject winTrigger;
         [SerializeField] AudioClipCollection clickSound;
         [SerializeField] GameObject mashing;
+        [SerializeField] RawImage boom;
         GameObject[] imSorry;
         GameObject here;
         float randomFloat;
@@ -195,6 +197,25 @@ namespace Omar
             playerCanFightBack = true;
             mashing.SetActive(true);
 
+        }
+
+        public void ItGoes()
+        {
+            StartCoroutine(Boom());
+        }
+
+        IEnumerator Boom()
+        {
+            yield return new WaitForSeconds(0.1f);
+            SoundEffectsManager.instance.PlayAudioClip(sounds.clips[4], true);
+            for(int i = 0; i < 11; i++)
+            {
+                yield return new WaitForSeconds(0.25f);
+                boom.color = new Color(1, 1, 1, (float)i / 10);
+            }
+            bossScript.TeleportBack();
+            yield return new WaitForSeconds(7);
+            bossScript.FailedTheUlti();
         }
 
         private void FixedUpdate()

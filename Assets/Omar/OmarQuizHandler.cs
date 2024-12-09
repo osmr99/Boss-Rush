@@ -68,16 +68,28 @@ namespace Omar
                 if(gamepadConnected)
                 {
                     if (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow) || Gamepad.current.rightShoulder.wasPressedThisFrame))
+                    {
                         CheckAnswer(true);
+                    }
+                        
                     else if(Input.GetKeyDown(KeyCode.A) || (Input.GetKeyDown(KeyCode.LeftArrow) || Gamepad.current.leftShoulder.wasPressedThisFrame))
+                    {
                         CheckAnswer(false);
+                    }
                 }
+                        
                 else
                 {
                     if (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow)))
+                    {
                         CheckAnswer(true);
+                    }
+                        
                     else if(Input.GetKeyDown(KeyCode.A) || (Input.GetKeyDown(KeyCode.LeftArrow)))
+                    {
                         CheckAnswer(false);
+                    }
+                        
                 }
             }
 
@@ -121,7 +133,6 @@ namespace Omar
                 question.text = questionList[randomNum];
                 SetMaxTime(randomNum);
                 wasThisQuestionAsked[randomNum] = true;
-                canAnswer = true;
                 StartCoroutine(TimeBarDelay());
                 //if (numOfAnsweredQuestions > 1)
                 //{
@@ -161,6 +172,8 @@ namespace Omar
 
         IEnumerator TimeBarDelay()
         {
+            yield return new WaitForSeconds(0.1f);
+            canAnswer = true;
             yield return new WaitForSeconds(1.5f);
             timeBarIsActive = true;
         }
@@ -185,6 +198,7 @@ namespace Omar
             else
             {
                 SoundEffectsManager.instance.PlayAudioClip(sounds.clips[1], true);
+                bossScript.PerformHeal();
                 AskQuestion();
             }
         }

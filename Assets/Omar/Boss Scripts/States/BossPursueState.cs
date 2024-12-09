@@ -95,11 +95,11 @@ namespace Omar
                 randomNum = Random.Range(0, 101);
                 if(machine.theBoss.GetAnimatorInt("currentPhase") == 1)
                 {
-                    if (randomNum > 50)
+                    if (randomNum > 25)
                     {
                         machine.ChangeState(new BossDashState(machine));
                     }
-                    else if (randomNum <= 50)
+                    else if (randomNum <= 25)
                     {
                         machine.ChangeState(new BossProjectileState(machine));
                     }

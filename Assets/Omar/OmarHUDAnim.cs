@@ -33,15 +33,15 @@ namespace Omar
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                HideAnim(true, true, true);
-            }
+            //if (Input.GetKeyDown(KeyCode.G))
+            //{
+                //HideAnim(true, true, true);
+            //}
 
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                ShowAllAnim(true, true, true);
-            }
+            //if (Input.GetKeyDown(KeyCode.H))
+            //{
+                //ShowAllAnim(true, true, true);
+            //}
         }
 
         public void HideAnim(bool pHealth, bool pEnergy, bool bHealth)
