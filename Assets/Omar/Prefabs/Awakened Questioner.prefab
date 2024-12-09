@@ -1325,6 +1325,7 @@ GameObject:
   - component: {fileID: 1993765149685897390}
   - component: {fileID: 4147810613787839051}
   - component: {fileID: 4606337734828419915}
+  - component: {fileID: 7888460189142725945}
   m_Layer: 7
   m_Name: Awakened Questioner
   m_TagString: Untagged
@@ -1605,6 +1606,7 @@ MonoBehaviour:
   healTrigger: {fileID: 2839596450477950178}
   hurtSound: {fileID: 11400000, guid: b098b77403c117748926aad79cd8fd49, type: 2}
   warcryAttack: {fileID: 4606337734828419915}
+  teleport: {fileID: 7888460189142725945}
 --- !u!54 &568297390296848946
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1702,7 +1704,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossScript: {fileID: 3566105189301302435}
   sphere: {fileID: 7811144992307609148}
-  duration: 3
+  sounds: {fileID: 11400000, guid: 53f2a1206bd40254f97dc74b2f84375e, type: 2}
+  duration: 1.5
+--- !u!114 &7888460189142725945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3057604825348089876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4cf4050696f11442bc93361bc9d2811, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 5685634779959409670}
+  _transform: {fileID: 9073624555383434060}
+  bossScript: {fileID: 3566105189301302435}
+  sounds: {fileID: 11400000, guid: b05cebff0c616d64abdab3a2b589a57e, type: 2}
 --- !u!1 &3069066548624423670
 GameObject:
   m_ObjectHideFlags: 0
@@ -4742,7 +4761,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7159048207788676601
 Transform:
   m_ObjectHideFlags: 0

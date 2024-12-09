@@ -44,6 +44,7 @@ namespace Omar
         [SerializeField] GameObject healTrigger;
         [SerializeField] AudioClipCollection hurtSound;
         [SerializeField] OmarWarcryAttack warcryAttack;
+        [SerializeField] OmarTeleport teleport;
         float bossHPPercentage;
         bool mustIdle = false;
         float tempDelay;
@@ -121,6 +122,11 @@ namespace Omar
         public void PerformWarcry()
         {
             warcryAttack.PerformCry();
+        }
+
+        public void PerformTeleport()
+        {
+            teleport.Teleport();
         }
 
         public void PerformHeal()
@@ -384,6 +390,11 @@ namespace Omar
         public Vector3 BossGetVelocity()
         {
             return agent.velocity;
+        }
+
+        public void SetAgentOffset(float f)
+        {
+            agent.baseOffset = f;
         }
 
         public float GetDistanceFromPlayer()

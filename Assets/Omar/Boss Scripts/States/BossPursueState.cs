@@ -20,6 +20,7 @@ namespace Omar
             randomNum = 0;
             if (machine.theBoss.GetMeleeDamagerState() == true)
                 machine.theBoss.ToggleMeleeDamager(false);
+            machine.theBoss.SetAgentOffset(0.83f);
             machine.theBoss.SetAnimatorFloat("speed", 1);
             machine.theBoss.SetAgentSpeed(4);
             machine.theBoss.SetAgentStoppingDistance(2.75f);
@@ -65,9 +66,9 @@ namespace Omar
                 }
                 else if(machine.theBoss.GetAnimatorInt("currentPhase") == 3)
                 {
-                    if(randomNum > -1) //>60
+                    if(randomNum > 60)
                     {
-                        machine.ChangeState(new BossWarcryState(machine)); //laser
+                        machine.ChangeState(new BossLaserState(machine));
                     }
                     else if(randomNum <= 60 && randomNum > 40)
                     {
