@@ -3928,6 +3928,9 @@ MonoBehaviour:
   question: {fileID: 1980278156}
   timeBar: {fileID: 1311754668}
   timeBarParent: {fileID: 450386910}
+  tLetter: {fileID: 852763175}
+  fLetter: {fileID: 227276865}
+  sounds: {fileID: 11400000, guid: 23184853543996148b60d89cf4c0265c, type: 2}
   questionList:
   - Arrays can be used without initializing them.
   - 'MVC refers to a programming pattern in which you split code into 3 separate
@@ -3962,8 +3965,9 @@ MonoBehaviour:
   accuracyPercentage: 100
   questionMaxTime: 3
   timeBarIsActive: 0
+  canAnswer: 0
   shakingMultiplier: 3
-  wasThisQuestionAsked: 
+  wasThisQuestionAsked: 0000000000000000000000000000000000000000
 --- !u!1 &1406533284
 GameObject:
   m_ObjectHideFlags: 0
