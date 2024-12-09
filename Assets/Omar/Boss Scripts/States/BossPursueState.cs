@@ -35,40 +35,30 @@ namespace Omar
                 randomNum = Random.Range(0, 101);
                 if (machine.theBoss.GetAnimatorInt("currentPhase") == 1)
                 {
-                    if (randomNum > 66)
+                    if (randomNum > 50)
                     {
                         machine.theBoss.LookAtPlayer();
                         machine.ChangeState(new BossMeleeState(machine));
                     }
-                    else if (randomNum <= 66 && randomNum > 33)
+                    else if (randomNum <= 50)
+                    {
+                        machine.theBoss.LookAtPlayer();
+                        machine.ChangeState(new BossProjectileState(machine));
+                    }
+                }
+                else if (machine.theBoss.GetAnimatorInt("currentPhase") == 2)
+                {
+                    if(randomNum > 66)
+                    {
+                        machine.theBoss.LookAtPlayer();
+                        machine.ChangeState(new BossMeleeState(machine));
+                    }
+                    else if(randomNum <= 66 && randomNum > 33)
                     {
                         machine.theBoss.LookAtPlayer();
                         machine.ChangeState(new BossProjectileState(machine));
                     }
                     else if(randomNum <= 33)
-                    {
-                        machine.theBoss.LookAtPlayer();
-                        machine.ChangeState(new BossDashState(machine));
-                    }
-                }
-                else if (machine.theBoss.GetAnimatorInt("currentPhase") == 2)
-                {
-                    if(randomNum > 75)
-                    {
-                        machine.theBoss.LookAtPlayer();
-                        machine.ChangeState(new BossMeleeState(machine));
-                    }
-                    else if(randomNum <= 75 && randomNum > 50)
-                    {
-                        machine.theBoss.LookAtPlayer();
-                        machine.ChangeState(new BossDashState(machine));
-                    }
-                    else if(randomNum <= 50 && randomNum > 25)
-                    {
-                        machine.theBoss.LookAtPlayer();
-                        machine.ChangeState(new BossProjectileState(machine));
-                    }
-                    else if(randomNum <= 25)
                     {
                         machine.ChangeState(new BossLaserState(machine));
                     }

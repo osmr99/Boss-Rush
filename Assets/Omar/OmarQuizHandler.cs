@@ -145,7 +145,10 @@ namespace Omar
             if(submitted == validAnswers[randomNum])
                 SoundEffectsManager.instance.PlayAudioClip(sounds.clips[0], true);
             else
+            {
                 SoundEffectsManager.instance.PlayAudioClip(sounds.clips[1], true);
+                bossScript.PerformHeal();
+            }
             AskQuestion();
         }
 

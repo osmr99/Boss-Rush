@@ -33,7 +33,7 @@ namespace Omar
         public void StartBeam()
         {
             StartCoroutine(Beaming());
-            Debug.Log("Starting beam");
+            //Debug.Log("Starting beam");
         }
 
         IEnumerator Beaming()
@@ -59,6 +59,7 @@ namespace Omar
                 }
             }
             yield return new WaitForSeconds(randomFloat);
+            imSorry = new GameObject[0];
             here.GetComponent<AudioSource>().volume = 0;
             beam.SetActive(true);
             SoundEffectsManager.instance.PlayAudioClip(sounds.clips[1], true);

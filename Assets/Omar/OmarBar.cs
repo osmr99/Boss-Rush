@@ -12,6 +12,7 @@ namespace Omar
         Image theBar;
         Color theColor;
         [SerializeField] OmarPlayerData playerData;
+        bool healing = false;
         // Start is called before the first frame update
 
         void Update()
@@ -33,9 +34,20 @@ namespace Omar
 
         public void Flash()
         {
-            if(playerData.UIAnim)
+            if(playerData.UIAnim && healing == false)
             {
                 theBar.color = Color.white;
+                theBar.DOColor(theColor, 0.4f).ForceInit();
+            }
+        }
+
+        public void Heal()
+        {
+            healing = true;
+            if(playerData.UIAnim && healing == true)
+            {
+                healing = false;
+                theBar.color = Color.green;
                 theBar.DOColor(theColor, 0.4f).ForceInit();
             }
         }

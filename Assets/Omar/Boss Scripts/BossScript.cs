@@ -25,6 +25,8 @@ namespace Omar
         Animator bossAnim;
         BossStateMachine myStateMachine;
         Damageable bossDamageable;
+        GameObject tempGameobject;
+        GameObject[] imSorry;
         [SerializeField] OmarPlayerData playerData;
         [SerializeField] GameObject quizCanvas;
         [SerializeField] OmarQuizHandler quizHandler;
@@ -38,6 +40,8 @@ namespace Omar
         [SerializeField] OmarDamagerSphere spheresAttack;
         [SerializeField] GameObject[] spheres;
         [SerializeField] OmarLaserBeam laserAttack;
+        [SerializeField] GameObject healTrigger;
+        [SerializeField] AudioClipCollection hurtSound;
         float bossHPPercentage;
         bool mustIdle = false;
         float tempDelay;
@@ -105,6 +109,31 @@ namespace Omar
         public void StartProjectiles()
         {
             spheresAttack.StartProjAttack();
+        }
+
+        public void PerformHeal()
+        {
+            healTrigger.SetActive(true);
+        }
+
+        public void Healing()
+        {
+            imSorry = FindObjectsOfType<GameObject>();
+            foreach (GameObject go in imSorry)
+            {
+                if (go.name == "New Game Object" && go.GetComponent<AudioSource>() != null)
+                {
+                    if (go.GetComponent<AudioSource>().clip == hurtSound.clips[0] || go.GetComponent<AudioSource>().clip == hurtSound.clips[1])
+                    {
+                        tempGameobject = go;
+                        //Debug.Log("found");
+                        break;
+                    }
+                }
+            }
+            imSorry = new GameObject[0];
+            tempGameobject.GetComponent<AudioSource>().volume = 0;
+            healTrigger.SetActive(false);
         }
 
         public void GetHealthPercentageAndChangePhase()
@@ -232,7 +261,7 @@ namespace Omar
             navigator.enabled = false;
             if(playerData.hasWon == false)
                 playerData.hasWon = true;
-            GameManager.instance.GoToNextLevel();
+            //GameManager.instance.GoToNextLevel();
         }
 
         public void StopCoroutines()
