@@ -24,24 +24,45 @@ namespace Omar
             machine.theBoss.SetAnimatorTrigger("initLaser");
             machine.theBoss.SetAnimatorFloat("speed", 0);
             machine.theBoss.SetAgentSpeed(0);
-            machine.theBoss.PerformBeam();
+            if (machine.theBoss.GetAnimatorBool("canUlti") == false)
+            {
+                machine.theBoss.PerformBeam();
+            }
+            else
+            {
+                machine.theBoss.PerformFinalBeam();
+            }
         }
 
         public override void OnUpdate()
         {
             base.OnUpdate();
 
-            if(elapsedTime < 0.25f && gotDelay == false)
+            if(machine.theBoss.GetAnimatorBool("canUlti") == false)
             {
-                gotDelay = true;
-                delay = machine.theBoss.GetDelayFloat() - 0.8f;
-                //Debug.Log("done");
-            }
-            else if(gotDelay)
-            {
-                if (elapsedTime > delay && performedLaser == false)
+                if (elapsedTime < 0.25f && gotDelay == false)
                 {
-                    //Debug.Log("Laser state delay: " + delay);
+                    gotDelay = true;
+                    delay = machine.theBoss.GetDelayFloat() - 0.8f;
+                }
+                else if (gotDelay)
+                {
+                    if (elapsedTime > delay && performedLaser == false)
+                    {
+                        //Debug.Log("Laser state delay: " + delay);
+                        performedLaser = true;
+                        machine.theBoss.SetAnimatorBool("canLaser", true);
+                    }
+                    else if (performedLaser == false)
+                    {
+                        machine.theBoss.LookAtPlayer();
+                    }
+                }
+            }
+            else
+            {
+                if(elapsedTime > 2.2f && performedLaser == false)
+                {
                     performedLaser = true;
                     machine.theBoss.SetAnimatorBool("canLaser", true);
                 }
@@ -49,9 +70,8 @@ namespace Omar
                 {
                     machine.theBoss.LookAtPlayer();
                 }
-            }
-                
 
+            }
         }
 
         public override void OnExit()

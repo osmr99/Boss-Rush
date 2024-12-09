@@ -12,15 +12,18 @@ using brolive;
 using Unity.VisualScripting;
 using Palmmedia.ReportGenerator.Core;
 using System;
+using Cinemachine;
 
 
 namespace Omar
 {
     public class BossScript : MonoBehaviour
     {
+        GameManager gameManager;
         Bar bossBar;
         Navigator navigator;
         Transform player;
+        
         NavMeshAgent agent;
         Animator bossAnim;
         BossStateMachine myStateMachine;
@@ -28,6 +31,8 @@ namespace Omar
         GameObject tempGameobjectOne;
         GameObject tempGameobjectTwo;
         GameObject[] imSorry;
+        [SerializeField] CinemachineVirtualCamera cam;
+        [SerializeField] CharacterController playerCharacterController;
         [SerializeField] OmarPlayerData playerData;
         [SerializeField] GameObject quizCanvas;
         [SerializeField] OmarQuizHandler quizHandler;
@@ -45,6 +50,7 @@ namespace Omar
         [SerializeField] AudioClipCollection hurtSound;
         [SerializeField] OmarWarcryAttack warcryAttack;
         [SerializeField] OmarTeleport teleport;
+        [SerializeField] GameObject triggerOfDeath;
         float bossHPPercentage;
         bool mustIdle = false;
         float tempDelay;
@@ -69,6 +75,8 @@ namespace Omar
             bossBar = FindAnyObjectByType<Bar>();
             bossBar.SetMax(100);
             bossBar.UpdateBar(0, 100);
+            cam.m_Lens.FieldOfView = 60;
+            triggerOfDeath.SetActive(false);
         }
 
         // Update is called once per frame
@@ -186,6 +194,7 @@ namespace Omar
                 laserAttack.StopLaserAttack();
                 bossAnim.SetBool("canUlti", true);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
+                StartCoroutine(StartUlti());
             }
         }
 
@@ -200,7 +209,7 @@ namespace Omar
             yield return new WaitForSeconds(1.5f);
             quizCanvas.SetActive(true);
             quizHandler.StartQuestions();
-            Debug.Log("Quiz Start!");
+            //Debug.Log("Quiz Start!");
         }
 
         IEnumerator EndQuiz()
@@ -211,7 +220,51 @@ namespace Omar
             StaticInputManager.input.Enable();
             SetAnimatorBool("mustIdle", false);
             mustIdle = false;
-            Debug.Log("Quiz End");
+            //Debug.Log("Quiz End");
+        }
+
+        IEnumerator StartUlti()
+        {
+            yield return new WaitForSeconds(2.0f);
+            ToggleMeleeDamager(false);
+            StaticInputManager.input.Disable();
+            SetAnimatorBool("mustIdle", true);
+            mustIdle = true;
+        }
+
+        public void PerformFinalBeam()
+        {
+            laserAttack.StartFinalBeam();
+        }
+
+        public void TeleportsForUlti()
+        {
+            playerCharacterController.enabled = false;
+            player.position = new Vector3(13, 2.5f, -13);
+            playerCharacterController.gameObject.transform.LookAt(this.transform.position);
+            playerCharacterController.enabled = true;
+            teleport.TeleportForUlti();
+            StartCoroutine(GettingCameraReady());
+        }
+
+        IEnumerator GettingCameraReady()
+        {
+            while(cam.m_Lens.FieldOfView != 85)
+            {
+                yield return new WaitForSeconds(0.05f);
+                cam.m_Lens.FieldOfView++;
+            }
+        }
+
+        public void FailedTheUlti()
+        {
+            StartCoroutine(WillPerish());
+        }
+
+        IEnumerator WillPerish()
+        {
+            yield return new WaitForSeconds(0.75f);
+            triggerOfDeath.SetActive(true);
         }
 
         public void EndTheQuiz()
@@ -420,6 +473,11 @@ namespace Omar
         public Transform GetPlayerTransform()
         {
             return player.transform;
+        }
+
+        public void DoCameraShake()
+        {
+            gameManager.ActivateCameraShake();
         }
 
     }

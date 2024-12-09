@@ -22,11 +22,12 @@ namespace Omar
         [SerializeField] GameObject tLetter;
         [SerializeField] GameObject fLetter;
         [SerializeField] AudioClipCollection sounds;
+        [SerializeField] OmarNums correctAnswersCount;
         [SerializeField] BossScript bossScript;
         [SerializeField] public string[] questionList;
         [SerializeField] bool[] validAnswers;
         [SerializeField] bool[] wasThisQuestionAsked;
-        [SerializeField] float accuracyPercentage = 100;
+        //[SerializeField] float accuracyPercentage = 100;
         [SerializeField] float questionMaxTime;
         [SerializeField] bool timeBarIsActive;
         [SerializeField] bool canAnswer = false;
@@ -50,6 +51,8 @@ namespace Omar
         // Start is called before the first frame update
         void Start()
         {
+            correctAnswersCount.myInt = 0;
+            correctAnswersCount.myFloat = 0;
             numOfAnsweredQuestions = 0;
             canAnswer = false;
             timeBarIsActive = false;
@@ -143,7 +146,11 @@ namespace Omar
             else
                 AnswerAnim(fLetter);
             if(submitted == validAnswers[randomNum])
+            {
                 SoundEffectsManager.instance.PlayAudioClip(sounds.clips[0], true);
+                correctAnswersCount.myInt++;
+            }
+                
             else
             {
                 SoundEffectsManager.instance.PlayAudioClip(sounds.clips[1], true);

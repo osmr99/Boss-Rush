@@ -10,11 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5e47bd44c6ea0d48b96988b8859db78, type: 3}
-  m_Name: Laser Sounds
+  m_Name: Click
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 77b993ae1eef40b4fa6bd7650ea3864e, type: 3}
-  - {fileID: 8300000, guid: 0bdc9ac256828c642b8ecb3f4588fd19, type: 3}
-  - {fileID: 8300000, guid: c147442d7f90ec84da7d1baf7f4ed674, type: 3}
-  - {fileID: 8300000, guid: 92976556f4c693d42af7f4239aea9af2, type: 3}
-  - {fileID: 8300000, guid: 432a3f4977e544e429f68d7a5269b95a, type: 3}
+  - {fileID: 8300000, guid: 8fdb7458a208bb140a3621ad629d8a6a, type: 3}

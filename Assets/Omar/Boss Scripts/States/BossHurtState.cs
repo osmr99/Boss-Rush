@@ -32,9 +32,18 @@ namespace Omar
 
             if(elapsedTime > 2.5f)
             {
-                machine.theBoss.ToggleCollisionDamager(true);
-                machine.theBoss.canTakeDamage(true);
-                machine.ChangeState(new BossIdleState(machine));
+                
+                if(machine.theBoss.GetAnimatorBool("canUlti") == false)
+                {
+                    machine.theBoss.ToggleCollisionDamager(true);
+                    machine.theBoss.canTakeDamage(true);
+                    machine.ChangeState(new BossIdleState(machine));
+                }
+                else
+                {
+                    machine.ChangeState(new BossLaserState(machine));
+                }
+
             }
         }
 

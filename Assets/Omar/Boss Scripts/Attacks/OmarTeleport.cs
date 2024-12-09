@@ -28,13 +28,19 @@ namespace Omar
             agent.enabled = false;
             randomX = Random.Range(-13, 13);
             randomZ = Random.Range(-13, 13);
-            Debug.Log(randomX + " " + randomZ);
             _transform.position = new Vector3(randomX, 1.5f, randomZ);
             randomNum = Random.Range(0, sounds.clips.Length);
             SoundEffectsManager.instance.PlayAudioClip(sounds.clips[randomNum], true);
             agent.enabled = true;
             yield return new WaitForSeconds(1.5f);
             bossScript.ChangeStateToIdle();
+        }
+
+        public void TeleportForUlti()
+        {
+            agent.enabled = false;
+            _transform.position = new Vector3(-13, 1.5f, 13);
+            agent.enabled = true;
         }
     }
 }

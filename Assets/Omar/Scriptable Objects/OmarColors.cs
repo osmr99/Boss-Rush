@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Omar Colors")]
-public class OmarColors : ScriptableObject
+namespace Omar
 {
-    public List<Color> colors;
+    [CreateAssetMenu(menuName = "Omar Colors")]
+    public class OmarColors : ScriptableObject
+    {
+        public List<Color> colors;
+    }
 }
