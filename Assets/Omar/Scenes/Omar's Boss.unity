@@ -3933,29 +3933,37 @@ MonoBehaviour:
   - 'MVC refers to a programming pattern in which you split code into 3 separate
     layers: one that keeps track of data, one that displays data to the user, and
     one that allows user interaction.'
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  validAnswers: 0001000000000000000000000000000000000000
+  - 'The Transform component gives a position, rotation, and scale:'
+  - '''Activate'' allows us to call all of the methods/functions currently registered
+    to an event.'
+  - Bindings define our different control types (which could include one for character,
+    one for vehicle, one for UI, etc.)
+  - A grid is a one-dimensional array.
+  - You have a multidimensional array called cells representing a 3x3 grid. To access
+    the contents of the center cell, you'd use 'cells[1,1]'?
+  - The open lab for Wednesdays it's from 12:30 PM - 4 PM
+  - The name of this course is GAME 2302.
+  - Flyweight is a programming pattern in which objects share data between instances
+    to save on memory usage.
+  - We are required a Canvas before we can add other Unity UI elements.
+  - The component 'Rigidbody' allows us to add physics to a GameObject.
+  - Sonic's middle name is Maurice.
+  - The first ever Sonic game came out in the year 1992.
+  - Sonic was born on Easter Island.
+  - The component 'NavMesh Agent' allows an object to find its way around a surface
+    and move around obstacles.
+  - Steve is the capsule and Jeff is the cube
+  - When the dot product of two vectors is -1, that means that the vectors are perpendicular.
+  - The purpose of a finite state machine is to allow a character to do two completely
+    different actions at the same time.
+  - A few weeks ago, the day we scheduled to have a Fight Club on the VC, we ended
+    up playing Among Us.
+  validAnswers: 0001010000000100000101000100000100000000
   accuracyPercentage: 100
   questionMaxTime: 3
   timeBarIsActive: 0
   shakingMultiplier: 3
+  wasThisQuestionAsked: 
 --- !u!1 &1406533284
 GameObject:
   m_ObjectHideFlags: 0
