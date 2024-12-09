@@ -43,6 +43,7 @@ namespace Omar
         [SerializeField] OmarLaserBeam laserAttack;
         [SerializeField] GameObject healTrigger;
         [SerializeField] AudioClipCollection hurtSound;
+        [SerializeField] OmarWarcryAttack warcryAttack;
         float bossHPPercentage;
         bool mustIdle = false;
         float tempDelay;
@@ -110,6 +111,16 @@ namespace Omar
         public void StartProjectiles()
         {
             spheresAttack.StartProjAttack();
+        }
+
+        public void PerformBeam()
+        {
+            laserAttack.StartBeam();
+        }
+
+        public void PerformWarcry()
+        {
+            warcryAttack.PerformCry();
         }
 
         public void PerformHeal()
@@ -329,11 +340,6 @@ namespace Omar
         public float GetDelayFloat()
         {
             return tempDelay;
-        }
-
-        public void PerformBeam()
-        {
-            laserAttack.StartBeam();
         }
 
         public void SetAnimatorInt(string name, int num)

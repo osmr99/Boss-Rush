@@ -63,6 +63,31 @@ namespace Omar
                         machine.ChangeState(new BossLaserState(machine));
                     }
                 }
+                else if(machine.theBoss.GetAnimatorInt("currentPhase") == 3)
+                {
+                    if(randomNum > -1) //>60
+                    {
+                        machine.ChangeState(new BossWarcryState(machine)); //laser
+                    }
+                    else if(randomNum <= 60 && randomNum > 40)
+                    {
+                        machine.ChangeState(new BossTeleportState(machine));
+                    }
+                    else if(randomNum <= 40 && randomNum > 20)
+                    {
+                        machine.ChangeState(new BossWarcryState(machine));
+                    }
+                    else if(randomNum <= 20 && randomNum > 10)
+                    {
+                        machine.theBoss.LookAtPlayer();
+                        machine.ChangeState(new BossProjectileState(machine));
+                    }
+                    else if (randomNum <= 10)
+                    {
+                        machine.theBoss.LookAtPlayer();
+                        machine.ChangeState(new BossMeleeState(machine));
+                    }
+                }
             }
             if(elapsedTime > 3.0f)
             {
@@ -93,8 +118,25 @@ namespace Omar
                         machine.ChangeState(new BossProjectileState(machine));
                     }
                 }
-
-                    
+                else if(machine.theBoss.GetAnimatorInt("currentPhase") == 3)
+                {
+                    if (randomNum > 60)
+                    {
+                        machine.ChangeState(new BossLaserState(machine));
+                    }
+                    else if (randomNum <= 60 && randomNum > 40)
+                    {
+                        machine.ChangeState(new BossTeleportState(machine));
+                    }
+                    else if (randomNum <= 40 && randomNum > 20)
+                    {
+                        machine.ChangeState(new BossWarcryState(machine));
+                    }
+                    else if (randomNum <= 20)
+                    {
+                        machine.ChangeState(new BossProjectileState(machine));
+                    }
+                }
             }
         }
 

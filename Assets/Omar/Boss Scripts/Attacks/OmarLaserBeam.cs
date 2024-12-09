@@ -13,32 +13,16 @@ namespace Omar
         [SerializeField] GameObject beam;
         [SerializeField] AudioClipCollection sounds;
         GameObject[] imSorry;
-        bool found;
         GameObject here;
         float randomFloat;
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            //if(Input.GetKeyDown(KeyCode.V))
-                //StartBeam();
-        }
 
         public void StartBeam()
         {
             StartCoroutine(Beaming());
-            //Debug.Log("Starting beam");
         }
 
         IEnumerator Beaming()
         {
-            found = false;
             randomFloat = Random.Range(2.5f, 4f);
             //Debug.Log("Laser beam delay: " + randomFloat);
             bossScript.SetDelayFloat(randomFloat);
@@ -46,15 +30,12 @@ namespace Omar
             imSorry = FindObjectsOfType<GameObject>();
             foreach (GameObject go in imSorry)
             {
-                if(found == false)
+                if (go.name == "New Game Object" && go.GetComponent<AudioSource>() != null)
                 {
-                    if (go.name == "New Game Object" && go.GetComponent<AudioSource>() != null)
+                    if (go.GetComponent<AudioSource>().clip == sounds.clips[0])
                     {
-                        if (go.GetComponent<AudioSource>().clip == sounds.clips[0])
-                        {
-                            here = go;
-                            break;
-                        }
+                        here = go;
+                        break;
                     }
                 }
             }
@@ -76,31 +57,25 @@ namespace Omar
             imSorry = FindObjectsOfType<GameObject>();
             foreach (GameObject go in imSorry)
             {
-                if (found == false)
+                if (go.name == "New Game Object" && go.GetComponent<AudioSource>() != null)
                 {
-                    if (go.name == "New Game Object" && go.GetComponent<AudioSource>() != null)
+                    if (go.GetComponent<AudioSource>().clip == sounds.clips[0])
                     {
-                        if (go.GetComponent<AudioSource>().clip == sounds.clips[0])
-                        {
-                            here = go;
-                            here.GetComponent<AudioSource>().volume = 0;
-                            break;
-                        }
+                        here = go;
+                        here.GetComponent<AudioSource>().volume = 0;
+                        break;
                     }
                 }
             }
             foreach (GameObject go in imSorry)
             {
-                if (found == false)
+                if (go.name == "New Game Object" && go.GetComponent<AudioSource>() != null)
                 {
-                    if (go.name == "New Game Object" && go.GetComponent<AudioSource>() != null)
+                    if (go.GetComponent<AudioSource>().clip == sounds.clips[1])
                     {
-                        if (go.GetComponent<AudioSource>().clip == sounds.clips[1])
-                        {
-                            here = go;
-                            here.GetComponent<AudioSource>().volume = 0;
-                            break;
-                        }
+                        here = go;
+                        here.GetComponent<AudioSource>().volume = 0;
+                        break;
                     }
                 }
             }
