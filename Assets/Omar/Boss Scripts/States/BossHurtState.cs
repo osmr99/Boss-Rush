@@ -19,6 +19,10 @@ namespace Omar
             machine.theBoss.SetAgentSpeed(0);
             machine.theBoss.SetAnimatorTrigger("changePhase");
             machine.theBoss.canTakeDamage(false);
+            machine.theBoss.ToggleMeleeDamager(false);
+            machine.theBoss.ToggleCollision(true);
+            machine.theBoss.ToggleProjectiles(false);
+            machine.theBoss.SetAnimatorBool("canProjectile", false);
             machine.theBoss.StopCoroutines();
         }
 
@@ -28,6 +32,7 @@ namespace Omar
 
             if(elapsedTime > 2.5f)
             {
+                machine.theBoss.ToggleCollisionDamager(true);
                 machine.theBoss.canTakeDamage(true);
                 machine.ChangeState(new BossIdleState(machine));
             }

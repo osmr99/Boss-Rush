@@ -89,8 +89,8 @@ namespace Omar
             }
             currentNumOfHearts = newCurrent;
             healthPercentage = (float)Math.Round(((float)newCurrent / numOfHearts) * 100, 2);
-            Debug.Log(healthPercentage);
-            Debug.Log(currentNumOfHearts);
+            //Debug.Log(healthPercentage);
+            //Debug.Log(currentNumOfHearts);
             if (currentNumOfHearts <= 0)
             {
                 if(playerData.UIAnim)

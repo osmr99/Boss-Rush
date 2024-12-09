@@ -34,8 +34,11 @@ namespace Omar
         [SerializeField] Damager meleeDamager;
         [SerializeField] Damager dashDamager;
         [SerializeField] OmarDamagerSphere spheresAttack;
+        [SerializeField] GameObject[] spheres;
+        [SerializeField] OmarLaserBeam laserAttack;
         float bossHPPercentage;
         bool mustIdle = false;
+        float tempDelay;
         //[SerializeField][Range(0, 1)] float timeScale = 1;
 
         // Start is called before the first frame update
@@ -110,36 +113,37 @@ namespace Omar
             {
                 bossAnim.SetInteger("currentPhase", 1);
             }
-            /*else if(bossHPPercentage >= 65.5f && bossHPPercentage <= 66 && GetAnimatorInt("currentPhase") == 1)
+            else if(bossHPPercentage >= 65.5f && bossHPPercentage <= 66 && GetAnimatorInt("currentPhase") == 1)
             {
-                ToggleMeleeDamager(false);
+                spheresAttack.StopAllCoroutines();
                 bossAnim.SetInteger("currentPhase", 2);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
                 StartCoroutine(StartQuiz());
             }
             else if(bossHPPercentage >= 32.5f && bossHPPercentage <= 33 && GetAnimatorInt("currentPhase") == 2)
             {
-                ToggleMeleeDamager(false);
+                spheresAttack.StopAllCoroutines();
                 bossAnim.SetInteger("currentPhase", 3);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
                 StartCoroutine(StartQuiz());
             }
             else if(bossHPPercentage >= 0.5f && bossHPPercentage <= 1 && bossAnim.GetBool("canUlti") == false)
             {
-                ToggleMeleeDamager(false);
+                spheresAttack.StopAllCoroutines();
                 bossAnim.SetBool("canUlti", true);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
-            }*/
+            }
         }
 
         IEnumerator StartQuiz()
         {
             yield return new WaitForSeconds(2.0f);
-            hudAnim.HideAnim(true, true, false);
-            StaticInputManager.input.Disable();
-            SetAnimatorBool("mustIdle", true);
-            mustIdle = true;
-            Debug.Log("Quiz Start!");
+            ToggleMeleeDamager(true);
+            //hudAnim.HideAnim(true, true, false);
+            //StaticInputManager.input.Disable();
+            //SetAnimatorBool("mustIdle", true);
+            //mustIdle = true;
+            //Debug.Log("Quiz Start!");
         }
 
         public void StartCoroutineMeleeOne()
@@ -190,6 +194,11 @@ namespace Omar
         public void ToggleMeleeDamager(bool b)
         {
             meleeDamager.gameObject.SetActive(b);
+        }
+
+        public bool GetMeleeDamagerState()
+        {
+            return meleeDamager.gameObject.activeInHierarchy;
         }
 
         public void ToggleDashDamager(bool b)
@@ -246,6 +255,29 @@ namespace Omar
         public bool GetMustIdle()
         {
             return mustIdle;
+        }
+
+        public void ToggleProjectiles(bool b)
+        {
+            foreach(GameObject these in spheres)
+            {
+                these.SetActive(b);
+            }
+        }
+
+        public void SetDelayFloat(float f)
+        {
+            tempDelay = f;
+        }
+
+        public float GetDelayFloat()
+        {
+            return tempDelay;
+        }
+
+        public void PerformBeam()
+        {
+            laserAttack.StartBeam();
         }
 
         public void SetAnimatorInt(string name, int num)

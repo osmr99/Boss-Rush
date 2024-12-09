@@ -9,9 +9,10 @@ namespace Omar
 {
     public class OmarLaserBeam : MonoBehaviour
     {
+        [SerializeField] BossScript bossScript;
         [SerializeField] GameObject beam;
         [SerializeField] AudioClipCollection sounds;
-        public GameObject[] imSorry;
+        GameObject[] imSorry;
         bool found;
         GameObject here;
         float randomFloat;
@@ -25,19 +26,22 @@ namespace Omar
         // Update is called once per frame
         void Update()
         {
-            if(Input.GetKeyDown(KeyCode.V))
-                StartBeam();
+            //if(Input.GetKeyDown(KeyCode.V))
+                //StartBeam();
         }
 
         public void StartBeam()
         {
             StartCoroutine(Beaming());
+            Debug.Log("Starting beam");
         }
 
         IEnumerator Beaming()
         {
             found = false;
             randomFloat = Random.Range(2.5f, 4f);
+            //Debug.Log("Laser beam delay: " + randomFloat);
+            bossScript.SetDelayFloat(randomFloat);
             SoundEffectsManager.instance.PlayAudioClip(sounds.clips[0], true);
             imSorry = FindObjectsOfType<GameObject>();
             foreach (GameObject go in imSorry)
@@ -58,12 +62,11 @@ namespace Omar
             here.GetComponent<AudioSource>().volume = 0;
             beam.SetActive(true);
             SoundEffectsManager.instance.PlayAudioClip(sounds.clips[1], true);
-            beam.transform.DOScaleZ(15, 3);
+            beam.transform.DOScaleZ(17.5f, 3);
             yield return new WaitForSeconds(3.5f);
             beam.transform.localScale = new Vector3(1,1,0.01f);
             beam.SetActive(false);
-
-
+            bossScript.ChangeStateToIdle();
         }
     }
 }

@@ -333,9 +333,20 @@ namespace Omar
             if(playerPrefs.hasWon)
             {
                 hasWonGameObject.SetActive(true);
-                hasWonText.text = "Yes! - After " + playerPrefs.deathsTook + " deaths";
+                if (playerPrefs.deathsTook == 0)
+                    ChangeVictoryText("deaths! WOW, is it that easy?");
+                else if (playerPrefs.deathsTook == 1)
+                    ChangeVictoryText("death! Very Impressive");
+                else if (playerPrefs.deathsTook == 2)
+                    ChangeVictoryText("deaths! Third one was the charm!");
+                else if (playerPrefs.deathsTook >= 3)
+                    ChangeVictoryText("deaths! Alright then!");
             }
+        }
 
+        void ChangeVictoryText(string text)
+        {
+            hasWonText.text = playerPrefs.deathsTook + " " + text;
         }
 
         //[System.Serializable] I don't think it's required apparently

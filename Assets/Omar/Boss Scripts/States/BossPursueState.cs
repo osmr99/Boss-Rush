@@ -18,6 +18,8 @@ namespace Omar
             base.OnEnter();
 
             randomNum = 0;
+            if (machine.theBoss.GetMeleeDamagerState() == true)
+                machine.theBoss.ToggleMeleeDamager(false);
             machine.theBoss.SetAnimatorFloat("speed", 1);
             machine.theBoss.SetAgentSpeed(4);
             machine.theBoss.SetAgentStoppingDistance(2.75f);
@@ -36,17 +38,39 @@ namespace Omar
             if(elapsedTime > 3.0f)
             {
                 randomNum = Random.Range(0, 101);
-                Debug.Log(randomNum);
-                if(randomNum > 35)
+                //Debug.Log(randomNum);
+                if(machine.theBoss.GetAnimatorInt("currentPhase") == 1)
                 {
-                    Debug.Log("Got dash");
-                    machine.ChangeState(new BossDashState(machine));
+                    if (randomNum > 50)
+                    {
+                        Debug.Log("Got dash 1");
+                        machine.ChangeState(new BossDashState(machine));
+                    }
+                    else if (randomNum <= 50)
+                    {
+                        Debug.Log("Got Projectiles 1");
+                        machine.ChangeState(new BossProjectileState(machine));
+                    }
                 }
-                else if(randomNum <= 35)
+                else if(machine.theBoss.GetAnimatorInt("currentPhase") == 2)
                 {
-                    Debug.Log("Got Projectiles");
-                    machine.ChangeState(new BossProjectileState(machine));
+                    if(randomNum > 66)
+                    {
+                        Debug.Log("Got beam 2");
+                        machine.ChangeState(new BossLaserState(machine));
+                    }
+                    else if (randomNum <= 66 && randomNum > 33)
+                    {
+                        Debug.Log("Got dash 2");
+                        machine.ChangeState(new BossDashState(machine));
+                    }
+                    else if (randomNum <= 33)
+                    {
+                        Debug.Log("Got Projectiles 2");
+                        machine.ChangeState(new BossProjectileState(machine));
+                    }
                 }
+
                     
             }
         }

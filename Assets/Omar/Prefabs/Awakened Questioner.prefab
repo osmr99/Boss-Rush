@@ -528,7 +528,8 @@ GameObject:
   - component: {fileID: 4032443726900055339}
   - component: {fileID: 1350085304390203293}
   - component: {fileID: 8009514513551016921}
-  m_Layer: 7
+  - component: {fileID: 6415054205692992283}
+  m_Layer: 9
   m_Name: Laser Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +616,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -623,6 +624,28 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6415054205692992283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541938741983284154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36d91920f1168024cad6f2f46528b94c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 1
+  knockbackForce: 15
+  hitEffectPrefab: {fileID: 2717892095994439559, guid: 7f6dafc4f0f90564395b340bbe141b85, type: 3}
+  hitSounds: {fileID: 11400000, guid: b098b77403c117748926aad79cd8fd49, type: 2}
+  OnContact:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSuccessfulHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1639703791563316176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,6 +1143,7 @@ GameObject:
   - component: {fileID: 568297390296848946}
   - component: {fileID: 8107611758170765679}
   - component: {fileID: 1993765149685897390}
+  - component: {fileID: 4147810613787839051}
   m_Layer: 7
   m_Name: Awakened Questioner
   m_TagString: Untagged
@@ -1386,6 +1410,7 @@ MonoBehaviour:
   meleeDamager: {fileID: 5923918936637858060}
   dashDamager: {fileID: 3773151968214603287}
   spheresAttack: {fileID: 1993765149685897390}
+  laserAttack: {fileID: 4147810613787839051}
 --- !u!54 &568297390296848946
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1454,6 +1479,21 @@ MonoBehaviour:
   bossScript: {fileID: 3566105189301302435}
   duration: 1
   cooldown: 0.75
+--- !u!114 &4147810613787839051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3057604825348089876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d919c20fda325374da70c3f19579e23d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossScript: {fileID: 3566105189301302435}
+  beam: {fileID: 4215729062213770726}
+  sounds: {fileID: 11400000, guid: 868668365765dbb42a26097b49dab3bf, type: 2}
 --- !u!1 &3069066548624423670
 GameObject:
   m_ObjectHideFlags: 0
@@ -2325,13 +2365,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7826652984970711600}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Laser Beam Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7826652984970711600
 Transform:
   m_ObjectHideFlags: 0
@@ -2340,14 +2380,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4215729062213770726}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.06854047, y: -0, z: -0, w: 0.99764836}
   m_LocalPosition: {x: -0.33, y: 1.73, z: 0.62}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5122684904596642695}
   m_Father: {fileID: 9073624555383434060}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 7.86, y: 0, z: 0}
 --- !u!1 &4378036228014326974
 GameObject:
   m_ObjectHideFlags: 0
