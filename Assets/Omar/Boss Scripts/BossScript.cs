@@ -25,7 +25,8 @@ namespace Omar
         Animator bossAnim;
         BossStateMachine myStateMachine;
         Damageable bossDamageable;
-        GameObject tempGameobject;
+        GameObject tempGameobjectOne;
+        GameObject tempGameobjectTwo;
         GameObject[] imSorry;
         [SerializeField] OmarPlayerData playerData;
         [SerializeField] GameObject quizCanvas;
@@ -118,6 +119,8 @@ namespace Omar
 
         public void Healing()
         {
+            tempGameobjectOne = GameObject.Find("Damage Effect(Clone)");
+            Destroy(tempGameobjectOne);
             imSorry = FindObjectsOfType<GameObject>();
             foreach (GameObject go in imSorry)
             {
@@ -125,14 +128,14 @@ namespace Omar
                 {
                     if (go.GetComponent<AudioSource>().clip == hurtSound.clips[0] || go.GetComponent<AudioSource>().clip == hurtSound.clips[1])
                     {
-                        tempGameobject = go;
+                        tempGameobjectTwo = go;
                         //Debug.Log("found");
                         break;
                     }
                 }
             }
             imSorry = new GameObject[0];
-            tempGameobject.GetComponent<AudioSource>().volume = 0;
+            tempGameobjectTwo.GetComponent<AudioSource>().volume = 0;
             healTrigger.SetActive(false);
         }
 
@@ -147,6 +150,7 @@ namespace Omar
             else if(bossHPPercentage >= 65.5f && bossHPPercentage <= 66 && GetAnimatorInt("currentPhase") == 1)
             {
                 spheresAttack.StopAllCoroutines();
+                laserAttack.StopLaserAttack();
                 bossAnim.SetInteger("currentPhase", 2);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
                 StartCoroutine(StartQuiz());
@@ -154,6 +158,7 @@ namespace Omar
             else if(bossHPPercentage >= 32.5f && bossHPPercentage <= 33 && GetAnimatorInt("currentPhase") == 2)
             {
                 spheresAttack.StopAllCoroutines();
+                laserAttack.StopLaserAttack();
                 bossAnim.SetInteger("currentPhase", 3);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
                 StartCoroutine(StartQuiz());
@@ -161,6 +166,7 @@ namespace Omar
             else if(bossHPPercentage >= 0.5f && bossHPPercentage <= 1 && bossAnim.GetBool("canUlti") == false)
             {
                 spheresAttack.StopAllCoroutines();
+                laserAttack.StopLaserAttack();
                 bossAnim.SetBool("canUlti", true);
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
             }
@@ -261,7 +267,7 @@ namespace Omar
             navigator.enabled = false;
             if(playerData.hasWon == false)
                 playerData.hasWon = true;
-            //GameManager.instance.GoToNextLevel();
+            GameManager.instance.GoToNextLevel();
         }
 
         public void StopCoroutines()

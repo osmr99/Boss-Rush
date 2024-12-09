@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dddf12359883eea46bd4f5b5264d8472, type: 3}
   m_Name: Player Stats
   m_EditorClassIdentifier: 
-  musicVol: 0.15178517
+  musicVol: 0.12144331
   sfxVol: 0.5
   hasWon: 1
   deathsTook: 0
   deaths: 0
   UIAnim: 1
-  meleeDmg: 6
+  meleeDmg: 204
   projDmg: 6

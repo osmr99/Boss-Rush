@@ -65,9 +65,46 @@ namespace Omar
             SoundEffectsManager.instance.PlayAudioClip(sounds.clips[1], true);
             beam.transform.DOScaleZ(17.5f, 3);
             yield return new WaitForSeconds(3.5f);
-            beam.transform.localScale = new Vector3(1,1,0.01f);
+            beam.transform.localScale = new Vector3(2,2,0.01f);
             beam.SetActive(false);
             bossScript.ChangeStateToIdle();
+        }
+
+        public void StopLaserAttack()
+        {
+            beam.SetActive(false);
+            imSorry = FindObjectsOfType<GameObject>();
+            foreach (GameObject go in imSorry)
+            {
+                if (found == false)
+                {
+                    if (go.name == "New Game Object" && go.GetComponent<AudioSource>() != null)
+                    {
+                        if (go.GetComponent<AudioSource>().clip == sounds.clips[0])
+                        {
+                            here = go;
+                            here.GetComponent<AudioSource>().volume = 0;
+                            break;
+                        }
+                    }
+                }
+            }
+            foreach (GameObject go in imSorry)
+            {
+                if (found == false)
+                {
+                    if (go.name == "New Game Object" && go.GetComponent<AudioSource>() != null)
+                    {
+                        if (go.GetComponent<AudioSource>().clip == sounds.clips[1])
+                        {
+                            here = go;
+                            here.GetComponent<AudioSource>().volume = 0;
+                            break;
+                        }
+                    }
+                }
+            }
+            StopAllCoroutines();
         }
     }
 }
