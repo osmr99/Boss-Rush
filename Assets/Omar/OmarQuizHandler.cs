@@ -22,37 +22,39 @@ namespace Omar
         [SerializeField] GameObject tLetter;
         [SerializeField] GameObject fLetter;
         [SerializeField] AudioClipCollection sounds;
+        [SerializeField] BossScript bossScript;
         [SerializeField] public string[] questionList;
         [SerializeField] bool[] validAnswers;
+        [SerializeField] bool[] wasThisQuestionAsked;
         [SerializeField] float accuracyPercentage = 100;
         [SerializeField] float questionMaxTime;
         [SerializeField] bool timeBarIsActive;
         [SerializeField] bool canAnswer = false;
         [SerializeField] float shakingMultiplier;
+        [SerializeField] int maxQuestionsPerPhase;
         Vector3 scaleChange = new Vector3(1.25f, 1.25f, 1.25f);
         bool gamepadConnected = false;
         int numOfAnsweredQuestions;
         float shakingPower;
         float randomX;
         float randomY;
-        [SerializeField] bool[] wasThisQuestionAsked;
         float elapsedTime;
         float invertedTime;
         float fillMath;
         float otherMath;
         bool coloring = false;
         int randomNum;
-
+        int questionsCount;
 
 
         // Start is called before the first frame update
         void Start()
         {
             numOfAnsweredQuestions = 0;
+            canAnswer = false;
             timeBarIsActive = false;
             if (Gamepad.current != null)
                 gamepadConnected = true;
-            AskQuestion();
         }
 
         // Update is called once per frame
@@ -60,7 +62,6 @@ namespace Omar
         {
             if(canAnswer)
             {
-                Debug.Log("awaiting answer");
                 if(gamepadConnected)
                 {
                     if (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow) || Gamepad.current.rightShoulder.wasPressedThisFrame))
@@ -91,6 +92,13 @@ namespace Omar
             }
         }
 
+        public void StartQuestions()
+        {
+            canAnswer = true;
+            questionsCount = 1;
+            AskQuestion();
+        }
+
         void AnswerAnim(GameObject g)
         {
             g.transform.localScale = scaleChange;
@@ -99,25 +107,36 @@ namespace Omar
 
         public void AskQuestion()
         {
-            ResetBar();
-            randomNum = Random.Range(0, questionList.Length);
-            while (wasThisQuestionAsked[randomNum] == true)
+            if(questionsCount <= maxQuestionsPerPhase)
             {
+                ResetBar();
                 randomNum = Random.Range(0, questionList.Length);
-            }
-            question.text = questionList[randomNum];
-            SetMaxTime(randomNum);
-            wasThisQuestionAsked[randomNum] = true;
-            canAnswer = true;
-            if(numOfAnsweredQuestions > 2)
-            {
+                while (wasThisQuestionAsked[randomNum] == true)
+                {
+                    randomNum = Random.Range(0, questionList.Length);
+                }
+                question.text = questionList[randomNum];
+                SetMaxTime(randomNum);
+                wasThisQuestionAsked[randomNum] = true;
+                canAnswer = true;
                 StartCoroutine(TimeBarDelay());
+                //if (numOfAnsweredQuestions > 1)
+                //{
+                //StartCoroutine(TimeBarDelay());
+                //}
+            }
+            else
+            {
+                canAnswer = false;
+                timeBarIsActive = false;
+                bossScript.EndTheQuiz();
             }
         }
 
         public void CheckAnswer(bool submitted)
         {
             numOfAnsweredQuestions++;
+            questionsCount++;
             canAnswer = false;
             if (submitted == true)
                 AnswerAnim(tLetter);
@@ -155,6 +174,7 @@ namespace Omar
             }
             else
             {
+                SoundEffectsManager.instance.PlayAudioClip(sounds.clips[1], true);
                 AskQuestion();
             }
         }

@@ -31,15 +31,16 @@ namespace Omar
 
             if (elapsedTime > 0.5f)
             {
-                if (machine.theBoss.GetDistanceFromPlayer() <= 2.7f)
-                {
-                    machine.theBoss.LookAtPlayer();
-                    machine.ChangeState(new BossMeleeState(machine));
-                }
-                else
-                {
-                    machine.ChangeState(new BossPursueState(machine));
-                }
+                //if (machine.theBoss.GetDistanceFromPlayer() <= 2.7f)
+                //{
+                //machine.theBoss.LookAtPlayer();
+                //machine.ChangeState(new BossMeleeState(machine));
+                //}
+                //else
+                //{
+                //machine.ChangeState(new BossPursueState(machine));
+                //}
+                machine.ChangeState(new BossPursueState(machine));
             }
 
 

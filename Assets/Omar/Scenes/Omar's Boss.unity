@@ -807,7 +807,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &318546053
 RectTransform:
   m_ObjectHideFlags: 0
@@ -933,7 +933,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!4 &357985751 stripped
 Transform:
@@ -3910,6 +3910,8 @@ MonoBehaviour:
   deathCounter: {fileID: 1406533286}
   hasWonGameObject: {fileID: 2085202317}
   hasWonText: {fileID: 718301430}
+  bossHPFillBar: {fileID: 1745016826}
+  bossHPColor: {r: 1, g: 0.4, b: 0.4, a: 0}
 --- !u!114 &1378800228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3931,6 +3933,7 @@ MonoBehaviour:
   tLetter: {fileID: 852763175}
   fLetter: {fileID: 227276865}
   sounds: {fileID: 11400000, guid: 23184853543996148b60d89cf4c0265c, type: 2}
+  bossScript: {fileID: 5618646958238143386}
   questionList:
   - Arrays can be used without initializing them.
   - 'MVC refers to a programming pattern in which you split code into 3 separate
@@ -3961,13 +3964,14 @@ MonoBehaviour:
     different actions at the same time.
   - A few weeks ago, the day we scheduled to have a Fight Club on the VC, we ended
     up playing Among Us.
-  validAnswers: 0001010000000100000101000100000100000000
+  validAnswers: 0001010000000100000101010100000100000000
+  wasThisQuestionAsked: 0000000000000000000000000000000000000000
   accuracyPercentage: 100
   questionMaxTime: 3
   timeBarIsActive: 0
   canAnswer: 0
   shakingMultiplier: 3
-  wasThisQuestionAsked: 0000000000000000000000000000000000000000
+  maxQuestionsPerPhase: 5
 --- !u!1 &1406533284
 GameObject:
   m_ObjectHideFlags: 0
@@ -4504,7 +4508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.11372549}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.1764706}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6392,10 +6396,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 544976852}
     m_Modifications:
-    - target: {fileID: 1541938741983284154, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 3057604825348089876, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: m_Name
       value: Awakened Questioner
@@ -6409,9 +6409,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2122002443}
     - target: {fileID: 3566105189301302435, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: laserAttack
+      propertyPath: quizCanvas
       value: 
-      objectReference: {fileID: 5618646958238143385}
+      objectReference: {fileID: 318546052}
+    - target: {fileID: 3566105189301302435, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: quizHandler
+      value: 
+      objectReference: {fileID: 1378800228}
     - target: {fileID: 3566105189301302435, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: bossHealthBar
       value: 
@@ -6440,18 +6444,6 @@ PrefabInstance:
       propertyPath: spheres.Array.data[4]
       value: 
       objectReference: {fileID: 1528159511}
-    - target: {fileID: 4215729062213770726, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4215729062213770726, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7826652984970711600, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.01
-      objectReference: {fileID: 0}
     - target: {fileID: 7826652984970711600, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.202
@@ -6459,30 +6451,6 @@ PrefabInstance:
     - target: {fileID: 7826652984970711600, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.322
-      objectReference: {fileID: 0}
-    - target: {fileID: 7826652984970711600, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.99764836
-      objectReference: {fileID: 0}
-    - target: {fileID: 7826652984970711600, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.06854047
-      objectReference: {fileID: 0}
-    - target: {fileID: 7826652984970711600, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7826652984970711600, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7826652984970711600, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 7.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 8009514513551016921, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9073624555383434060, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6525,6 +6493,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+      propertyPath: maxHealth
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101436061357139886, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
       propertyPath: OnInitialize.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1747053146}
@@ -6557,15 +6529,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9073624555383434060, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
   m_PrefabInstance: {fileID: 1836431929422594879}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5618646958238143385 stripped
+--- !u!114 &5618646958238143386 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4147810613787839051, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3566105189301302435, guid: dbe898cf1680da741a626ef3aee937ec, type: 3}
   m_PrefabInstance: {fileID: 1836431929422594879}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d919c20fda325374da70c3f19579e23d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a24b5990c964d740a243261d67daaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &7618333120010288130

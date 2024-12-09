@@ -45,6 +45,8 @@ namespace Omar
         [SerializeField] TMP_Text deathCounter;
         [SerializeField] GameObject hasWonGameObject;
         [SerializeField] TMP_Text hasWonText;
+        [SerializeField] Image bossHPFillBar;
+        [SerializeField] Color bossHPColor;
         Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
         string path;
         string user;
@@ -121,6 +123,7 @@ namespace Omar
             screenFade.SetActive(false);
             StaticInputManager.input.Disable();
             playerLogic.enabled = false;
+            bossHPFillBar.color = bossHPColor;
         }
 
         // Update is called once per frame

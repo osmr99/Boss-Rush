@@ -32,23 +32,59 @@ namespace Omar
             machine.theBoss.AgentSetPathToPlayer();
             if (machine.theBoss.GetDistanceFromPlayer() <= 2.8f)
             {
-                machine.theBoss.LookAtPlayer();
-                machine.ChangeState(new BossMeleeState(machine));
+                randomNum = Random.Range(0, 101);
+                if (machine.theBoss.GetAnimatorInt("currentPhase") == 1)
+                {
+                    if (randomNum > 66)
+                    {
+                        machine.theBoss.LookAtPlayer();
+                        machine.ChangeState(new BossMeleeState(machine));
+                    }
+                    else if (randomNum <= 66 && randomNum > 33)
+                    {
+                        machine.theBoss.LookAtPlayer();
+                        machine.ChangeState(new BossProjectileState(machine));
+                    }
+                    else if(randomNum <= 33)
+                    {
+                        machine.theBoss.LookAtPlayer();
+                        machine.ChangeState(new BossDashState(machine));
+                    }
+                }
+                else if (machine.theBoss.GetAnimatorInt("currentPhase") == 2)
+                {
+                    if(randomNum > 75)
+                    {
+                        machine.theBoss.LookAtPlayer();
+                        machine.ChangeState(new BossMeleeState(machine));
+                    }
+                    else if(randomNum <= 75 && randomNum > 50)
+                    {
+                        machine.theBoss.LookAtPlayer();
+                        machine.ChangeState(new BossDashState(machine));
+                    }
+                    else if(randomNum <= 50 && randomNum > 25)
+                    {
+                        machine.theBoss.LookAtPlayer();
+                        machine.ChangeState(new BossProjectileState(machine));
+                    }
+                    else if(randomNum <= 25)
+                    {
+                        machine.ChangeState(new BossLaserState(machine));
+                    }
+                }
             }
             if(elapsedTime > 3.0f)
             {
                 randomNum = Random.Range(0, 101);
-                //Debug.Log(randomNum);
                 if(machine.theBoss.GetAnimatorInt("currentPhase") == 1)
                 {
                     if (randomNum > 50)
                     {
-                        Debug.Log("Got dash 1");
                         machine.ChangeState(new BossDashState(machine));
                     }
                     else if (randomNum <= 50)
                     {
-                        Debug.Log("Got Projectiles 1");
                         machine.ChangeState(new BossProjectileState(machine));
                     }
                 }
@@ -56,17 +92,14 @@ namespace Omar
                 {
                     if(randomNum > 66)
                     {
-                        Debug.Log("Got beam 2");
                         machine.ChangeState(new BossLaserState(machine));
                     }
                     else if (randomNum <= 66 && randomNum > 33)
                     {
-                        Debug.Log("Got dash 2");
                         machine.ChangeState(new BossDashState(machine));
                     }
                     else if (randomNum <= 33)
                     {
-                        Debug.Log("Got Projectiles 2");
                         machine.ChangeState(new BossProjectileState(machine));
                     }
                 }

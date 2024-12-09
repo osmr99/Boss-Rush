@@ -27,11 +27,11 @@ namespace Omar
         {
             base.OnUpdate();
 
-            if (elapsedTime <= 0.5f)
+            if (elapsedTime <= 1.0f)
             {
                 machine.theBoss.AgentSetPathToPlayer();
             }
-            else if (elapsedTime > 0.5f && dashing == false)
+            else if (elapsedTime > 1.0f && dashing == false)
             {
                 dashing = true;
                 machine.theBoss.ToggleDashDamager(true);

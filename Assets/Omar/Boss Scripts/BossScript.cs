@@ -26,6 +26,8 @@ namespace Omar
         BossStateMachine myStateMachine;
         Damageable bossDamageable;
         [SerializeField] OmarPlayerData playerData;
+        [SerializeField] GameObject quizCanvas;
+        [SerializeField] OmarQuizHandler quizHandler;
         [SerializeField] OmarBar bossHealthBar;
         [SerializeField] OmarBar energyBar;
         [SerializeField] OmarHUDAnim hudAnim;
@@ -138,12 +140,31 @@ namespace Omar
         IEnumerator StartQuiz()
         {
             yield return new WaitForSeconds(2.0f);
-            ToggleMeleeDamager(true);
-            //hudAnim.HideAnim(true, true, false);
-            //StaticInputManager.input.Disable();
-            //SetAnimatorBool("mustIdle", true);
-            //mustIdle = true;
-            //Debug.Log("Quiz Start!");
+            ToggleMeleeDamager(false);
+            hudAnim.HideAnim(true, true, false);
+            StaticInputManager.input.Disable();
+            SetAnimatorBool("mustIdle", true);
+            mustIdle = true;
+            yield return new WaitForSeconds(1.5f);
+            quizCanvas.SetActive(true);
+            quizHandler.StartQuestions();
+            Debug.Log("Quiz Start!");
+        }
+
+        IEnumerator EndQuiz()
+        {
+            quizCanvas.SetActive(false);
+            yield return new WaitForSeconds(1.5f);
+            hudAnim.ShowAllAnim(true, true, true);
+            StaticInputManager.input.Enable();
+            SetAnimatorBool("mustIdle", false);
+            mustIdle = false;
+            Debug.Log("Quiz End");
+        }
+
+        public void EndTheQuiz()
+        {
+            StartCoroutine(EndQuiz());
         }
 
         public void StartCoroutineMeleeOne()

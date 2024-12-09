@@ -1402,6 +1402,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: cf944d4275158d5458be9e2e81e245a9, type: 2}
+  quizCanvas: {fileID: 0}
+  quizHandler: {fileID: 0}
   bossHealthBar: {fileID: 0}
   energyBar: {fileID: 0}
   hudAnim: {fileID: 0}
@@ -1410,6 +1412,12 @@ MonoBehaviour:
   meleeDamager: {fileID: 5923918936637858060}
   dashDamager: {fileID: 3773151968214603287}
   spheresAttack: {fileID: 1993765149685897390}
+  spheres:
+  - {fileID: 7202065834716801926}
+  - {fileID: 2251235376752490890}
+  - {fileID: 2908807248266690421}
+  - {fileID: 2627056210459737070}
+  - {fileID: 4125574855619938990}
   laserAttack: {fileID: 4147810613787839051}
 --- !u!54 &568297390296848946
 Rigidbody:
@@ -2381,7 +2389,7 @@ Transform:
   m_GameObject: {fileID: 4215729062213770726}
   serializedVersion: 2
   m_LocalRotation: {x: 0.06854047, y: -0, z: -0, w: 0.99764836}
-  m_LocalPosition: {x: -0.33, y: 1.73, z: 0.62}
+  m_LocalPosition: {x: 0.202, y: 1.73, z: 1.322}
   m_LocalScale: {x: 1, y: 1, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
