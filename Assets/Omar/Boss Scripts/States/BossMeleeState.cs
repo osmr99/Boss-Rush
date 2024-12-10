@@ -23,6 +23,7 @@ namespace Omar
             machine.theBoss.SetAnimatorFloat("speed", 0);
             machine.theBoss.SetAgentSpeed(0);
             machine.theBoss.SetAnimatorTrigger("canMelee");
+            machine.theBoss.SetAnimatorBool("wasOnDash", false);
             lastMelee = machine.theBoss.GetAnimatorInt("lastMeleeChoice");
             if(lastMelee == -1)
                 randomNum = Random.Range(0, 3); //0, 3

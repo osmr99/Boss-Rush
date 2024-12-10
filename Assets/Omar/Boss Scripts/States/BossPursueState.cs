@@ -21,7 +21,6 @@ namespace Omar
             if (machine.theBoss.GetMeleeDamagerState() == true)
                 machine.theBoss.ToggleMeleeDamager(false);
             machine.theBoss.SetAgentOffset(0.83f);
-            machine.theBoss.SetAnimatorFloat("speed", 1);
             machine.theBoss.SetAgentSpeed(4);
             machine.theBoss.SetAgentStoppingDistance(2.75f);
         }
@@ -36,12 +35,12 @@ namespace Omar
                 randomNum = Random.Range(0, 101);
                 if (machine.theBoss.GetAnimatorInt("currentPhase") == 1)
                 {
-                    if (randomNum > 50)
+                    if (randomNum > 30)
                     {
                         machine.theBoss.LookAtPlayer();
                         machine.ChangeState(new BossMeleeState(machine));
                     }
-                    else if (randomNum <= 50)
+                    else if (randomNum <= 30)
                     {
                         machine.theBoss.LookAtPlayer();
                         machine.ChangeState(new BossProjectileState(machine));
@@ -66,27 +65,58 @@ namespace Omar
                 }
                 else if(machine.theBoss.GetAnimatorInt("currentPhase") == 3)
                 {
-                    if(randomNum > 60)
+                    if (machine.theBoss.GetAnimatorBool("recentTeleport") == false)
                     {
-                        machine.ChangeState(new BossLaserState(machine));
+                        if (randomNum > 70)
+                        {
+                            machine.ChangeState(new BossLaserState(machine));
+                        }
+                        else if (randomNum <= 70 && randomNum > 40)
+                        {
+                            machine.theBoss.SetAnimatorBool("recentTeleport", true);
+                            machine.ChangeState(new BossTeleportState(machine));
+                        }
+                        else if (randomNum <= 40 && randomNum > 20)
+                        {
+                            machine.theBoss.LookAtPlayer();
+                            machine.ChangeState(new BossWarcryState(machine));
+                        }
+                        else if (randomNum <= 20 && randomNum > 10)
+                        {
+                            machine.theBoss.LookAtPlayer();
+                            machine.ChangeState(new BossProjectileState(machine));
+                        }
+                        else if (randomNum <= 10)
+                        {
+                            machine.theBoss.LookAtPlayer();
+                            machine.ChangeState(new BossMeleeState(machine));
+                        }
                     }
-                    else if(randomNum <= 60 && randomNum > 40)
+                    else if(machine.theBoss.GetAnimatorBool("recentTeleport") == true)
                     {
-                        machine.ChangeState(new BossTeleportState(machine));
-                    }
-                    else if(randomNum <= 40 && randomNum > 20)
-                    {
-                        machine.ChangeState(new BossWarcryState(machine));
-                    }
-                    else if(randomNum <= 20 && randomNum > 10)
-                    {
-                        machine.theBoss.LookAtPlayer();
-                        machine.ChangeState(new BossProjectileState(machine));
-                    }
-                    else if (randomNum <= 10)
-                    {
-                        machine.theBoss.LookAtPlayer();
-                        machine.ChangeState(new BossMeleeState(machine));
+                        if (randomNum > 65)
+                        {
+                            machine.theBoss.SetAnimatorBool("recentTeleport", false);
+                            machine.theBoss.LookAtPlayer();
+                            machine.ChangeState(new BossWarcryState(machine));
+                        }
+                        else if (randomNum <= 65 && randomNum > 40)
+                        {
+                            machine.theBoss.SetAnimatorBool("recentTeleport", false);
+                            machine.ChangeState(new BossLaserState(machine));
+                        }
+                        else if (randomNum <= 40 && randomNum > 20)
+                        {
+                            machine.theBoss.SetAnimatorBool("recentTeleport", false);
+                            machine.theBoss.LookAtPlayer();
+                            machine.ChangeState(new BossProjectileState(machine));
+                        }
+                        else if (randomNum <= 20)
+                        {
+                            machine.theBoss.SetAnimatorBool("recentTeleport", false);
+                            machine.theBoss.LookAtPlayer();
+                            machine.ChangeState(new BossMeleeState(machine));
+                        }
                     }
                 }
             }
@@ -121,21 +151,43 @@ namespace Omar
                 }
                 else if(machine.theBoss.GetAnimatorInt("currentPhase") == 3)
                 {
-                    if (randomNum > 60)
+                    if (machine.theBoss.GetAnimatorBool("recentTeleport") == false)
                     {
-                        machine.ChangeState(new BossLaserState(machine));
+                        if (randomNum > 70)
+                        {
+                            machine.ChangeState(new BossLaserState(machine));
+                        }
+                        else if (randomNum <= 70 && randomNum > 40)
+                        {
+                            machine.theBoss.SetAnimatorBool("recentTeleport", true);
+                            machine.ChangeState(new BossTeleportState(machine));
+                        }
+                        else if (randomNum <= 40 && randomNum > 15)
+                        {
+                            machine.ChangeState(new BossWarcryState(machine));
+                        }
+                        else if (randomNum <= 15)
+                        {
+                            machine.ChangeState(new BossProjectileState(machine));
+                        }
                     }
-                    else if (randomNum <= 60 && randomNum > 40)
+                    else if(machine.theBoss.GetAnimatorBool("recentTeleport") == true)
                     {
-                        machine.ChangeState(new BossTeleportState(machine));
-                    }
-                    else if (randomNum <= 40 && randomNum > 20)
-                    {
-                        machine.ChangeState(new BossWarcryState(machine));
-                    }
-                    else if (randomNum <= 20)
-                    {
-                        machine.ChangeState(new BossProjectileState(machine));
+                        if (randomNum > 60)
+                        {
+                            machine.theBoss.SetAnimatorBool("recentTeleport", false);
+                            machine.ChangeState(new BossWarcryState(machine));
+                        }
+                        else if (randomNum <= 60 && randomNum > 20)
+                        {
+                            machine.theBoss.SetAnimatorBool("recentTeleport", false);
+                            machine.ChangeState(new BossLaserState(machine));
+                        }
+                        else if(randomNum <= 20)
+                        {
+                            machine.theBoss.SetAnimatorBool("recentTeleport", false);
+                            machine.ChangeState(new BossProjectileState(machine));
+                        }
                     }
                 }
             }

@@ -13,6 +13,7 @@ namespace Omar
     public class OmarLaserBeam : MonoBehaviour
     {
         [SerializeField] BossScript bossScript;
+        [SerializeField] OmarHUDAnim hudAnim;
         [SerializeField] GameObject beam;
         [SerializeField] GameObject finalBeam;
         [SerializeField] AudioClipCollection sounds;
@@ -22,6 +23,7 @@ namespace Omar
         [SerializeField] AudioClipCollection clickSound;
         [SerializeField] GameObject mashing;
         [SerializeField] RawImage boom;
+        [SerializeField] float shakingPower;
         GameObject[] imSorry;
         GameObject here;
         float randomFloat;
@@ -29,6 +31,9 @@ namespace Omar
         bool playerCanFightBack = false;
         float strengthMultiplier;
         bool gamepadConnected;
+        bool dead = false;
+        float randomX;
+        float randomY;
 
         private void Start()
         {
@@ -37,10 +42,11 @@ namespace Omar
         }
 
 
-        private void Update()
+        void Update()
         {
-            if(playerCanFightBack)
+            if(playerCanFightBack && dead == false)
             {
+                ShakingAnim();
                 if (gamepadConnected)
                 {
                     if (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow) || Gamepad.current.rightShoulder.wasPressedThisFrame))
@@ -69,12 +75,19 @@ namespace Omar
                     }
                 }
 
-                if (finalBeam.transform.localScale.z < 0.5f)
+                if (finalBeam.transform.localScale.z < 0.25f)
                 {
+                    mashing.SetActive(false);
                     winTrigger.SetActive(true);
                 }
             }
+        }
 
+        void ShakingAnim()
+        {
+            randomX = Random.Range(0 + shakingPower, 0 - shakingPower);
+            randomY = Random.Range(0 + shakingPower, 0 - shakingPower);
+            mashing.transform.localPosition = new Vector2(randomX, -319 + randomY);
         }
 
         public void StartBeam()
@@ -90,7 +103,6 @@ namespace Omar
         IEnumerator Beaming()
         {
             randomFloat = Random.Range(2.5f, 4f);
-            //Debug.Log("Laser beam delay: " + randomFloat);
             bossScript.SetDelayFloat(randomFloat);
             SoundEffectsManager.instance.PlayAudioClip(sounds.clips[0], true);
             imSorry = FindObjectsOfType<GameObject>();
@@ -110,7 +122,9 @@ namespace Omar
             here.GetComponent<AudioSource>().volume = 0;
             beam.SetActive(true);
             SoundEffectsManager.instance.PlayAudioClip(sounds.clips[1], true);
-            beam.transform.DOScaleZ(17.5f, 3);
+            bossScript.DoCameraShake();
+            beam.transform.localScale = new Vector3(2, 2, 0.01f);
+            beam.transform.DOScaleZ(22.5f, 3);
             yield return new WaitForSeconds(3.5f);
             beam.transform.localScale = new Vector3(2,2,0.01f);
             beam.SetActive(false);
@@ -154,6 +168,7 @@ namespace Omar
             SoundEffectsManager.instance.PlayAudioClip(sounds.clips[2], true);
             yield return new WaitForSeconds(3);
             finalBeam.SetActive(true);
+            bossScript.DoCameraShake();
             SoundEffectsManager.instance.PlayAudioClip(sounds.clips[3], true);
             switch (correctAnswersCount.myInt)
             {
@@ -207,6 +222,8 @@ namespace Omar
         IEnumerator Boom()
         {
             yield return new WaitForSeconds(0.1f);
+            hudAnim.HidePlayerHUD();
+            mashing.SetActive(false);
             SoundEffectsManager.instance.PlayAudioClip(sounds.clips[4], true);
             for(int i = 0; i < 11; i++)
             {
@@ -218,9 +235,27 @@ namespace Omar
             bossScript.FailedTheUlti();
         }
 
+        public void Died()
+        {
+            dead = true;
+            imSorry = FindObjectsOfType<GameObject>();
+            foreach (GameObject go in imSorry)
+            {
+                if (go.name == "New Game Object" && go.GetComponent<AudioSource>() != null)
+                {
+                    if (go.GetComponent<AudioSource>().clip == sounds.clips[3])
+                    {
+                        here = go;
+                        here.GetComponent<AudioSource>().volume = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
         private void FixedUpdate()
         {
-            if(doItNow)
+            if(doItNow && dead == false)
             {
                 finalBeam.transform.localScale += new Vector3 (0, 0, finalBeamRate);
             }

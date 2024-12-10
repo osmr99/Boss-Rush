@@ -52,7 +52,6 @@ namespace Omar
                 {
                     if (elapsedTime > delay && performedLaser == false)
                     {
-                        //Debug.Log("Laser state delay: " + delay);
                         performedLaser = true;
                         machine.theBoss.SetAnimatorBool("canLaser", true);
                     }

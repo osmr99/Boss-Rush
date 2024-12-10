@@ -63,5 +63,12 @@ namespace Omar
             if (bHealth)
                 bossHealthHUD.transform.DOMoveY(originBossHealth, animTime).ForceInit();
         }
+
+        public void HidePlayerHUD()
+        {
+            playerHealthHUD.transform.position = new Vector2(playerHealthHUD.transform.position.x, -1000);
+            playerEnergyHUD.transform.position = new Vector2(playerEnergyHUD.transform.position.x, -1000);
+            bossHealthHUD.transform.position = new Vector2(bossHealthHUD.transform.position.x, -100);
+        }
     }
 }

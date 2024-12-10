@@ -91,6 +91,10 @@ namespace Omar
                 }
             DeathCounter();
             hasWon();
+            music.volume = 0;
+            music.Play();
+            music.Stop();
+            music.time = 0;
             music.volume = playerPrefs.musicVol;
             musicSlider.value = music.volume;
             uiAnimToggle.isOn = playerPrefs.UIAnim;

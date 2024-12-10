@@ -32,6 +32,7 @@ namespace Omar
             machine.theBoss.SetAnimatorBool("canLaser", false);
             machine.theBoss.SetAnimatorBool("canCry", false);
             machine.theBoss.SetAnimatorBool("canTeleport", false);
+            machine.theBoss.DoCameraShake();
             machine.theBoss.StopCoroutines();
         }
 

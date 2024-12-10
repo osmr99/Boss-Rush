@@ -44,6 +44,7 @@ namespace Omar
         {
             base.OnExit();
 
+            machine.theBoss.SetAnimatorBool("wasOnDash", true);
             elapsedTime = 0;
         }
     }

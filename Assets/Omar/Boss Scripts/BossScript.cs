@@ -48,9 +48,11 @@ namespace Omar
         [SerializeField] OmarLaserBeam laserAttack;
         [SerializeField] GameObject healTrigger;
         [SerializeField] AudioClipCollection hurtSound;
+        [SerializeField] AudioClipCollection deathSound;
         [SerializeField] OmarWarcryAttack warcryAttack;
         [SerializeField] OmarTeleport teleport;
         [SerializeField] GameObject triggerOfDeath;
+        [SerializeField] OmarBGM bgm;
         float bossHPPercentage;
         bool mustIdle = false;
         float tempDelay;
@@ -64,6 +66,7 @@ namespace Omar
             player = FindObjectOfType<PlayerLogic>().transform;
             bossAnim = GetComponent<Animator>();
             bossDamageable = GetComponent<Damageable>();
+            gameManager = FindObjectOfType<GameManager>();
 
             myStateMachine = new BossStateMachine(this);
 
@@ -103,12 +106,13 @@ namespace Omar
             SetAnimatorBool("canDash", true);
             while (agent.remainingDistance > 0.5f)
             {
-                yield return new WaitForSeconds(1.0f);
+                yield return new WaitForSeconds(0.1f);//1
             }
             SetAnimatorBool("canDash", false);
             ToggleDashDamager(false);
             ToggleCollision(true);
             ToggleCollisionDamager(true);
+            yield return new WaitForSeconds(0.3f);
             ChangeStateToIdle();
         }
 
@@ -215,6 +219,7 @@ namespace Omar
 
         IEnumerator EndQuiz()
         {
+            yield return new WaitForSeconds(0.25f);
             quizCanvas.SetActive(false);
             yield return new WaitForSeconds(1.5f);
             hudAnim.ShowAllAnim(true, true, true);
@@ -301,7 +306,7 @@ namespace Omar
             ToggleMeleeDamager(true);
             yield return new WaitForSeconds(0.21f);
             ToggleMeleeDamager(false);
-            yield return new WaitForSeconds(1.23f);
+            yield return new WaitForSeconds(1);//1.23f
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
 
@@ -311,7 +316,7 @@ namespace Omar
             ToggleMeleeDamager(true);
             yield return new WaitForSeconds(0.11f);
             ToggleMeleeDamager(false);
-            yield return new WaitForSeconds(1.4f); //2.3f
+            yield return new WaitForSeconds(1.1f); //1.4f
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
 
@@ -321,7 +326,7 @@ namespace Omar
             ToggleMeleeDamager(true);
             yield return new WaitForSeconds(0.07f);
             ToggleMeleeDamager(false);
-            yield return new WaitForSeconds(1.6f);
+            yield return new WaitForSeconds(1.5f);//1.6f
             myStateMachine.ChangeState(new BossIdleState(myStateMachine));
         }
 
@@ -345,6 +350,31 @@ namespace Omar
             navigator.enabled = false;
             if(playerData.hasWon == false)
                 playerData.hasWon = true;
+            StartCoroutine(DeathSFX());
+        }
+
+        IEnumerator DeathSFX()
+        {
+            DoCameraShake();
+            bgm.StopTheMusic();
+            laserAttack.Died();
+            warcryAttack.DeathEffect();
+            yield return new WaitForSeconds(0.025f);
+            imSorry = FindObjectsOfType<GameObject>();
+            foreach (GameObject go in imSorry)
+            {
+                if (go.name == "New Game Object" && go.GetComponent<AudioSource>() != null)
+                {
+                    if (go.GetComponent<AudioSource>().clip == deathSound.clips[0])
+                    {
+                        tempGameobjectTwo = go;
+                        break;
+                    }
+                }
+            }
+            imSorry = new GameObject[0];
+            tempGameobjectTwo.GetComponent<AudioSource>().pitch = 1;
+            yield return new WaitForSeconds(4.75f);
             GameManager.instance.GoToNextLevel();
         }
 
