@@ -18,6 +18,7 @@ namespace Omar
         [SerializeField] List<Image> allUI;
         [SerializeField] OmarNumsArray numsArray;
         [SerializeField] OmarPlayerData playerData;
+        [SerializeField] Button startButton;
         float tempNum;
         bool paused = false;
 
@@ -72,38 +73,42 @@ namespace Omar
 
             //if (Gamepad.current.bButton.wasPressedThisFrame) // Manual Beat set
             //{
-                //numsArray.nums[numsArray.lastPlayedIndex + 1] = numsArray.time;
-                //numsArray.lastPlayedIndex++;
-                //PerformUIAnim();
+            //numsArray.nums[numsArray.lastPlayedIndex + 1] = numsArray.time;
+            //numsArray.lastPlayedIndex++;
+            //PerformUIAnim();
             //}
 
 
 
             //if (Input.GetKeyDown(KeyCode.C)) // Freeze
             //{
-                //if (Time.timeScale != 0)
-                //{
-                    //tempNum = numsArray.timeScale;
-                    //numsArray.timeScale = 0;
-                //}
-                //else
-                //{
-                    //numsArray.timeScale = tempNum;
-                //}
+            //if (Time.timeScale != 0)
+            //{
+            //tempNum = numsArray.timeScale;
+            //numsArray.timeScale = 0;
+            //}
+            //else
+            //{
+            //numsArray.timeScale = tempNum;
+            //}
             //}
 
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+            if (startButton.enabled == false)
             {
-                paused = !paused;
-                if(paused)
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
                 {
-                    source.Pause();
-                }
-                else
-                {
-                    source.UnPause();
+                    paused = !paused;
+                    if (paused)
+                    {
+                        source.Pause();
+                    }
+                    else
+                    {
+                        source.UnPause();
+                    }
                 }
             }
+
 
             //Time.timeScale = numsArray.timeScale;
             //source.pitch = numsArray.timeScale;

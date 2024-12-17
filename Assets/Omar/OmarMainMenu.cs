@@ -9,13 +9,13 @@ using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Rendering;
 using UnityEngine.Audio;
 using System.IO;
-using static Unity.VisualScripting.Member;
 using System;
 using UnityEngine.AI;
 using Unity.VisualScripting;
 using TMPro;
 using UnityEngine.EventSystems;
-using static Unity.Burst.Intrinsics.X86;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 
 namespace Omar
@@ -44,10 +44,12 @@ namespace Omar
         [SerializeField] Toggle uiAnimToggle;
         [SerializeField] TMP_Text deathCounter;
         [SerializeField] GameObject hasWonGameObject;
+        [SerializeField] GameObject resetButton;
         [SerializeField] TMP_Text hasWonText;
         [SerializeField] Image bossHPFillBar;
         [SerializeField] Color bossHPColor;
         [SerializeField] GameObject musicCredits;
+        public bool allowQuit;
         Vector3 scaleChange = new Vector3(1.1f, 1.1f, 1.1f);
         string path;
         string user;
@@ -55,13 +57,15 @@ namespace Omar
         string[] errorMessages = { "Um, couldn't save your prefs... that's weird (is the file read-only?)",
                                    "Ok, apparently your current prefs file is a read-only or something else...",
                                    "If you see this message, I genuinely don't know what happened or how you accomplished to " +
-                                    "do this. (The default player prefs failed to create its file)"};
+                                    "do this. (The default player prefs failed to create its file)",
+                                   "Sad news, your save file is not valid :/, restore its original version " +
+                                   "or delete it. Then restart the game"};
         void Awake()
         {
             path = Application.persistentDataPath + "/OmarBossPlayerData.json";
             user = System.Environment.UserName;
             domain = System.Environment.UserDomainName;
-            if (File.Exists(path))
+            /*if (File.Exists(path)) Original
                 try
                 {
                     SavePrefs(
@@ -79,46 +83,73 @@ namespace Omar
                 {
                     ShowFileError(1);
                 }
-                
             else
                 try
                 {
-                    SavePrefs(0.25f, 0.25f, false, 0, 0, true, 6, 3);
+                    SavePrefs(0.25f, 0.25f, false, 0, 0, true, 6, 6);
                 }
                 catch
                 {
                     ShowFileError(2);
+                }*/
+            if(File.Exists(path)) //For the build only
+            {
+                try
+                {
+                    LoadPrefs();
+                    DeathCounter();
+                    hasWon();
+                    music.volume = 0;
+                    music.Play();
+                    music.Stop();
+                    music.time = 0;
+                    music.volume = playerPrefs.musicVol;
+                    musicSlider.value = music.volume;
+                    uiAnimToggle.isOn = playerPrefs.UIAnim;
+                    sword.SetDamageAmount(playerPrefs.meleeDmg);
+                    projectile.SetDamageAmount(playerPrefs.projDmg);
                 }
-            DeathCounter();
-            hasWon();
-            music.volume = 0;
-            music.Play();
-            music.Stop();
-            music.time = 0;
-            music.volume = playerPrefs.musicVol;
-            musicSlider.value = music.volume;
-            uiAnimToggle.isOn = playerPrefs.UIAnim;
-            sword.SetDamageAmount(playerPrefs.meleeDmg);
-            projectile.SetDamageAmount(playerPrefs.projDmg);
-
-            /*string saveText = File.ReadAllText(path);
-            SaveData playerData = JsonUtility.FromJson<SaveData>(saveText);
-            playerPrefs.musicVol = playerData.musicVol;
-            playerPrefs.sfxVol = playerData.sfxVol;
-            playerPrefs.hasWon = playerData.hasWon;
-            playerPrefs.deaths = playerData.deaths;
-            playerPrefs.UIAnim = playerData.UIAnim;
-            playerPrefs.meleeDmg = playerData.meleeDmg;
-            sword.SetDamageAmount(playerData.meleeDmg);
-            playerPrefs.projDmg = playerData.projDmg;
-            projectile.SetDamageAmount(playerData.projDmg);*/
+                catch
+                {
+                    ShowFileError(3);
+                    uiAnimToggle.interactable = false;
+                    startButton.interactable = false;
+                    musicSlider.interactable = false;
+                }
+            }
+            else
+            {
+                try
+                {
+                    SavePrefs(0.25f, 0.25f, false, 0, 0, true, 6, 6);
+                    DeathCounter();
+                    hasWon();
+                    music.volume = 0;
+                    music.Play();
+                    music.Stop();
+                    music.time = 0;
+                    music.volume = playerPrefs.musicVol;
+                    musicSlider.value = music.volume;
+                    uiAnimToggle.isOn = playerPrefs.UIAnim;
+                    sword.SetDamageAmount(playerPrefs.meleeDmg);
+                    projectile.SetDamageAmount(playerPrefs.projDmg);
+                }
+                catch
+                {
+                    ShowFileError(2);
+                    uiAnimToggle.interactable = false;
+                    startButton.interactable = false;
+                    musicSlider.interactable = false;
+                }
+            }
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            if(playerNumsArray.timeScale == 0)
+            if (playerNumsArray.timeScale == 0)
                 playerNumsArray.timeScale = 1;
+            allowQuit = true;
             bossAgent.enabled = false;
             bossNav.enabled = false;
             bossUICanvas.sortingOrder = -1;
@@ -155,6 +186,16 @@ namespace Omar
                     //Debug.Log("Player controls enabled");
                 //}
             //}
+
+            if (Input.GetKeyDown(KeyCode.R) && startButton.enabled == false)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape) && startButton.enabled == true && allowQuit)
+            {
+                Application.Quit();
+            }
 
             if (Mouse.current.leftButton.wasReleasedThisFrame)
                 if (EventSystem.current.currentSelectedGameObject?.GetComponent<Slider>())
@@ -261,13 +302,52 @@ namespace Omar
             playerLogic.enabled = false;
         }
 
+        public void ResetAllStats(float mus, float sfx, bool won, int loosesTook, int losses, bool ui, int sword, int proj)
+        {
+            playerPrefs.musicVol = mus;
+            playerPrefs.sfxVol = sfx;
+            playerPrefs.hasWon = won;
+            playerPrefs.deathsTook = loosesTook;
+            playerPrefs.deaths = losses;
+            playerPrefs.UIAnim = ui;
+            playerPrefs.meleeDmg = sword;
+            playerPrefs.projDmg = proj;
+            SavePrefs(mus, sfx, won, loosesTook, losses, ui, sword, proj);
+        }
+
+        public void LoadPrefs()
+        {
+            string saveText = File.ReadAllText(path);
+            SaveData playerData = JsonUtility.FromJson<SaveData>(saveText);
+            playerPrefs.musicVol = playerData.musicVol;
+            playerPrefs.sfxVol = playerData.sfxVol;
+            playerPrefs.hasWon = playerData.hasWon;
+            playerPrefs.deathsTook = playerData.deathsTook;
+            playerPrefs.deaths = playerData.deaths;
+            playerPrefs.UIAnim = playerData.UIAnim;
+            playerPrefs.meleeDmg = playerData.meleeDmg;
+            playerPrefs.projDmg = playerData.projDmg;
+            sword.SetDamageAmount(playerData.meleeDmg);
+            projectile.SetDamageAmount(playerData.projDmg);
+        }
+
         public void SavePrefs(float mus, float sfx, bool won, int loosesTook, int losses, bool ui, int sword, int proj)
         {
             SaveData sd = new SaveData();
 
+            playerPrefs.musicVol = mus;
+            playerPrefs.sfxVol = sfx;
+            playerPrefs.hasWon = won;
+            playerPrefs.deathsTook = loosesTook;
+            playerPrefs.deaths = losses;
+            playerPrefs.UIAnim = ui;
+            playerPrefs.meleeDmg = sword;
+            playerPrefs.projDmg = proj;
+
             sd.musicVol = mus;
             sd.sfxVol = sfx;
             sd.hasWon = won;
+            sd.deathsTook = loosesTook;
             sd.deaths = losses;
             sd.UIAnim = ui;
             sd.meleeDmg = sword;
@@ -276,7 +356,7 @@ namespace Omar
             string jsonText = JsonUtility.ToJson(sd);
 
             int randomNumber = UnityEngine.Random.Range(0, 10);
-            switch(randomNumber)
+            /*switch(randomNumber) Original
             {
                 case 0:
                     jsonText += "\n" + user + ", what are you planning?";
@@ -313,9 +393,47 @@ namespace Omar
                                 "\n" + "\"" + domain + "\"" +
                                 "\n" + "ahahaha, you looked terrified for a sec.";
                     break;
-            }
+            }*/
+            /*switch (randomNumber) Attempt for Build, unfortunately couldn't make it work due to the save system :(
+            {
+                case 0:
+                    jsonText += "\n" + user + ", what are you planning?";
+                    break;
+                case 1:
+                    jsonText += "\n" + "First time here? @" + user;
+                    break;
+                case 2:
+                    jsonText += "\n" + "This filename is pretty obvious isn't?";
+                    break;
+                case 3:
+                    jsonText += "\n" + "What were you thinking??";
+                    break;
+                case 4:
+                    jsonText += "\n" + "Oh hey! It's your data!" +
+                                "\n" + "(What are you doing?)";
+                    break;
+                case 5:
+                    jsonText += "\n" + "\"Also try Minecraft!\"";
+                    break;
+                case 6:
+                    jsonText += "\n" + "Hi, you are just passing by?...";
+          
+                    break;
+                case 7:
+                    jsonText += "\n" + "ngl... I'll really miss this class....";
+                    break;
+                case 8:
+                    jsonText += "\n" + "Hey I've heard pressing alt f4 does" +
+                                "\n" + "something pretty cool";
+                    break;
+                case 9:
+                    jsonText += "\n" + "Hmmm, let's see here..." +
+                                "\n" + "\"" + domain + "\"" +
+                                "\n" + "ahahaha, you looked terrified for a sec.";
+                    break;
+            }*/
             File.WriteAllText(path, jsonText);
-            
+
         }
 
         public void UIToggle()
@@ -342,6 +460,7 @@ namespace Omar
         {
             if(playerPrefs.hasWon)
             {
+                resetButton.SetActive(true);
                 hasWonGameObject.SetActive(true);
                 if (playerPrefs.deathsTook == 0)
                     ChangeVictoryText("deaths! WOW, is it that easy?");
@@ -359,7 +478,7 @@ namespace Omar
             hasWonText.text = playerPrefs.deathsTook + " " + text;
         }
 
-        //[System.Serializable] I don't think it's required apparently
+        [System.Serializable] //idk anymore
         public class SaveData
         {
             public float musicVol;

@@ -5,12 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using DG.Tweening;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Rendering;
 using UnityEngine.AI;
 using brolive;
 using Unity.VisualScripting;
-using Palmmedia.ReportGenerator.Core;
 using System;
 using Cinemachine;
 
@@ -53,6 +51,7 @@ namespace Omar
         [SerializeField] OmarTeleport teleport;
         [SerializeField] GameObject triggerOfDeath;
         [SerializeField] OmarBGM bgm;
+        [SerializeField] OmarMainMenu menu;
         float bossHPPercentage;
         bool mustIdle = false;
         float tempDelay;
@@ -192,7 +191,7 @@ namespace Omar
                 myStateMachine.ChangeState(new BossHurtState(myStateMachine));
                 StartCoroutine(StartQuiz());
             }
-            else if(bossHPPercentage >= 0.5f && bossHPPercentage <= 1 && bossAnim.GetBool("canUlti") == false)
+            else if(bossHPPercentage >= 0.01f && bossHPPercentage <= 1 && bossAnim.GetBool("canUlti") == false)
             {
                 bossHealthBar.LowHealthBoss();
                 spheresAttack.StopAllCoroutines();
@@ -348,8 +347,20 @@ namespace Omar
         public void Death()
         {
             navigator.enabled = false;
+            
             if(playerData.hasWon == false)
+            {
                 playerData.hasWon = true;
+                menu.SavePrefs(playerData.musicVol,
+                    playerData.sfxVol,
+                    playerData.hasWon,
+                    playerData.deathsTook,
+                    playerData.deaths,
+                    playerData.UIAnim,
+                    playerData.meleeDmg,
+                    playerData.projDmg);
+            }
+                
             StartCoroutine(DeathSFX());
         }
 
@@ -375,7 +386,8 @@ namespace Omar
             imSorry = new GameObject[0];
             tempGameobjectTwo.GetComponent<AudioSource>().pitch = 1;
             yield return new WaitForSeconds(4.75f);
-            GameManager.instance.GoToNextLevel();
+            //GameManager.instance.GoToNextLevel();
+            GameManager.instance.RestartLevelNoSound();
         }
 
         public void StopCoroutines()

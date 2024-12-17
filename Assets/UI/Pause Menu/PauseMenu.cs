@@ -1,31 +1,54 @@
+//Omar changed this script.
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField]
     GameObject pauseScreen;
+    bool gamepadConnected;
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (Gamepad.current != null)
+            gamepadConnected = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+        if(gamepadConnected)
         {
-            if(Time.timeScale == 1)
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P) || Gamepad.current.startButton.wasPressedThisFrame)
             {
-                Pause();
-            }
-            else
-            {
-                Resume();
+                if (Time.timeScale == 1)
+                {
+                    Pause();
+                }
+                else
+                {
+                    Resume();
+                }
             }
         }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+            {
+                if (Time.timeScale == 1)
+                {
+                    Pause();
+                }
+                else
+                {
+                    Resume();
+                }
+            }
+        }
+
     }
 
     public void Pause()
@@ -44,6 +67,9 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit();
+        //if (EditorApplication.isPlaying)
+            //EditorApplication.isPlaying = false;
+        //else
+            Application.Quit();
     }
 }

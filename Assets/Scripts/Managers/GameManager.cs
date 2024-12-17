@@ -25,6 +25,11 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<BackgroundMusic>().AbruptlyStop();
     }
 
+    public void RestartLevelNoSound() // Omar Added This
+    {
+        StartCoroutine(HandleRestart());
+    }
+
     IEnumerator HandleRestart()
     {
         screenFade.SetTrigger("fade to black");

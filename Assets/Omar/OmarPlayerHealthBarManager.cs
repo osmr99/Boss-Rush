@@ -19,9 +19,12 @@ namespace Omar
         [SerializeField] float flashingSpeed;
         [SerializeField] OmarPlayerData playerData;
         [SerializeField] OmarHUDAnim hudAnim;
+        [SerializeField] OmarMainMenu menu;
         bool warning = false;
         float healthPercentage;
         int currentNumOfHearts;
+        int deathsC;
+        int deathsT;
 
         List<GameObject> hearts;
         [SerializeField] Sprite heart;
@@ -37,11 +40,8 @@ namespace Omar
         void Start()
         {
             StartCoroutine(SetHealthBar());
-        }
-
-        void Update()
-        {
-            
+            deathsC = playerData.deaths;
+            deathsT = playerData.deathsTook;
         }
 
         IEnumerator SetHealthBar()
@@ -97,9 +97,16 @@ namespace Omar
                 DOTween.KillAll();
                 if(playerData.UIAnim)
                     StartCoroutine(SmallDelay());
-                playerData.deaths++;
+                deathsC++;
                 if(playerData.hasWon == false)
-                    playerData.deathsTook = playerData.deaths;
+                {
+                    deathsT = deathsC;
+                    menu.SavePrefs(playerData.musicVol, playerData.sfxVol, playerData.hasWon, deathsT, deathsC, playerData.UIAnim, playerData.meleeDmg, playerData.projDmg);
+                }
+                else
+                {
+                    menu.SavePrefs(playerData.musicVol, playerData.sfxVol, playerData.hasWon, playerData.deathsTook, deathsC, playerData.UIAnim, playerData.meleeDmg, playerData.projDmg);
+                }
             }
         }
 

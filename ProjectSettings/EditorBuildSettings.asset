@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
-    path: Assets/Scenes/Temp End Screen.unity
-    guid: 0215dc95751f06a44b4eb8456f424af6
+    path: Assets/Omar/Scenes/Omar's Boss.unity
+    guid: 9610924d7d86186478085d005a407773
   m_configObjects: {}
